@@ -39,9 +39,9 @@
 
 ## History ##
 
-	TinyMUCK was derived from TinyMUD v1.5.2, with extensive modifications.
-	There were two new commands: @action and @attach, and two new flags:
-	CHOWN_OK and JUMP_OK.  It also has options for users of FireFoot's patches.
+    TinyMUCK was derived from TinyMUD v1.5.2, with extensive modifications.
+    There were two new commands: @action and @attach, and two new flags:
+    CHOWN_OK and JUMP_OK.  It also has options for users of FireFoot's patches.
 
 
 ## Compatibility ##
