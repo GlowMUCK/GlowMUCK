@@ -1,5 +1,12 @@
-/***********************************************************************
+/*
+ * config.h
+ * $Revision: 1.3 $ $Date: 2005/03/08 18:57:36 $
+ * 
+ * Tunable parameters -- Edit to you heart's content (override in local.h)
+ *
+ */
 
+/***********************************************************************
 WAIT!  Before you modify this file, see if it's possible to put your
 changes in 'local.h'.  If so you will only have to copy ONE file over
 between version upgrades, and won't have to worry about missing changes
@@ -10,9 +17,10 @@ or overwriting a file and losing some upgrade material.
 #include "copyright.h"
 
 /*
- * config.h
- *
- * Tunable parameters -- Edit to you heart's content (override in local.h)
+ * $Log: config.h,v $
+ * Revision 1.3  2005/03/08 18:57:36  feaelin
+ * Added the heartbeat modifications. You can add programs to the @heartbeat
+ * propdir and the programs will be executed every 15 seconds.
  *
  */
 
@@ -106,6 +114,12 @@ or overwriting a file and losing some upgrade material.
 #ifdef WIN95
   /* #define SAFE_MPI */
 #endif
+
+/* Allows the Heartbeat processes to run */
+#define HEARTBEAT
+
+/* Defines how long between heartbeats (in seconds) */
+#define BASE_PULSE 15
 
 /* Define this to make {time} and {ftime} behave as FB brokenly makes them */
 #undef FB_TIMEZONE_QUIRK

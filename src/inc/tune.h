@@ -1,3 +1,25 @@
+/*
+ * tune.h
+ * $Revision: 1.3 $ $Date: 2005/03/08 18:57:36 $
+ */
+
+/*
+ * $Log: tune.h,v $
+ * Revision 1.3  2005/03/08 18:57:36  feaelin
+ * Added the heartbeat modifications. You can add programs to the @heartbeat
+ * propdir and the programs will be executed every 15 seconds.
+ *
+ */
+
+/* Function Prototypes */
+extern void do_tune(dbref player, char *parmname, char *parmval);
+extern int tune_count_parms(void);
+extern void tune_load_parms_from_file(FILE *f, dbref player, int cnt);
+extern void tune_save_parms_to_file(FILE *f);
+extern void tune_load_parmsfile(dbref player);
+extern void tune_save_parmsfile(void);
+extern int tune_setparm(const dbref player, const char *parmname, const char *val);
+
 /* strings */
 extern const char *tp_dumpwarn_mesg;
 extern const char *tp_deltawarn_mesg;
@@ -119,7 +141,7 @@ extern dbref tp_offered_room;
 extern dbref tp_dead_room;
 extern dbref tp_www_root;
 extern dbref tp_www_user;
-
+extern dbref tp_heartbeat_user;
 
 /* booleans */
 extern int tp_hostnames;
@@ -220,10 +242,5 @@ extern int tp_www_player_pages;
 extern int tp_restricted_www;
 extern int tp_transparent_paths;
 extern int tp_exit_guest_flag;
+extern int tp_heartbeat;
 
-extern void do_tune(dbref player, char *parmname, char *parmval);
-extern int tune_count_parms(void);
-extern void tune_load_parms_from_file(FILE *f, dbref player, int cnt);
-extern void tune_save_parms_to_file(FILE *f);
-extern void tune_load_parmsfile(dbref player);
-extern void tune_save_parmsfile(void);

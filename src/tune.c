@@ -264,7 +264,7 @@ dbref tp_dead_room	= NOTHING;
 
 dbref tp_www_root	= NOTHING;
 dbref tp_www_user	= NOTHING;
-
+dbref tp_heartbeat_user = NOTHING;
 
 struct tune_ref_entry {
     const char *name;
@@ -286,6 +286,7 @@ struct tune_ref_entry tune_ref_list[] =
     {"dead_room",	TYPE_ROOM,	&tp_dead_room,		LMAGE,	LMAGE},
     {"www_root",	TYPE_ROOM,	&tp_www_root,		LARCH,	LMUF},
     {"www_user",	TYPE_PLAYER,	&tp_www_user,		LARCH,	LMUF},
+    {"heartbeat_user",  TYPE_PLAYER,    &tp_heartbeat_user,     LARCH,  LMAGE},
     {NULL, 0, NULL, 0}
 };
 
@@ -384,6 +385,7 @@ int tp_www_player_pages		= 1;
 int tp_restricted_www		= 0;
 int tp_transparent_paths	= 1;
 int tp_exit_guest_flag          = 0;
+int tp_heartbeat                = 0;
 
 struct tune_bool_entry {
     const char *name;
@@ -491,6 +493,7 @@ struct tune_bool_entry tune_bool_list[] =
     {"restricted_www",		&tp_restricted_www,	LARCH,	LMUF},
     {"transparent_paths",	&tp_transparent_paths,	LARCH,	LMUF},
     {"exit_guest_flag",         &tp_exit_guest_flag,    LMAGE,  LMUF},
+    {"heartbeat",               &tp_heartbeat,          LBOY,   LMUF},
     {NULL, NULL, 0}
 };
 

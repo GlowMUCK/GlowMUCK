@@ -226,6 +226,16 @@ glow_ansi
 Enable muf and MPI parsing of ^colorname^ style ANSI color sequences in
 notify and tell primitives.
 ~
+heartbeat
+If set to 'yes' the heartbeat MUF programs will be run every few
+seconds as configured in config.h or local.h
+See also 'heartbeat_user'
+~
+heartbeat_user
+Must be set to the dbref of a player for 'heartbeat' to function. Any
+programs run by the heartbeat will run with the permissions of this
+user, so be careful!
+~
 help_mlevel
 Mucker level of exits that will be listed by the help command.  If you have
 compatible_priorities turned on, exits without any mucker bit will appear as

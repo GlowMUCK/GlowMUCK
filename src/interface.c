@@ -1,3 +1,15 @@
+/*
+ *  interface.c
+ *  $Revision: 1.4 $ $Date: 2005/03/08 18:57:36 $
+ */
+
+/*
+ *  $Log: interface.c,v $
+ *  Revision 1.4  2005/03/08 18:57:36  feaelin
+ *  Added the heartbeat modifications. You can add programs to the @heartbeat
+ *  propdir and the programs will be executed every 15 seconds.
+ *
+ */
 #include "copyright.h"
 #include "config.h"
 #include "params.h"
@@ -36,6 +48,9 @@
 #include "interp.h"
 #include "reg.h"
 #include "externs.h"
+#ifdef HEARTBEAT
+#include "heartbeat.h"
+#endif
 
 /* Cynbe stuff added to help decode corefiles:
 #define CRT_LAST_COMMAND_MAX 65535
@@ -859,6 +874,9 @@ shovechars(int portc, int* portv, int wwwport)
     struct timeval last_slice, current_time;
     struct timeval next_slice;
     struct timeval timeout, slice_timeout;
+#ifdef HEARTBEAT
+    struct timeval last_pulse;
+#endif
     int     maxd, cnt;
     struct descriptor_data *d, *dnext;
     struct descriptor_data *newd;
@@ -867,6 +885,11 @@ shovechars(int portc, int* portv, int wwwport)
     int socknum;
     int openfiles_max;
     int ctype;
+
+#ifdef HEARTBEAT
+    last_pulse.tv_sec = 0;
+    last_pulse.tv_usec = 0;
+#endif
 
     for (maxd = 0, socknum = 0; socknum < portc; socknum++) {
 	sock[socknum] = make_socket(portv[socknum]);
@@ -882,6 +905,14 @@ shovechars(int portc, int* portv, int wwwport)
 
     while (shutdown_flag == 0) {
 	gettimeofday(&current_time, NULL);
+#ifdef HEARTBEAT
+	if (current_time.tv_sec >= (last_pulse.tv_sec - 1 + BASE_PULSE)) {
+	  last_pulse.tv_sec = current_time.tv_sec;
+	  if (tp_heartbeat) {
+	    heartbeat();
+	  }
+	}
+#endif
 	last_slice = update_quotas(last_slice, current_time);
 
 	next_muckevent();
@@ -3947,12 +3978,6 @@ announce_connect(dbref player)
     }
 #endif
 
-    /*
-     * See if there's a connect action.  If so, and the player is the first to
-     * connect, send the player through it.  If the connect action is set
-     * sticky, then suppress the normal look-around.
-     */
-
     /* queue up all _connect programs referred to by properties */
     envpropqueue(player, getloc(player), NOTHING, player, NOTHING,
 	"~connect", "Connect", 1, 1);
@@ -3964,6 +3989,12 @@ announce_connect(dbref player)
 	envpropqueue(player, getloc(player), NOTHING, player, NOTHING,
 	    "_oconnect", "Oconnect", 1, 0);
     }
+
+    /*
+     * See if there's a connect action.  If so, and the player is the first to
+     * connect, send the player through it.  If the connect action is set
+     * sticky, then suppress the normal look-around.
+     */
 
     exit = NOTHING;
     if (online(player) == 1) {
