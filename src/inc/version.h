@@ -1,4 +1,4 @@
-#define GLOWVER "GlowMuck 3.1.8"
+#define GLOWVER "GlowMuck 3.1.9"
 #define VERSION "Muck2.2fb5.68"
 
 extern const char *servopts;

@@ -305,12 +305,9 @@ int tp_log_with_names		= 0;
 int tp_dbdump_warning 		= DBDUMP_WARNING;
 int tp_deltadump_warning 	= DELTADUMP_WARNING;
 int tp_periodic_program_purge 	= PERIODIC_PROGRAM_PURGE;
-
 int tp_mob			= 0;
 int tp_mud			= 0;
-
 int tp_rwho 			= 0;
-
 int tp_secure_who 		= SECURE_WHO;
 int tp_who_doing 		= WHO_DOING;
 int tp_realms_control 		= REALMS_CONTROL;
@@ -386,6 +383,7 @@ int tp_gender_commands		= 1;
 int tp_www_player_pages		= 1;
 int tp_restricted_www		= 0;
 int tp_transparent_paths	= 1;
+int tp_exit_guest_flag          = 1;
 
 struct tune_bool_entry {
     const char *name;
@@ -492,6 +490,7 @@ struct tune_bool_entry tune_bool_list[] =
     {"www_player_pages",	&tp_www_player_pages,	LARCH,	LMUF},
     {"restricted_www",		&tp_restricted_www,	LARCH,	LMUF},
     {"transparent_paths",	&tp_transparent_paths,	LARCH,	LMUF},
+    {"exit_guest_flag",         &tp_exit_guest_flag,    LMAGE,  LMUF},
     {NULL, NULL, 0}
 };
 

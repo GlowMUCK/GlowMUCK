@@ -193,6 +193,11 @@ exit_darking
 Players can set exits DARK.
 See DARK.
 ~
+exit_guest_flag
+When tuned to 'yes' all exits will block guests from using them unless the
+exit has the 'guest' flag set. When tuned to 'no' all exits will ALLOW guests
+unless the exit has the 'guest' flag set.
+~
 fail_retries
 Number of times a player can attempt to connect before getting disconnected.
 ~

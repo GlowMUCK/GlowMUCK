@@ -19,17 +19,26 @@ Note: There are forums for discussion, trackers for bugs, support and feature
 requests all at: http://sourceforge.net/projects/glowmuck/. The latest versions
 of the standard MUF programs and glowmuck itself will be posted there.
 
-Note: Below, I (Iain E. Davis) have flagged my entries with [IED], so that you can
-properly assign blame...:). Anything not marked is presumably done by PakRat.
+Note: Below, I (Iain E. Davis) have flagged my entries with [IED], so that you
+can properly assign blame...:). Anything not marked is presumably done by
+PakRat.
 
-04/03/04 [IED]: Updated the restart files for the windows platform to be a little
-                       more intelligent.
+04/20/04 [IED]: Fixed the problem where wiz-owned zombies could use a Z-exit
+                even when the wizard was set quell.
+                If the new tune exit_guest_flag is set to 'yes', no guest can
+                use an exit unless the exit is set 'G'. If the tune is set to
+                'no' all exits except those set 'G' can be used by a guest.
+                The preferred method would be to tune to 'yes', and go through
+                and carefully set those commands that a guest needs to be able
+                to use 'G'.
+04/03/04 [IED]: Updated the restart files for the windows platform to be a
+                little more intelligent.
 
 03/18/04 [IED]: Hopefully, I've correctly corrected the variable conversions in
   compress.c and interface.c that were causing MSVC to generate
   warnings. Fixed the trigraph warning thrown out by gcc in interface.c and
-  the operation on 'prop' is undefined error. Fixed the 'operation on curpath is
-  undefined' error in path.c.
+  the operation on 'prop' is undefined error. Fixed the 'operation on curpath
+  is undefined' error in path.c.
 
 ## 08/04/02: Release 3.1.8, bug fixes, system muf prim ##
 

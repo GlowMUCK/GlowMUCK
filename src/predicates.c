@@ -71,6 +71,16 @@ could_doit(dbref player, dbref thing)
     dbref   source, dest, owner;
 
     if (Typeof(thing) == TYPE_EXIT) {
+        if (tp_exit_guest_flag) {
+            if ((Guest(player) && !(FLAG2(thing)&F2GUEST) && !Mage(player))) {
+                return 0;
+            }
+        } else {
+            if ((Guest(player) && (FLAG2(thing)&F2GUEST) && !Mage(player))) {
+                return 0;
+            }
+        }
+
 	if (DBFETCH(thing)->sp.exit.ndest == 0) {
 	    return 0;
 	}
@@ -145,7 +155,7 @@ can_doit(dbref player, dbref thing, const char *default_fail_msg)
     if ((loc = getloc(player)) == NOTHING)
 	return 0;
 
-    if (!TMage(OWNER(player)) && Typeof(player) == TYPE_THING &&
+    if (!Mage(OWNER(player)) && Typeof(player) == TYPE_THING &&
 	    (FLAGS(thing) & ZOMBIE)) {
 	anotify(player, CFAIL "Sorry, but zombies can't do that.");
 	return 0;

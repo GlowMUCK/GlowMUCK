@@ -219,6 +219,7 @@ extern int tp_gender_commands;
 extern int tp_www_player_pages;
 extern int tp_restricted_www;
 extern int tp_transparent_paths;
+extern int tp_exit_guest_flag;
 
 extern void do_tune(dbref player, char *parmname, char *parmval);
 extern int tune_count_parms(void);
