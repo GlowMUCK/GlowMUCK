@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+#	Simple script to mail new user info to an email address
+#
+
+#Change the following lines for your muck.
+
+MUCK="Legacy"
+TEL1="telnet 128.83.194.15 9999"
+TEL2="legacy.muq.org 9999"
+TEL3="telnet laurel.actlab.utexas.edu 9999"
+TEL4="telnet qwest.tcp.com 9999"
+ROOM="sitting in a pub"
+
+
+if [ "$#" -eq 3 ]; then
+
+/usr/bin/mail -s "New character created just for you on $MUCK Muck" "$1" <<EOF
+
+We have processed your registration and created a new character just for you!
+
+Name:     $2
+Password: $3
+
+To connect use telnet, tinyfugue, or another client with something like:
+(These all will take you to $MUCK muck.)
+
+$TEL1
+$TEL2
+$TEL3
+$TEL4
+
+<Welcome screen scrolls by>
+
+connect $2 $3
+
+
+You should then be logged in and discover you're $ROOM.  For help
+try typing 'help'.  Type 'globals' for a list of extra commands available on
+$MUCK Muck.  (Don't type the quotes in these examples.)
+
+Once you are familiar with the basics, it is recommended you type 'news' and
+read the topics listed there.  Included are the basic rules all users are
+bound by.
+
+We hope you enjoy $MUCK Muck and have a really good time!
+EOF
+
+else
+	echo "newuser: wrong # of args"
+	echo "usage: $0 email@address name password"
+fi
+
+exit 0

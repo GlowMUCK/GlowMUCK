@@ -1,0 +1,185 @@
+# ---------------------------------------------------------------------------
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# ---------------------------------------------------------------------------
+# IDE SECTION
+# ---------------------------------------------------------------------------
+# The following section of the project makefile is managed by the BCB IDE.
+# It is recommended to use the IDE to change any of the values in this
+# section.
+# ---------------------------------------------------------------------------
+
+VERSION = BCB.03
+# ---------------------------------------------------------------------------
+PROJECT = GlowMuck.exe
+OBJFILES = GlowMuck.obj Wiz.obj Case.obj Cast.obj Color.obj Compile.obj Compress.obj \
+  Create.obj crt_malloc.obj Db.obj Debugger.obj Disassem.obj Diskprop.obj \
+  Edit.obj Events.obj Game.obj Hashtab.obj Help.obj Inst.obj interface.obj \
+  Interp.obj Log.obj Look.obj Match.obj Mfuns.obj Mfuns2.obj Move.obj \
+  Msgparse.obj Mud.obj netresolve.obj oldcompress.obj p_connects.obj P_db.obj \
+  P_math.obj P_misc.obj P_props.obj P_stack.obj p_strings.obj Player.obj \
+  predicates.obj Propdirs.obj Property.obj Props.obj Reg.obj Rob.obj Rwho.obj \
+  Sanity.obj Set.obj Signal.obj Smatch.obj Speech.obj Strftime.obj stringutil.obj \
+  timequeue.obj timestamp.obj Tune.obj Unparse.obj Utils.obj Version.obj \
+  Boolexp.obj path.obj
+RESFILES = GlowMuck.res
+RESDEPEN = $(RESFILES)
+LIBFILES =
+LIBRARIES = 
+SPARELIBS = 
+PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
+  Qrpt35.bpi
+DEFFILE =
+# ---------------------------------------------------------------------------
+PATHCPP = .;..\..\SRC
+PATHASM = .;
+PATHPAS = .;
+PATHRC = .;
+DEBUGLIBPATH = $(BCB)\lib\debug
+RELEASELIBPATH = $(BCB)\lib\release
+# ---------------------------------------------------------------------------
+CFLAG1 = -O2 -Hc -w-par -a1 -k- -vi -c -tWC
+CFLAG2 = -D_NO_VCL;WIN95 -I..\..\SRC;..\..\SRC\inc;$(BCB)\include -H=$(BCB)\lib\vcl35.csm
+CFLAG3 = -w-rch -w-pia -w-aus -Tkh30000 -5
+PFLAGS = -D_NO_VCL;WIN95 -N2. -N0. -U..\..\SRC;$(BCB)\lib;$(RELEASELIBPATH) \
+  -I..\..\SRC;..\..\SRC\inc;$(BCB)\include -$L- -$D- -v -JPHN -M
+RFLAGS = -D_NO_VCL;WIN95 -i..\..\SRC;..\..\SRC\inc;$(BCB)\include
+AFLAGS = /i..\..\SRC /i..\..\SRC\inc /i$(BCB)\include /d_NO_VCL /dWIN95 /mx /w2 /zd
+LFLAGS = -L..\..\SRC;$(BCB)\lib;$(RELEASELIBPATH) -ap -Tpe -x -Gn
+IFLAGS =
+# ---------------------------------------------------------------------------
+ALLOBJ = c0x32.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES)  import32.lib cw32mt.lib
+# ---------------------------------------------------------------------------
+!ifdef IDEOPTIONS
+
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=0
+MajorVer=3
+MinorVer=0
+Release=1
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=PakRat Productions, Inc.
+FileDescription=Executable (Console)
+FileVersion=3.0.1.0
+InternalName=
+LegalCopyright=Copyright 1998 by PakRat Productions Inc, AKA Andrew Nelson.
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=3.0.1
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=2
+Item0=..\..\SRC;..\..\SRC\inc;$(BCB)\include
+Item1=..\..\SRC\inc;$(BCB)\include
+
+[HistoryLists\hlLibraryPath]
+Count=1
+Item0=..\..\SRC;$(BCB)\lib
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_NO_VCL;WIN95
+
+[HistoryLists\hlIntOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=
+
+[Parameters]
+RunParams=
+HostApplication=
+
+!endif
+
+# ---------------------------------------------------------------------------
+# MAKE SECTION
+# ---------------------------------------------------------------------------
+# This section of the project file is not used by the BCB IDE.  It is for
+# the benefit of building from the command-line using the MAKE utility.
+# ---------------------------------------------------------------------------
+
+.autodepend
+# ---------------------------------------------------------------------------
+!if !$d(BCC32)
+BCC32 = bcc32
+!endif
+
+!if !$d(DCC32)
+DCC32 = dcc32
+!endif
+
+!if !$d(TASM32)
+TASM32 = tasm32
+!endif
+
+!if !$d(LINKER)
+LINKER = ilink32
+!endif
+
+!if !$d(BRCC32)
+BRCC32 = brcc32
+!endif
+# ---------------------------------------------------------------------------
+!if $d(PATHCPP)
+.PATH.CPP = $(PATHCPP)
+.PATH.C   = $(PATHCPP)
+!endif
+
+!if $d(PATHPAS)
+.PATH.PAS = $(PATHPAS)
+!endif
+
+!if $d(PATHASM)
+.PATH.ASM = $(PATHASM)
+!endif
+
+!if $d(PATHRC)
+.PATH.RC  = $(PATHRC)
+!endif
+# ---------------------------------------------------------------------------
+$(PROJECT): $(OBJFILES) $(RESDEPEN) $(DEFFILE)
+    $(BCB)\BIN\$(LINKER) @&&!
+    $(LFLAGS) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+# ---------------------------------------------------------------------------
+.pas.hpp:
+    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
+
+.pas.obj:
+    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
+
+.cpp.obj:
+    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
+
+.c.obj:
+    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
+
+.asm.obj:
+    $(BCB)\BIN\$(TASM32) $(AFLAGS) $<, $@
+
+.rc.res:
+    $(BCB)\BIN\$(BRCC32) $(RFLAGS) -fo$@ $<
+# ---------------------------------------------------------------------------

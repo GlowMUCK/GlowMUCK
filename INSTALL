@@ -1,0 +1,237 @@
+## QUICK INSTALLATION for those who demand results NOW! ##
+
+    1. copy your old local.h into src/inc or modify the one there.
+       (for changes normally done to config.h, params.h, and defaults.h.)
+    3. modify game/restart if needed.
+
+    When you're happy with the changes...
+
+	cd src			# Enter the src directory.
+	make			# Ajusts GlowMuck to compile on your system
+	make install		# This compiles the programs into ../game/
+	cd ../game/data		# Directory should be $(HOME)/glow/data
+	cp minimal.db glow.db	# Copy minimal.db to active glow.db
+	cd ../..		# Go to $(HOME)/glow
+	./glow start		# This starts the server.
+
+    And you're done!  GlowMuck has it's own special minimal database.  To
+    connect to it, use:
+
+	telnet somehost someport
+	<Welcome screen scrolls by>
+	connect one potrzebie  (depending on the db)
+	connect wizard potrzebie
+
+    You should then be connected to da Man.
+
+	QUIT
+	./glow stop	# This shuts the server down.
+
+    And when the above doesn't work, check the docs/admin-guide for
+    information on getting things set up right.  If 'make' fails, like
+    if you're using a non-gcc compiler or a really new gcc compiler, or
+    are using some other Unixes like HPUX or a 64 bit Unix, you may need
+    to remove the -Werror option from COPTS in the Makefile.  Then type
+    make again to finish the compile.  If this does happen to you, please
+    send me an E-Mail of the compiler warnings after removing -Werror.
+    (See below for contact infomation.)
+
+
+## History ##
+
+	TinyMUCK was derived from TinyMUD v1.5.2, with extensive modifications.
+	There were two new commands: @action and @attach, and two new flags:
+	CHOWN_OK and JUMP_OK.  It also has options for users of FireFoot's patches.
+
+
+## Compatibility ##
+
+	TinyMUCK will read, without modification, any TinyMUD databases. 
+	This version of TinyMUCK is backward compatible in terms of
+	databases with all previous MUD/MUCK databases, but it writes out
+	databases in its own unique format.
+
+	GlowMuck adds space for 32 additional flags on all objects, along
+	with storing the optional mud-stat data in a normal db file.  This
+	is done in a semi-backwards compatible way to normal Fuzzball
+	servers.  If a GlowMuck database is run on a normal Fuzzball server
+	all extra flag and mud information will be stripped off (ignored) by
+	that server and it will be lost even if that database is run
+	afterwards on a GlowMuck.  You can use the @glowflags command and
+	the save_glow_flags @tune parameter to preserve them while using
+	the database in a non-Glow server.
+
+
+## Copyrights ##
+
+    # GlowMuck #
+
+	GlowMuck code, modifications, and data are copyright 1996 by Andrew
+	Nelson, all rights reserved.  Dr. Cat has given us explicit
+	permission to use his compression routines in GlowMuck, and as such
+	his copyright must be upheld along with all others who have
+	contributed to the distribution.  Use of this product is restricted
+	soley to those who properly obey and uphold all respective
+	copyrights applicable to GlowMuck and its components.
+
+	In general, give all authors due credit, do not attempt to make a
+	profit, sell any part of GlowMuck, or charge for any access or usage
+	of any GlowMuck.  Please send any changes or bug fixes to the
+	address listed at the end of this document.  Use of this program is
+	at your own risk, and you agree to hold all authors and contributors
+	free of all liability related to GlowMuck.
+
+    # Fuzzball 5.x #
+
+	I don't particularly care what you do with this program.  Use at
+	your own risk, but please don't try to make money from it.
+
+    # TinyMuck 2.2 and Tinymud #
+
+	The TinyMUD and TinyMuck source code GlowMuck is based on contains
+	its own copyrights as seen in the copyright.h file and must be
+	followed accordingly.
+
+
+## COMPILING TINYMUCK ##
+
+	The code is written in ANSI C, and is known to compile and run under
+	ULTRIX/BSD 4.3/SunOS 4.1 on a VAX 8600, VAX 6400, DEC 3100s/5000s, a
+	MicroVAX, a Sun SparcStation/1, and a Sun 3/50.  TinyMUCK is also
+	known to have run on a HP9k260, as well as a NeXT.
+
+	An attempt has been made to make GlowMuck 64 bit clean for use on
+	high-end Unix boxes such as Dec Alphas.  If you have trouble
+	compiling or running GlowMuck on a 64 bit box, please feel free to
+	send mail to the address at the end of this document to see if we
+	can get GlowMuck working on your system.  We do have one GlowMuck
+	successfully running on an Alpha.
+
+  # Linux #
+
+	GlowMuck has an internal fix to the Makefile so the fix below should
+	not be necessary, but the fix is provided for reference purposes.
+
+	Lots of people run FB under Linux, but if it's the slackware 2.2.x
+	or 2.3.0 versions, you'll need to first make sure your system has a
+	soft link from /usr/lib/libg.sa to /usr/lib/libc.sa.  Do that with
+	the command:
+
+		cd /usr/lib; ln -s libc.sa libg.sa
+
+	This isn't a complete fix, but it at least lets FB compile.  Make
+	sure the Makefile generated has LIBR=-lm
+
+  # Sun #
+
+	Sun realloc() is braindead.  On every Sun system I have seen,
+	TinyMUCK runs about 6 megs in memory with a very small database if
+	the option DB_DOUBLING is not defined.  If you are running on a Sun3
+	or Sun4, you should definitely compile with this option turned on. 
+	Let me know if there are other systems that need this.  This may not
+	be as much of a problem with current versions of the server, as
+	databases now store a count of their objects, and the entire
+	database generally gets allocated in one chunk.
+
+  # Other #
+
+	As far as other platforms, you're on your own.  In almost all cases,
+	just running 'configure' will set up the makefile and configuration
+	for your system, then typing 'make' will compile the server.
+
+
+## Distribution Directories ##
+
+    bin  -- Contains the unix restart script and other support scripts
+
+    docs -- Contains important information about administering the muck
+
+    game -- Holds all run-time game data files and online information
+
+    src  -- Contains all source code to build the server executable
+		and related utility programs
+
+
+## Programs ##
+
+    # glowmuck #
+
+	Usage: glowmuck [options] starting-dbfile dump-dbfile [portnumber]
+
+	Where the [options] can be:
+
+            -convert       load db, save in current format, and quit.
+            -decompress    when saving db, save in uncompressed format.
+            -nosanity      don't do db sanity checks at startup time.
+            -insanity      load db, then enter interactive sanity editor.
+            -wizonly       only allow wizards to login.
+            -help          display usage message.
+
+	If port is not specified it defaults to 4201.  The initial database
+	will be read in from starting-dbfile, which must contain at least
+	the two objects in minimal.db to work well.  The file basedb.db,
+	which contains the core of the original TinyMUD universe, may be a
+	better place to start a new universe from.  You can fetch
+	basedb.tar.gz from the same site you fetched this server code from. 
+
+	The -decompress option will cause the dump-file to be saved in an
+	uncompressed format.  The netmuck process will write a checkpoint
+	out to dump-dbfile every few hours, depending on the @tuned interval
+	parameter.
+
+	The -convert option will cause the server to load an old style
+	database, save it back out immediately in the most current database
+	format, and then shutdown, instead of allowing connections.
+
+
+    # glow #
+
+	Usage: glowoff start	-- Starts the muck
+	Usage: glowoff stop	-- Shuts the muck down
+
+	This is just a simple script to turn GlowMuck on or off from the
+	shell account.  GlowMuck accepts a SIGKILL to force an immediate
+	but clean and safe shutdown of the muck.  (Don't try this on a
+	normal Fuzzball server, it will crash.)
+
+
+    # olddecompress #
+
+	Usage: olddecompress < compressed-db-file > uncompressed-db-file
+	or: olddecompress compressed-db-file > uncompressed-db-file
+
+	Removes old style bigraph compression from a database file that has
+	been generated by an older version of netmuck using the -DCOMPRESS
+	compile-time option.
+
+
+    # topwords #
+
+	Usage: topwords < db-file | sort > wordlist.txt
+
+	This program will find the 4096 words who will give you the best
+	compression with the new style dictionary based compression.  This
+	is used by the optimdb script to re-optimize the compression of a
+	database.
+
+    # optimdb #
+
+	Usage: optimdb infile outfile
+
+	This script reads a database, and saves it out to the outfile with
+	the compression optimized.  For databases under a half meg, this db
+	will likely be a few K larger than the same database compressed with
+	the old bigraph method.  For half a meg and over, though, it's a win.
+
+
+## Contact address ##
+
+	Please send all bug reports, suggestions, complaints to
+	artie@muq.org.
+
+	Because GlowMuck has a lot of potential for new bugs due to all the
+	extra code, any given bug may not be due to regular Fuzzball and
+	would just drive the Fuzzball programming team nuts.  As such, send
+	any bugs to the above address, and if it turns out to be an authentic
+	fuzzball bug, I will send it to Foxen/Revar for analysis.
+

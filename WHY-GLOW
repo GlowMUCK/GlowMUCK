@@ -1,0 +1,63 @@
+
+## Introduction ##
+
+    I created the GlowMuck server from wanting a few additional features to
+    the special Fuzzball server hacked by Cynbe for QWest Muck.  As any
+    programmer knows, you can't stop with just one feep. ;) Some of the
+    major additions to stock 5.xx Fuzzball include but are not limited to:
+
+
+## Fancy Features List ##
+
+**  VT102/ANSI Color added in-server with Muf & MPI support also.  99.44% of
+    in-server commands have been colorized.  Color muf proggies available.
+
+**  WWW http server on separate port, lsedit or redirected home page support
+    on a per-player and global basis, special /@WHO cgi-like feeps.
+
+**  Automatic online player creation and registration with e-mail verification.
+
+**  In-Server word-wrapping for raw telnet clients that can't do it.
+
+**  In-Server --More-- style paging ala tinyfugue.  Use Return instead of Tab.
+
+**  Command aliases with $0-$9,$-0-$-9,$*,$$ tinyfugue-like macro substitution.
+
+**  In-server lead/follow system working with both paths and room exits.
+
+**  Basic Pueblo support (requires some muf/MPI additions)
+
+
+## C-Code and Compiling Features ##
+
+**  100% 64 bit clean, GNU-C -Wall clean, the only known Fuzzball server code
+    to date capable of running on 64 bit unix boxes ala the Dec Alpha.
+
+**  Fixed the problem compiling on Linux with 'ld' signal 6 dying.
+
+
+##  Administration Features ##
+
+**  Three Wizard levels and a MPI 'meeper' level for additional flexibility
+    and security of precious e-mail address and mail content information.
+
+**  Very extended in-server security site blocking options with ability to
+    disable guest logins and auto-registration on a site or domain basis.
+
+**  Custom random or specific welcome screens set on a site or domain basis.
+
+**  Many new wizard options such as status log @walling to wizards.
+
+
+## Misc Feeps ##
+
+**  Fast in-server muf 'sort' prim speeds up muf-page, cmd-find, etc.
+
+**  An in-server copy of the resolver to store and retrieve site names for
+    faster hostname resolving when sites first connect.  Once a site
+    connects the name/number is stored in a file for future retrieval.
+
+
+## In Progress ##
+
+**  An in-server real time combat option, still in alpha coding.

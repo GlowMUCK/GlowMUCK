@@ -1,0 +1,18 @@
+#!/bin/sh
+
+NAME="legacy"
+BKDIR="$HOME/backup"
+DIR="$HOME/glow/game"
+DB="glow"
+
+cd $DIR
+if [ -r data/$DB.new ]; then
+FILES="muf data/$DB.new data/wordlist.txt data/motd.txt"
+else
+FILES="muf data/$DB.db data/wordlist.txt data/motd.txt"
+fi
+
+echo Backing up $FILES in $DIR...
+tar czf $BKDIR/$NAME`date "+%m%d%y"`.tgz $FILES
+ls -l $BKDIR/$NAME`date "+%m%d%y"`.tgz
+

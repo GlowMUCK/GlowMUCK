@@ -1,0 +1,58 @@
+
+Paths that run muf programs with arguments can't have spaces in the path
+  names.  This is a limitation I imposed on the path matcher to make it
+  somewhat simpler to code.  Paths to rooms can safely have spaces.
+
+What mode does muf run in via _connect props?  Doing Brig Day for Qwest
+  makes it appear that M3s can't set props on players they connect as?
+
+Need to test MPI match_local for going up non-rooms til it finds a room.
+
+Need to test @ignore/@gag code:
+ -- Loading/setting of gag dbref lists.
+
+Need to test that Glow _listen works as FB _listen does, with or without
+  color versions of commands used.
+
+The tilde color escape sequencs are broken, need to clean them up.
+  (I think I got them working, check that ~&~& always becomes ~&.)
+
+Mud object reset code needs some work.  The basic mud code is pretty much
+  alpha code right now.  #undef MUD is recommended.
+
+If you do use the MUD code, be aware that running a glowmuck server with
+  '#undef MUD' WILL CLEAR ALL MUD/PLAYER STATS for the game and also will
+  reset the dead/offered rooms.  Be wary!
+
+The Pueblo code is... well, it isn't. :)  Hopefully I will one day be able
+  to lift some of what Loki is putting in the Neon 2.0 stuff he's working on
+  for Pueblo support.  Harass me if you are actually interested in having
+  Pueblo working in GlowMuck.
+
+The @linewrap in-server line wrapping is new and in theory could have flaws
+  but so far has shown to take everything I throw at it.  Let me know if you
+  see any quirks with it in both column formatting and proper setting/storing
+  the linewrap value on the player.
+
+The 'more' prompting is also new and may have flaws but has passed spammy
+  test rats as well with no apparent side effects.  Mail me if anything
+  doesn't act as you'd expect it to.
+
+The lead/follow code has potential for a lot of holes even though it is in
+  isolated areas of game.c and move.c depending on activity levels.  I am
+  trying to come up with good ways to load test the code but believe that
+  it should be stable.
+
+The new alias code has been tested both at the macro expansion level and
+  at the alias list/set level.  So far it has shown to work great with even
+  the most funky alias substitution lists.
+
+
+Mudstuff...
+
+@title should say 'title' for Mob killers, not contents name.
+Monsters should wait a while after dying to return.
+The tick between hits is too slow.
+Need a stat shown after each round of battle.
+No exp when a mob is killed, er maybe Mr. Ferocious is worthless (argh!).
+Need smoke or something when mob dies with exp listed.

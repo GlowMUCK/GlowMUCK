@@ -1,0 +1,749 @@
+~
+aging_time
+Time when an object is considered old and unused.
+See @stats and @find.
+~
+alias_support
+Muck supports player command aliases.
+See @alias.
+~
+allow_listeners
+Allow listen properties to execute when players speak.
+See manpage for listeners.
+~
+allow_listeners_env
+Listeners can be up the environment.
+See manpage for listeners.
+~
+allow_listeners_obj
+Objects can have listen properties.
+See manpage for listeners.
+~
+allow_zombies
+Zombie objects are allowed.
+See ZOMBIE.
+~
+author_motd
+The name of the player who added a motd entry is appended to the entry.
+See motd.
+~
+building
+Use of building commands is allowed.
+See @dig, @create, and @open.
+~
+building_quotas
+Quotas are in force for building objects.
+See @quota.
+~
+chat_tokens
+'.' parses to 'chat' and ',' parses to 'chat :'.
+If no muf 'chat' exit exists, an inserver chat defaults to say and pose.
+~
+clean_interval
+Time interval between unused object purges.
+See @dump.
+~
+command_burst_size
+Maximum number of commands per input text burst.
+~
+command_time_msec
+Time slice length in milliseconds between system event checks.
+~
+commands_per_time
+Commands per time slice after first input text burst.
+~
+compatible_mpi
+Enable extended Fuzzball backward-compatiblity MPI support. This mode takes
+no consideration for security risks.  All programs set Mage or above execute
+with Arch permissions.  This should only be enabled for initially converting
+a FB database.
+~
+compatible_muf
+Enable extended Fuzzball backward-compatibility muf support.  This mode
+takes no consideration for security risks.  All programs set Mage or above
+generally execute with Arch permissions.  This should only be enabled for
+initially converting a FB database.
+~
+compatible_priorities
+Backwards compatibility for exit priorities.
+~
+connect_wait
+Time before a connection sitting on the welcome screen is booted.
+~
+cpennies
+Capitalized plural currency name.
+See score.
+~
+cpenny
+Capitalized currency name.
+See score.
+~
+dark_sleepers
+Sleeping players effectively have a dark flag.
+See look and DARK.
+~
+dash_tokens
+Make any lines starting with '-' parse to 'dash ' and then the line.
+Include 'dash' in a muf verb list to use this feature after enabling it.
+~
+date_motd
+Append the date and time to motd entries.
+See motd.
+~
+db_help_first
+If there is no help in help.txt for a help topic, the server will look for
+exits set at least M1 and attempt to look at them.  If this parameter is
+turned on, in-db exits are examined before help.txt is read.
+See help.
+~
+db_readonly
+Disable most commands that modify the database.  In order to prevent
+problems, this parameter generally still allows muf programs to modify
+properties on objects.  It is mainly intended for Brigadoon day to prevent
+excessive damage or @purging of players.  Annoying players can still be
+@toaded.
+~
+dbdump_warning
+Warn about coming database dumps.
+See @dump.
+~
+dead_room
+In the mud area, this is the room killed mobiles go to.
+See kill.
+~
+default_messages
+If enabled, the environment room (room 0 usually) is examined for properties
+similar to those stored on objects for @succ, @fail, etc.
+See messages.
+~
+deltadump_warning
+Warn about coming database delta dumps.
+See @delta.
+~
+deltawarn_mesg
+Message to warn of a coming database delta dump.
+ANSI strings can be parsed in the message.
+See @delta.
+~
+diskbase_propvals
+Allow diskbasing of property values.
+~
+do_mpi_parsing
+Parse MPI strings in messages.
+Get MPI help with the mpi command.
+~
+doing_blocks_ads
+If players advertise mucks in their @doing, attempt to block them.
+Matching is fairly simple, if an offending @doing is not cleared,
+try doing_blocks_hard.
+See @doing.
+~
+doing_blocks_hard
+Try harder to prevent players from advertising other mucks in @doings.
+See @doing.
+~
+dump_interval
+Time interval between database dumps.
+See @dump.
+~
+dump_warntime
+Amount of time to warn prior to a database dump.
+See @dump.
+~
+dump_copies
+Set the number of copies of the database that are kept when a @dump is done.
+Copies are maintained with the database name postfixed with an age count. 
+By default glow.new is the newest db, glow.new.1 is the next newest, etc.
+See @dump.
+~
+dump_copies_decay
+If dump_copies is enabled, the copies are created exponentially.  The first
+copy is made every time, the second copy is made every other time, the third
+copy is made every fourth time, the fourth copy is made every eighth time,
+and so on.
+~
+dumpdeltas_mesg
+Message telling of a database delta dump.
+ANSI strings can be parsed in the message.
+See @delta.
+~
+dumpdone_mesg
+Message notifying that a database dump is done.
+ANSI strings can be parsed in the message.
+See @dump.
+~
+dumping_mesg
+Message telling of a database dump.
+ANSI strings can be parsed in the message.
+See @dump.
+~
+dumpwarn_mesg
+Message to warn of a coming database dump.
+ANSI strings can be parsed in the message.
+See @dump.
+~
+environment_room
+Room containing environment settings for global aliases and default settings.
+~
+exit_cost
+Cost to create an exit.
+See @open and costs.
+~
+exit_darking
+Players can set exits DARK.
+See DARK.
+~
+fail_retries
+Number of times a player can attempt to connect before getting disconnected.
+~
+fail_wait
+Amount of time to wait between failed connection attempts from bad passwords.
+~
+fast_registration
+Send character requests through unless they are from trouble sites.
+See request and @hopper.
+~
+free_frames_pool
+Number of pre-allocated program frames.
+~
+gender_commands
+Enables the @gender/@sex, @species, and @positions commands as well as
+listing Gender, Species, and Position in examine.
+~
+global_aliases
+If alias support is enabled and a player doesn't have an alias for a
+particular command, the environment room can contain default aliases in the
+same @/alias propdir that is used on players.  Use global aliases with
+extreme caution.
+See @alias.
+~
+glow_ansi
+Enable muf and MPI parsing of ^colorname^ style ANSI color sequences in
+notify and tell primitives.
+~
+help_mlevel
+Mucker level of exits that will be listed by the help command.  If you have
+compatible_priorities turned on, exits without any mucker bit will appear as
+level M1, so the default setting of help_mlevel is M2.
+See newlevels in help, db_help_first and parse_help_as_mpi @tune parameters.
+~
+hidden_prop_mlevel
+Mucker level of muf programs that can read and write properties starting
+with the '@' character.  See help for 'newlevels' for mucker level meanings.
+Default is Archwizard or W3, muffer level 6.
+~
+home_room
+The room players start in when they enter the mud (combat) area.
+~
+html_parent_link
+The WWW address to list for the 'Go Back' item.  .. tends to break under
+some browsers, so / is the most compatible address.  A full WWW address can
+be used instead.
+~
+huh_mesg
+Message for invalid commands.
+~
+idle_boot_mesg
+Message given to an idle booted user.
+~
+idleboot
+Enable or disable idlebooting.
+~
+idletime
+Time before a user is considered idle.
+See WHO and IDLE.
+~
+ignore_support
+Enable gagging of jerks.  Wizards cannot be gagged unless set QUELL.
+See @ignore.
+~
+instr_slice
+Max uninterrupted muf instructions per time slice.
+~
+jail_room
+Room tinyjerks are sent to with the @jail command.
+See @jail.
+~
+kill_base_cost
+Number of pennies for a 100 percent chance to kill someone.
+See kill.
+~
+kill_bonus
+Bonus amount awarded for a successful kill.
+See kill.
+~
+kill_min_cost
+Minimum cost for doing a kill.
+See kill.
+~
+leave_mesg
+Message given to a player when he or she QUITs.
+~
+link_cost
+Cost to link an exit.
+See @link.
+~
+listen_mlev
+Minimum mucker level for _listen programs on objects.  Programs set that are
+less than this level will not be executed from a _listen propqueue.
+See manpage for listeners.
+~
+lock_envcheck
+Locks will check the environment.
+See @lock.
+~
+log_commands
+Log all player commands to a log file.
+~
+log_connects
+Log commands entered at the connection screen to a log file.
+~
+log_failed_commands
+Log typos of commands to a log file.  Also logs help requests for unknown
+topics with the keyword NHLP.
+~
+log_guests
+Log commands entered by guests to a log file.
+~
+log_interactive
+Log text entered in muf editors or programs if it would be logged if it
+was not being entered in the editor.  Normally text entered in the muf
+editor or in programs is not logged.
+~
+log_mud_commands
+Log commands entered in rooms set K to a log flie.
+~
+log_programs
+Log non-wizard owned program text any time the text is saved.
+~
+log_with_names
+Normally all commands are logged only with player dbrefs such that when
+you look through the command logs you won't be amiss in noticing a given
+player you aren't looking for said something.  It's really just a morality
+aid.  If you prefer having player names logged, turn this on.
+~
+log_wizards
+Log commands entered by wizards to a log file.
+~
+log_www_activity
+Log HTTP requests to a log file.
+~
+look_on_connect
+Perform a look at the room after running through all connect propqueues.
+~
+look_propqueues
+Look triggers _lookq propqueue on objects.
+See look.
+~
+lookup_cost
+Cost to lookup a player name.
+~
+m1_name_notify
+M1 programs forced to show name on notify.
+~
+max_delta_objs
+Max percent of changed objects for a delta dump to peforma full dump instead.
+~
+max_exits
+Default quota for exits.
+See @quota and @setquota.
+~
+max_ignores
+Max number of players a player can ignore.
+See @ignore.
+~
+max_instr_count
+Max number of preempt mode muf instructions before forced abort.
+~
+max_loaded_objs
+Max percent of the database in memory at once.
+~
+max_object_endowment
+Max value of an object.
+See @create.
+~
+max_output
+Max amount of output text before <Flushed output> is forced.
+~
+max_pennies
+Max number of pennies a player can own before economic restrictions.
+~
+max_player_logins
+Max number of times a player can be connected before oldest connection
+is automatically booted.  Set to 1 to allow only 1 player at a time.
+~
+max_plyr_processes
+Max event processes allowed for each player.
+~
+max_process_limit
+Total event processes allowed.
+~
+max_programs
+Default quota for programs.
+See @quota and @setquota.
+~
+max_rooms
+Default quota for rooms.
+See @quota and @setquota.
+~
+max_site_lma
+Max number of accepts per minute from a site before it is auto-banned.
+See @dos.
+~
+max_site_welcomes
+Max number of connections a site's 255 machine subnet can keep open on
+the welcome screen before the idlest is booted.
+~
+max_things
+Default quota for things.
+See @quota and @setquota.
+~
+maxidle
+Maximum idle time allowed before a connection is booted.
+~
+mob_interval
+Time between mobile activity updates.
+~
+mobile_support
+Mobile activity is enabled for mud support.
+~
+monolithic_interval
+Time between full database dumps.
+See @dump.
+~
+mortal_mpi_listen_props
+Allow MPI to be parsed from _listen props and not just ~listen props.
+~
+mortals_need_id_prop
+Non-wizard characters must have an @/id text property set to something.
+~
+mpi_max_commands
+Max number of uninterruptable MPI commands.
+~
+muckname
+The name of the MUCK.
+~
+mud_interval
+Amount of time between mud area activity updates.
+~
+mud_support
+Area activity updates for mud support are enabled.
+~
+muf_macro_mlevel
+Muffer level a player must be to define muf macros.  See help for
+'newlevels' for mucker level meanings.  Default is M3, muffer level 3. See
+@prog.
+~
+muf_mpi_flag_mlevel
+Wizard level required to @set mucker levels, meeper bits, and builder bits
+on players.  This is mainly for mucks who only want Wizards or Archwizards
+to have these powers.  The default setting is for Mages.
+~
+muf_proglog_mlevel
+Players who have a muffer level lower than this parameter will have all of
+their programs logged if log_programs is enabled.
+~
+multi_wiz_levels
+Enable W-W4 multiple wizard levels.
+See newlevels.
+~
+newobject_mlevel
+The minimum mucker level required to use newobject, newroom, and newexit muf
+primitives as well as copyobj.
+~
+object_cost
+Cost to create an object.
+~
+offered_room
+Room offered items are sent to in the mud area.
+See offer.
+~
+online_registration
+Allow new connections and guests to use the 'request' command to request
+new characters.
+See request and @hopper.
+~
+parse_help_as_mpi
+Parse each line of all help, info, and news text files as MPI.
+~
+path_dir
+Propdir name where virtual paths are stored.
+See @path (where available.)
+~
+path_mlevel
+Set the priority level exits need to override a path in the room.
+See 'help newlevels' for the mucker level meanings.
+The default setting is 4, making any exits set W or higher override paths.
+~
+path_prog
+Dbref number of the $cmd/path virtual paths support muf program.
+This parameter must be set to enable path support.
+See @path (where available.)
+~
+pause_after_motd
+Force a 'more pager' pause after printing the motd to force players
+to pay attention to it.
+See motd.
+~
+pause_min
+Pause between input and output servicing.
+~
+pennies
+Plural currency name.
+~
+penny
+Single currency name.
+~
+penny_rate
+Rate for finding pennies.  1 in X chance when entering a room.
+~
+periodic_program_purge
+Purge unused programs from memory.
+~
+player_start
+The home for players without a home.
+~
+playermax
+Enable or disable non-wizard connected player limit.
+~
+playermax_bootmesg
+Error given when a player cannot connect.
+~
+playermax_limit
+Maximum allowed concurrent player connections.
+~
+playermax_warnmesg
+Message warning of too many connects.
+~
+private_prop_mlevel
+Muffer level that can write to props starting with '.' or '_' without having
+permissions for the destination object.  This also includes the 'sex' and
+'species' props.  This is also the muffer level that limits reading props
+starting with '.' unless the program has permissions for the destination
+object.  Permissions can be checked with the 'perms' primitive. See help for
+'newlevels' for mucker level meanings.  Default is Mage or W access, muffer
+level 4.
+~
+pueblo_message
+Message sent to Pueblo clients when they send PUEBLOCLIENT to the server.
+~
+pueblo_support
+Enable responses and functionality that Pueblo clients require to function.
+~
+purify_muf_files
+Strip non-printable characters from muf files before loading them.
+This will clean out embedded escape sequences when the program is saved.
+See @prog.
+~
+quell_ignore_mlevel
+Set the mucker level of players that will break through being gagged if
+they are not @set Quell.  This is reserved for wizards who need to not
+be gaggable by tinyjerks.
+See @gag or @ignore.
+~
+quiet_dark_exits
+If an exit is set DARK, turn off 'Player has arrived.' and 'Player has left.'
+messages when moving through it.
+~
+quiet_moves
+Turn off 'Player has arrived.' and 'Player has left.' messages when moving.
+~
+quotas_with_bbits
+Enforce building quotas even if players have a BUILDER bit.
+~
+rand_screens
+Number of random welcome screens in game/data/welcome directory.
+~
+read_bytes
+Number of bytes read from the network by the muck.  This value is cumulative
+and preserved between reboots.  This value CAN become negative as it rolls
+over.  Tracking programs will need to check for overflow and accept the
+possibility of negative values.
+~
+realms_control
+Support for realm (area local) wizards.
+~
+recycle_frobs
+When a player is @frobbed (@toaded), the object created is auto-recycled.
+~
+reg_wait
+Amount of time to wait between character requests from a site's domain.
+~
+reg_wiz
+Wizard currently in charge of processing character requests with @hopper.
+~
+register_mesg
+Message for a failed 'create' at login if registration is turned on.
+~
+registration
+Only wizards can create players.
+~
+restart_mesg
+Message shown to players when the muck is restarted before they are booted.
+See @restart.
+~
+restrict_kill
+Can only kill players @set KILL_OK.
+See kill and KILL_OK.
+~
+restricted_building
+Building is restricted to players set BUILDER.
+See BUILDER.
+~
+restricted_mpi
+MPI parsing is restricted to players and objects set MEEPER.
+See MEEPER.
+~
+restricted_www
+Web pages are restricted from being accessed unless the object (player or
+muf program) has a WWW_OK flag.
+~
+room_cost
+Cost to dig a room.
+See @dig and costs.
+~
+rp_who_lists_ic
+WHO lists an IC column displaying if players are set IN_CHARACTER (IC).
+See WHO.
+~
+run_rwho
+Send RWHO information to the RWHO server.
+~
+rwho_interval
+Interval between RWHO updates.
+~
+rwho_passwd
+Password for RWHO servers.
+~
+rwho_server
+RWHO server address to connect to.
+~
+save_glow_flags
+Store the second flag set and mud flags as properties when a full @dump is
+done.  See the @glowflags command for more information.
+~
+secure_teleport
+Check teleport permissions for personal exits.
+~
+secure_who
+WHO works only if player is connected.
+~
+seeonly_prop_mlevel
+Muffer level required to change properties starting with a '~' character
+(tilde).  See help for 'newlevels' for mucker level meanings.  Default is
+Mage or W, muffer level 4.
+~
+server_ansi
+In-server commands are shown in ANSI color.  If this parameter is turned
+off, no in-server commands will display in color.
+See COLOR_ANSI.
+~
+show_idlers
+List idlers separately in the WHO list.
+See WHO.
+~
+shutdown_mesg
+Message shown to players when the muck is shutdown before they are booted.
+See @shutdown.
+~
+space_nag
+Ask players to use @path if they @open exits or actions.
+See @path (where available.)
+~
+start_pennies
+Starting wealth for new players.
+~
+teleport_to_player
+Allow use of exits linked to players.
+~
+thing_darking
+Players can @set things DARK.
+See DARK.
+~
+tilde_ansi
+ANSI sequences of the form ~&000 are parsed in muf and MPI notify and
+tell primitives.
+~
+tinkerproof_mlevel
+Set the muffer level that players can set themselves or objects they own
+TINKERPROOF and TINKER.  Normally this is set to level 0 for all players.
+See TINKERPROOF.
+~
+transparent_paths
+Allow paths with no description and paths with a description that starts
+with @$trans to perform a remote look of the room linked to by the @path.
+~
+unix_login
+Enable Unix/Diku-style login/password combination.  This will hide user
+passwords from view in supporting clients using the telnet protocol.  The
+muf setecho prim will only output echo on/off sequence is this option is on.
+~
+use_hostnames
+Do reverse domain name lookup.  Turn this parameter off if you have
+severe lag when players connect.
+~
+user_arrive_propqueue
+Process properties in the _arrive and _depart propdirs when players enter
+or leave a room.
+~
+user_connect_propqueue
+Process properties in the _connect and _disconnect propdirs when players
+connect or disconnect.
+~
+user_idle_propqueue
+Process properties in the _idle and _unidle propdirs when players go idle
+or wake up.
+~
+validate_hostname
+Enable hostname matching in @/sites.  New connections are held until
+hostnames are resolved.  Hostnames cannot be 'X' blocked effectively.
+Hostname matching is done via standard smatch syntax, ie *host.com.
+You must use the standard numerical system to match IP addresses:
+      @set #0=@/sites/*aol.com g:Cuz   @set #0=@/sites/12.121.0.0 r:Cuz
+When validate hostnames are enabled, you can now set domain welcome screens:
+      @set #0=@/welcome/*aol.com:aol
+~
+validate_warning
+If validate_hostname is enabled, enabling this parameter will print a
+message to players who are being lagged to look up their hostname before
+showing the welcome screen.  Without first looking up the hostname when
+validate_hostname is on, players may get the barred welcome screen instead
+of their correct welcome screen.  Some mucks may prefer to let the
+connection appear lagged while others may wish to notify users.
+~
+who_doing
+Server support for @doing in WHO.
+~
+who_hides_dark
+Players set DARK are not listed on WHO.  This setting has no effect in
+GlowMuck, it is maintained soley to preserve as much information as possible
+with standard Fuzzball server databases.
+~
+wiz_name
+Only wizards can change player names.
+See @name.
+~
+wiz_vehicles
+Only wizards can make vehicles.
+~
+write_bytes
+Number of bytes written to the network by the muck.  This value is cumulative
+and preserved between reboots.  This value CAN become negative as it rolls
+over.  Tracking programs will need to check for overflow and accept the
+possibility of negative values.
+~
+www_player_pages
+Allow players to set pages on their player object in the www content
+directory, normally _/www.
+~
+www_port
+Set port to listen for WWW HTML requests.  0 disables the WWW port.
+The muck must be restarted for the setting to go into effect.
+~
+www_root
+Object dbref for fetching web pages that aren't on players.
+~
+www_user
+This is the user that will have muf cgi scripts executed as.  If it is set
+to #-1 or an invalid user, muf cgi scripts won't execute.  See 'help cgi'.
+~

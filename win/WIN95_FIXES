@@ -1,0 +1,24 @@
+What it took to make Glowmuck compile with Windows 95:
+
+Added WSAStartup/WSACleanup to interface.c and Windows Socket's structure.
+
+Used recv()/send() instead of read()/write() for socket io.
+
+Renamed read/write/close to xxxsocket to avoid confusion if we try to make
+the resolver fork() trick work later on.
+
+Changed the execl()s to use spawnl() instead since there is no fork() in
+Windows 95/NT.  Came up with fixes for  getpid() and waitpid(), most of the
+quirks are in config.h if you search for the section with win95conf.h in it.
+
+Made gettimeofday() just use time() to set the timeval struct, only seconds
+resolution seems to be available outside of select().
+
+Added Foxen's fbwin.diff file to make the server properly read the different
+linefeed format of Win95 vs Unix.  It appears to get rid of most of the
+current oddities of the server.
+
+Added perror()s to unlink()s in interface.c and added unlink()s before
+rename()s in interface.c because Windows 95's unlink() command behaves
+differently from unix's regarding files existing before the rename().
+

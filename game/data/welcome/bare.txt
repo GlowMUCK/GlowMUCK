@@ -1,0 +1,4 @@
+   
+       WWW: http://legacy.muq.org:9998  Email: legacy@legacy.muq.org
+        For help connecting or getting a character, type 'help'.
+   

@@ -1,0 +1,28 @@
+
+This muck has WWW web pages built into the muck.  Each player can create
+their own home pages using either lsedit or setting pointers to other home 
+pages on the net.  User home pages are accessed with:
+
+  http://legacy.muq.org:9998/~yournamehere
+
+You can also create a whole tree of pages like a real home page.  All home 
+pages go in your _/www directory on your player.  The _/www property itself is
+the root page, accessed as above.  If you have a homepage somewhere else you
+would like to be your main home page here, type: (substituting your link in)
+
+  @set me=_/www:http://www.youraddress.here
+
+If you don't have a homepage anywhere on the net, you can write one and use
+/quote in tinyfugue or 'ascii send' in most terminal programs to load it into
+lsedit, or type it in by hand.  The basic sequence is:
+
+  lsedit me=_/www
+  <insert your home page text here line by line>
+  .end
+
+Lastly, to create other pages under the root page, just put the name of 
+the page after the _/www/, ie: (this works for both lsedit and redirections)
+
+  @set me=_/www/search:http://www.yahoo.com       would make
+  http://legacy.muq.org:9998/~yourname/search     go to that web address.
+

@@ -1,0 +1,57 @@
+To use this download a standard glow-x.x.x.tgz distribution and unarchive it
+with WinZip95 or some other un-tarring utility.
+
+Copy the GlowMuck.exe this archive into glow\game.  You don't need to compile
+any files for this Windows 95 setup.  You will however need to make sure you
+have a valid welcome.txt file in your game\data directory.
+
+One caveat of this code is that I have no idea how to make newuser work with
+Windows 95.  I need a mail executable that works like the unix mail or mailx
+command does.  So right now the only way to make players is @pcreate.  I did
+re-add the 'create' login command.
+
+This executable is self contained.  It does NOT use the Cygnus GCC libraries,
+it is a pure Windows 95/NT Win32 console application and can be run from any
+MS-Dos prompt or the Run menu item on the Start Menu.  The preferred way of
+running the program is using the 'restart.bat' file included here.
+
+I have also re-enabled compression so Dr. Cat compressed databases can be read
+with this executable.  You need the wordlist.txt in the latest glowmuck executable
+which was taken directly from fuzzball 5.56.  I highly recommend against ever
+using topwords to optimize your database.  (Nothing against the utility, but
+I have had database anomolies happen from optimized wordlists.)
+
+
+*** SETUP ***
+
+Untar a glowmuck file set from the .tar.gz or .tgz archive somewhere,
+note the directory/drive.  If you use WinZip make sure you select
+Options/Preferences and DISABLE Smart Tar CR/LF translation.  If you
+do not you will get horrible database corruption errors.
+
+Edit the restart.bat file (you can copy it to any location in your PATH
+environment variable) to contain this directory and the names of your
+databases as well as the port the muck runs on.
+
+Type 'restart' to get the muck going.
+
+To shut the muck down you can either @shutdown online or Press Ctrl-C
+in the console window the muck is running in.  I'm not sure what happens
+if you select the big X, I recommend using Ctrl-C, that IS the same as a
+normal @shutdown on Glowmuck (but not normal fuzzball servers, beware).
+
+*** DB CONVERSIONS ***
+GlowMuck should be able to use any standard Fuzzball database, NeonMuck, or
+previous GlowMuck database.  Unix linefeeds must be used in the database
+file, to date all Win95 versions of Fuzzball TinyMucks use the Unix format.
+
+If you are using a Neon database you will need to run the @fixwizbits
+command to convert the wizbits to the new format.  Log in as #1 and
+type 'help @fixwizbits'.
+
+Send comments or bug reports to artie@muq.org.  If you see signal 11 - bailout,
+I am very interested to know what happened!!!  (But make sure you turned that
+CR/LF translation off!)
+
+-Andy/PakRat/Artie
+

@@ -1,0 +1,22 @@
+
+You can use 'me' instead of 'here' to do these to yourself where applicable.
+You can also do them on an object or exit if it is suitable.
+
+Multi-line editor:
+  lsedit here=_desc ... When done save by typing '.end' alone on a line
+  @set here=M       ... ask a wizard for an MPI bit to be able to set this
+  @desc here={list:_desc}
+
+Exits and Paths: @settings work in parent rooms, @succ is needed in each room
+  @succ here=@$cmd/path ... Enable obvious exit lister here
+  @path direction=#room=Name of Path ... make a path to room
+  @set here=_BigExits:yes ... One path per line, big display
+  @set here=_NoDestRooms:yes ... No destinations for BigExits
+  @set here=_PrependExits:yes ... Put <> exit before BigExits
+  @set here=_ExitsCalled:[Doors] or >Paths< or Planes: or Goats
+  ** exitlist_start is a synonym for _ExitsCalled, there is also exitlist_end
+
+Objects & Details:
+  @object here=Big Fat Name;Big;Fat;Name=Description ... (can be @$bbs etc.)
+  @detail here=Big;Fat;Name=Bigger Description ... (hidden from contents list)
+

@@ -1,0 +1,22 @@
+Often nameservers flake out making it hard to get to a muck by its name.
+The following is a list of common fuzzball mucks and their addresses.
+
+Muck Name        Port    Number Address     Name Address
+~~~~~~~~~        ~~~~    ~~~~~~~~~~~~~~     ~~~~~~~~~~~~
+Legacy           9999    128.83.194.15      legacy.muq.org
+Delusions        4999    216.218.218.220    rs.cname.com
+Yggdrasil        4201    206.63.164.9       yggdrasil.kaschynna.com
+Wacko            6003    208.178.176.217    (<- Use #) wacko.wizardsworks.org
+Pegasus          4242    204.71.107.55      ginka.armageddon.org
+Frenzy           9999    146.9.3.62         medsys.med.wayne.edu
+Cave             2283    207.126.126.64     cave.tcp.com
+Druid            4201    132.239.99.230     druidmuck.egbt.org
+Anime            2035    199.245.105.32     anime.muck.com
+Furry            8888    208.18.192.188     muck.furry.org
+YUQwest          1967    130.161.190.12     muck.yuqwest.org
+Nails            5150    207.8.140.42       nails.k2nesoft.com
+Orange           9999    129.171.39.247     homer.bus.miami.edu
+Holo             5757    132.206.78.1       holo.rodents.montreal.qc.ca
+VHM              8081    24.10.9.95         mudz.org
+
+If you find an error in this list please mail legacy@legacy.muq.org.

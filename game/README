@@ -1,0 +1,24 @@
+To start a new DB, copy 'bare-db.db' to 'glow.db'.  In the game directory
+type 'restart' after copying a compiled glowmuck executable from glow/src to
+glow/game.
+
+To log into the #1 character on GlowMuck, use 'telnet localhost 9999' unless
+you changed the port number in glow/bin/restart.
+
+connect Wizard potrzebie
+
+To shut the muck down, type: @shutdown GlowMuck
+
+You can set your own muck name with: @tune muckname=Your Muck Name
+You will then have to use this name when shutting the muck down or
+restarting it online.  You can also perform a safe shutdown with no data
+loss if you do a normal (not -9 SIGQUIT) kill on the glowmuck process.
+
+Edit ../bin/newuser to personalize it for your muck.
+
+Change the data/welcome* screens for your muck.  Grep for references to
+Legacy (shouldn't be many) in info or news files and change as appropriate.
+
+Talk to me to get some of the muf programs such as @path or colorized
+versions of programs like find, 3who, etc.  I hope to have a distribution
+out someday soon.

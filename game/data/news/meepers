@@ -1,0 +1,18 @@
+
+Meeper are given out with relative freedom.  Players are encouraged to try
+out any programs that are in good taste and do not violate any muck policy
+or rules.  All bits are granted on a revokable basis.
+
+To use MPI on any object you must @set object=M  Then use the @set command
+to add MPI programs to the @desc, @succ, @osucc, etc. of the object.
+
+Any programs found to be of a suspicious nature will be confiscated and if
+need be the owner debitted or possibly disinvited.  This includes confusing
+programs that we can't figure out or trojan horses.  All MPI programs on the
+muck are considered to be grants of free license for use, copying, and
+examination by the muck, its staff, and future derivatives of the muck.  If
+you don't like this, don't upload your programs.
+
+Information on MPI commands is available using the 'mpi' command along with
+information from the 'info' and 'news' commands.
+

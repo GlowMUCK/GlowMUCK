@@ -1,0 +1,505 @@
+** NOTE **  This is a work in progress right now.  I'm throwing things into
+it as people come up with things they want to know.  Glow has a LOT of
+security features that people don't know about because they were never
+documented previously anywhere else.  My goal is to get at least the basics
+of how to run a GlowMuck into this document before going from versions 1.x
+to 3.x.  I'm skipping 2.x cuz that's what Neon is on.  If you find yourself
+stumped on setting up or adminning a GlowMuck send me mail at artie@muq.org,
+and I will try to help out and get this document or another updated to help
+others along the way.
+
+
+       * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     *								   *
+     *	G L O W M U C K   A D M I N I S T R A T I O N   G U I D E  *
+     *								   *
+       * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+CONTENTS
+
+1. Setting up the server
+   1.1. Installing the software
+   1.2. Installing a bare database
+   1.3. Deciding wizard player levels
+   1.4. Installing muf programs
+
+2. Site blocking
+   2.1. Per site or network
+   2.2. Per email address
+   2.3. Per user
+
+3. Web pages
+
+4. Welcome screens
+
+5. Wizard feeps
+   5.1. LogWall and descriptor commands
+   5.2. Monitoring tinyjerks
+
+6. Multiple Wizard Levels
+   6.1. Permissions explained in a tiered world
+   6.2. Muf and MPI permissions in a tiered world
+   6.3. The TinkerProof flag
+   6.4. @tunes that affect what wizards can do
+
+And now, the fun begins!!!
+
+
+*******************************************************************************
+
+1. Setting up the server
+
+
+1.1. Installing the software
+
+The best OS to run Glow or any other muck under nowadays is Linux.  It will
+compile on other forms of Unix, but some may require that you remove the
+-Werror entry in Makefile and/or Makefile.in to get the server to compile. 
+I have that set as at least in Linux and a few other OSes, the muck will
+compile -Wall -Werror clean.  If you have a system where it doesn't, please
+send me an e-mail with a log of the make session.
+
+A Windows 95 version of the server is available.  I try to keep compiled
+versions of more stable servers in the win95 directory.  To use those
+compiled versions you will need to get both that zip file and the full
+archive set, as only the full distribution archive contains the necessary
+data files to start a muck from scratch.  Make sure when uncompressing the
+tar file if you use WinZip or another Windows 95 program that everything is
+uncompressed in binary mode (turn off 'smart CR/LF conversion').  Databases
+between Windows 95 and Unix are binary compatible and cannot be edited with
+programs like MS-Dos 'edit' or Windows 95's notepad.  Only unix editors such
+as 'vi', 'joe', or 'emacs' are safe to edit databases if you need to fix
+corruption that @sanity won't fix.  Do NOT use pico!
+
+
+1.2. Installing a bare database
+
+Many people ask for a database with the muf files installed, but the problem
+with this is maintaining such a database as muf programs are upgraded.  At
+some date I may provide this or offer one that someone provides.  I have had
+a few people work on setting up better bare databases.
+
+The minimal.db in the game/data directory is just that.  You get room #0 and
+wizard #1 (password usually potrzebie).  There should be a readme file in
+the data directory on setting up the minimal database.
+
+I highly recommend a certain structure for new databases to make adminning
+easier.  Create one wizard set W3 for your muf programs, and another wizard
+set W2 for your worldly creations.  Set both wizards GUEST.  This will allow
+mages to have access to public rooms they would otherwise not control
+because these wizards are higher than them.  A mage will not be able to
+control an object with a higher permission level than theirs.  Use @check if
+wizards can't figure out why they can't control something.
+
+After you have your wizards, create a core room or rooms to hold muf program
+objects and other internal items.  Create a parent room or a a set of them
+(use @trace in a room to see what rooms are parented to it.)  Don't put any
+global actions on #0.  Often player junk ends up in #0 and it can be hard to
+tell the real actions from junk.  Keep #0 clean and just use it for property
+settings that the whole muck uses such as @registered objects, site
+information, etc etc.
+
+Now make a starting room for players to be created in and @tune your
+player_start to point to it.  Usually I create 50-100 dummy objects between
+room 10 and 100 so if you have items you want to give low db numbers later
+on, you can @rec one of these and create the item.  I generally start
+loading muf programs above dbref #100.
+
+Some settings on #0 I recommend:
+
+NOTE: I do usually keep a #0.cap list on the ftp site, it is probably newer
+than these settings.  There may be a #2.cap list too for default @path
+settings on your path parent room.
+
+(This keeps people from using nasty names, or just 'name')
+@set #0=/@/badnames/*d*a*m*n*|*f*u*c*k*|*s*h*i*t*|*p*e*n*i*s*|*b*e*a*v*i*s*|*b*u*t*h*e*a*d*|*c*u*n*y*|*c*u*n*t*|ass*|*(*#*)*:.
+@set #0=/@/badnames/name:Pick a name already!
+
+(This blocks request reply addresses to suspicious or anonymous places.)
+@set #0=/@/jerks/*.gov:Any government institutions
+@set #0=/@/jerks/*aol.com:America Online
+@set #0=/@/jerks/*cray.com:various toadables
+@set #0=/@/jerks/*hotmail.com:Anon mail site
+@set #0=/@/jerks/*phantom.com:BBS that hands out accounts wildly
+
+(This blocks certain sites from connecting, see below.)
+@set #0=/@/sites/207.107.134.0 g:Christian Ferris/Stardusty - scinet.com
+@set #0=/@/sites/207.77.91.0 x:spider4.srv.pgh.lycos.com
+
+(This sets custom welcome screens on a per site/network basis.)
+@set #0=/@/welcome/1 198.209.8.0:qwest for gildron
+@set #0=/@/welcome/2 131.151.0.0:. for Rolla's siteban so Alton doesn't get FBI
+
+(Set your muck's web page!)
+@set #0=/_/www:http://legacy.muq.org/~legacy/
+
+(If you use the autosweeper program to keep people from loitering.)
+@set #0=/_prefs/sweepsleepers:yes
+@set #0=/_prefs/sweepsleepersmsg:A large white mist envelops %n and carries %o off.
+
+(Standard exit prefixes for $cmd/path and other programs)
+@set #0=/exitlist_end:.
+@set #0=/exitlist_start:    Paths: 
+
+(Standard connect programs, do after loading the muf programs in.)
+@set #0=/~connect/all:$con/all-connect
+@set #0=/~connect/bbsindex:$con/bbsindex
+@set #0=/~connect/concount:$con/count
+@set #0=/~disconnect/all:$con/all-disconnect
+@set #0=/~disconnect/concount:$con/count
+
+(WHO customization.)
+@set #0=/~who/idle:Idle as spit on a shingle
+@set #0=/~who/poll:Bongo bongo woman, I wanna be a bongo woman!
+
+Another recommendation is that any global exits/programs you add should
+display a help screen if you type 'look exitname'.  Glow supports easy
+additions to the 'help' command by looking at an exit if it exists and is
+set M1 or higher instead of trying to find internal help on the topic.  Thus
+you can easily expand help that users need without having to edit help.txt.
+
+
+1.3. Deciding wizard player levels
+
+The concept of wizard levels is one of the biggest pains in the arse about
+running a muck.  It is one of those things that you give away freely and
+people love, but the instant you try to take it away you have made an enemy
+for life most times.  Before giving anyone a wizbit make sure you explain to
+them exactly what they are to do and not do with it.  Have a firm wizard
+policy in place.  There is no danger greater than just giving away a 'free
+wizbit', even to friends you trust.  I and many other headwizzes have lost
+and lessened many good friendships over wizbits.  *sigh*
+
+GlowMuck's wizard levels are designed so that most wizardly duties on a
+player relations level can be done with a W1 'Mage' bit.  The only tasks
+that should require higher bits would be for writing programs.  You might
+think of having a master 'muf' wizard and a master building wizard with a W3
+or W2 respectively, and have them coordinate with other wizards when they
+have items that require a higher wizbit.
+
+The permissions system right now is that Mages (W1) can examine anything on
+the muck, but can only modify items not set tinkerproof (the owner is set
+Tinkerproof but the item is not set Tinker).  They cannot examine @/props
+(where site info and mail, etc is stored.)  Wizards (W2) can examine @/props
+and do more wizardly duties like @shutdown.  Wizards cannot override
+Tinkerproof restrictions however.  Archwizards (W3) can examine @/props and
+control items whether they are tinkerproof or not.  No wizard can modify
+items owned by a higher wizard unless that wizard is set Guest and the item
+to be modified is at or below the wizard's own level.
+
+The permissions system is subject to change as I try to iron out what each
+level needs to do their duties.  Mages are basically player relations and
+builders, Wizards and Archwizards tend to be forms of headwizards and/or
+coding wizards that require the higher bit levels.
+
+I highly recommend against giving people other than yourself as headwiz a
+'BOY' or W4 bit.  The W4 bit is intended to allow you to have a Man
+character without having to log in as #1.  The only thing you can't do as a
+Boy that the Man can do is set other people W4.  All @tune settings should
+be available that the Man can do.
+
+
+1.4. Installing muf programs
+
+Loading muf programs is the biggest pain.  That's why everyone wants a
+better starting db.  The way to start is first to get $cmd/register
+installed.  You can use either the latest Foxen version or the one that
+comes with glowmuf.  Right now many foxen programs in the glowmuf
+distribution are way out of date.  If you do decide to go the foxen route, I
+highly recommend loading the whole foxen set of libraries and commands, and
+then add in only the glow versions of libraries and programs that don't
+exist in the foxen set.  On exception to this is page/mail.  The program is
+very different despite seeming the same from the standard foxen page
+program.  It stores mail in properties only wizards can get access to,
+keeping other non-wizard programmers from being able to read your mail.
+
+The most important glow muf program to install is $cmd/path.  This enables
+the special fake exits that save a lot of db space on the server.  One large
+thing to note about $cmd/path is that if you create paths with it and later
+decide you don't want to use the program, there will be no way to convert
+paths back to exits (besides writing your own converter program.)  I
+recommend $cmd/path for any muck that is starting new because it can cut
+your db size (and the RAM base objects use) in half or more.
+
+Some notes on $cmd/path:
+
+1. Install $lib/userprop first, then install $cmd/path.  You need to
+register $cmd/path with $lib/userprop to use the 'd' directory.
+
+2. If your muck uses a different directory you will need to @tune the
+path_dir setting on the muck.
+
+3. Also don't forget to @tune the path_prog setting to point to cmd/path,
+$otherwise you won't be able to use $cmd/path without a huge global
+$n;w;s;e;etc exit.  Whew!
+
+
+2. Site blocking
+
+Oh joy oh joy let's hear it for tinyjerks!  They make our lives oh so full
+of fun and happiness.  I tend to be a ban-happy person, mainly because there
+are a lot of nice features that allow you to block out the baddies and let
+in the goodfolk.  There are several levels of blocking you can do to prevent
+people from doing things you don't want.  Each level includes the level
+before it.  Ie sites blocked from guest access can't request characters.
+
+I keep this on #0 for reference:
+
+@set #0=/@/s0:Use 0's for * matching, ie: 127.0.0.0 for 127.*.*.*
+@set #0=/@/s1:Format: @set #0=@/sites/1.2.3.4 n:why... where 'n' is:
+@set #0=/@/s2:x = BLOCKED -- cannot get to connect screen
+@set #0=/@/s3:l = LOCKOUT -- cannot connect (without user flag)
+@set #0=/@/s4:g = NOGUEST -- cannot connect to any guests
+@set #0=/@/s5:r = REQUEST -- cannot request chars from site
+@set #0=/@/s6:u = USEROK  -- set on user to allow connect from site
+
+Blocked means the connection is dropped as soon as we see the address.  If
+they try to get on a lot a special denial of service mode goes into place to
+prevent status log spamming or bogging down the machine.  Use the @dos
+command to see if someone has triggered this.
+
+Lockout means normally players can't connect.  Only players that have an
+'@/site/1.2.3.4 u:Let em in' setting on their player objects can connect
+from one of these sites.  There is also a '@/login/1.2.3.4 u' propdir that
+should anything be set in there, a player can only login from that site. 
+Often useful for wizchars to keep other people from connecting as them. 
+Right now the @jerk command has some support for site blocking, but I have
+yet to make a @login site to let players set what sites they can connect
+from to protect themselves, bit of a pain.
+
+Noguest means no guests can connect from this site or network.
+
+Request means that character requests and creations on the login screen or
+as a guest will not be accepted from this site or network.
+
+Lastly the User setting only works on players to override a site or
+network's lockout setting.
+
+
+2.1. Per site or network
+
+The @/site, @/login, and @/welcome settings all support a simple form of
+wildcard matching where zeros are considered * characters and will match any
+address in this range.  This is only valid for a given digit set if the ones
+to the right of it are also zero.  Ie 123.456.0.123 will only match one
+site.  If you aren't familiar with how internet numbers work I would
+recommend digging up some research material on it.  There are several good
+TCP/IP books out there.  It's rather important to understand network
+addressing in TCP/IP and what subnets are in order to be sure you have
+secured your muck from rogue hackers and tinyjerks.
+
+
+2.2. Per email address
+
+You can specify a slightly better wildcard matching in the @/jerks
+subdirectory of room #0.  In there you can specify email address patterns
+that should not be allowed automatic online registration.  This is very
+useful to prevent huge sites like America Online and other places that offer
+anonymous e-mail accounts from being able to request one or more characters
+with no easy way of believing the person is who they claim to be.
+
+
+2.3. Per user
+
+It is possible to lock out players completely for a while, or suspend them
+for a specified time interval.  The muf $cmd/jerk program is the easiest way
+to set these features up.  They are stored in the @/lockout-msg and
+@/suspend-until properties of a player.  Players without an @/id prop will
+also not be able to connect if they are not a wizard unless you turn off the
+mortals_need_id_prop @tune setting.
+
+
+3. Web pages
+
+See the 'www-pages' document in this directory for how to set up web pages
+for both the whole muck and per player.  The master www document directory
+is on #0=_/www and supports both redirected site pointers and lsedit lists. 
+A player's www directory is in #playerdbref=_/www.
+
+
+4. Welcome screens
+
+See the 'welcome-screens' document in this directory on how to set up
+welcome screens.  The default welcome screen set include a special welcome
+screen that is shown for sites that are blocked for one reason or another, a
+nice pretty FBI logo.  If you look above you will see how to make it so
+blocked sites will show the normal welcome screen, or else point the FBI
+warning screen to your normal welcome screen using symbolic links.
+
+
+5. Wizard feeps
+
+The feeps list for wizards in Glow is so enormous it is really hard to
+document.  I have tried to add new 'help' entries for as many things as I
+have found or remembered adding.  So look over the command list from 'help',
+particularly commands starting with @.  New commands are often at the bottom
+of the page because it is a pain trying to re-alphabetize it when adding new
+commands.  If you find undocumented commands missing from help.txt please
+let me know.
+
+   5.1. LogWall and descriptor commands
+
+One of the spiffy features of Glow is the ability to monitor welcome screen
+activity and help out guests.  Wizards doing this are usually W2 or W3 and
+have the LOGWALL flag set, which lets them see connections and
+disconnections of players.  Using WHO! with the ! on the end will show the
+Wizard WHO list that will include anyone sitting on the welcome screen. 
+Each connection has a descriptor number that you can use several commands to
+monitor or communicate with.
+
+Type 'help dwall' or any of these commands to get a better description of
+what they do.  I'm putting them here as they are very useful admin tools.
+
+dwall - send a message to someone on the login screen (or on the muck using
+        a player name or their descriptor number) in one of several formats.
+dinfo - list information on a descriptor, site/user info, location, etc.
+dboot - boot a connection - this will boot ANYONE, including wizards,
+        backdoorish I know, but it's for truly stuck people or people you
+        just want to simulate connection problems with instead of the slap
+        in the face @boot. (Followed by a siteban. :)
+
+Player passwords get stored as @/passwd when they are originally created
+using the 'request' command.  Wizards can use this to give players passwords
+that have email troubles.  Until this prop is cleared, the password is
+displayed when the player connects nagging them to change it.  The Man can
+use @getpw to get a player's password if they lost it.  Since the Man should
+have site access this is a feature of convenience as opposed to loading the
+database in 'joe' or trying to grep for the password.  It just sucks with 20
+meg dbs.
+
+   5.2. Monitoring tinyjerks
+
+There are several ways of monitoring problems on a muck.  Some are more
+invasive than others.  The Suspect flag and several @tune parameters can be
+used to log the commands of would-be troublemakers.  To prevent the simplest
+methods of privacy invasion, it is only possible to look at logged commands
+by logging into the Unix (or Windows) shell account and looking in the logs
+subdirectory.  This does require some technical expertise with file access
+commands like cat, more, grep, tail, and possibly an editor.
+
+The file for standard logged player activity is in the logs/commands file. 
+If that file does not exist in that directory, no commands have been logged
+to it.  There are other files that do receive various forms of log
+information.  The 'connects' file logs commands done on the connect screen
+if log_connects is @tuned on.  The 'httpd' file logs WWW requests if
+log_www_activity is @tuned on.  The 'status' file logs various events that
+occur on the muck and things like @forces by wizards.  The 'programs' file
+holds copies of every saved program by players less than muf_proglog_mlevel
+if log_programs is @tuned on.  All other logging generally ends up in the
+commands file.
+
+There is only one @tune parameter that causes mass command logging,
+log_commands.  The log_wizards parameter was removed because of the horrible
+paranoia it causes by wizards, keeping them from effectively doing their
+job.  If a wizard is so untrustable that they can't do their job freely,
+they should not have the bit.  The log_with_names @tune parameter is used to
+provide increased privacy through anonimity in the commands file.  If it is
+off, player dbrefs are logged instead of names.  This is recommended if
+there are multiple players being logged at the same time, as commands are
+not as easily associated with a given player when the name is not attached
+to the command.  (Most people don't memorize dbrefs.)
+
+The Suspect flag was created to greatly increase privacy for players and
+also reduce legal liability for mucks as a whole.  The reason behind this is
+that courts can't demand what doesn't exist.  It is much safer to only log
+what you need to, as opposed to having to turn on global logging any time a
+scuffle requires monitoring activity.  The Suspect flag can only be seen or
+set by Boys (W4).  If lower wizards attempt to examine it or access it in
+muf, it will appear as if the flag does not exist.  This is intentional.  It
+is amazing how many people put bells on when they know the camera is on. 
+The intended method of using the Suspect flag is that higher wizards can
+turn the flag on when a player (or wizard) is on probation, and if
+unacceptable behavior continues, the logs can be used as concrete proof in
+dewizzings, sitebannings, disinvitations, etc.  If the behavior or
+complaints stop, then the logs can simply be deleted.  It is possible to set
+specific wizards Suspect and have them logged as such.  There is help
+available for the Suspect flag (help Suspect), and all of the @tune
+parameters metnioned have some help available if you type @tune and the
+particular parameter name.
+
+
+6. Multiple Wizard Levels
+
+Multiple wizard levels are controlled by the multi_wiz_levels @tune
+parameter.  Because this parameter affects the entire control structure of
+the muck, only player #1 can change the setting.  When this parameter is set
+to 'yes', wizard levels are split into four levels.  For a list of the
+levels and their meanings, type 'help newlevels' on the muck.
+
+   6.1. Permissions explained in a tiered world
+
+In a multiple wizard level world, wizards of each level act as if they are a
+mortal player to wizards with levels above theirs, unless the higher level
+wizard is set Guest.  The Guest flag on a wizard player allows lower wizards
+to modify any objects owned by the higher wizard unless the object itself is
+higher than the lower wizard's level.  Lower level wizards can still examine
+and look at higher level wizards and objects, they just can't make
+modifications.  This allows lower wizards to get the information they need
+without the ability to abuse powers easily through omnipotent control.
+
+   6.2. Muf and MPI permissions in a tiered world
+
+Muf and MPI require special consideration when living in a multi wizard
+level world.  Things become more compilcated when the Tinkerproof flag is
+added to the equation.  This is why as mentioned above, it is recommended to
+have a Muf storage wizard that is set W3 or W4 and also set Guest.  There
+are two new muf primitives that make dealing with all of the permission
+checks a lot easier.  The 'controls' prim is used to let a muf program if a
+player has control over a given object.  This is the same as what is
+provided when a player types '@permissions object'.  There is a basic
+ruleset used for knowing if an object can be controlled, however it is very
+complicated.  A basic summary is given below:
+
+1. Owners control things they own.
+2. Realm owners control objects parented to their parent room.  This
+   includes rooms, exits, and things in the rooms, as well as @paths.  This
+   does not include players and is also not effective for muf programs owned
+   by the realm owner.  It should be true for MPI, however.
+3. Only owners control objects if the owner is set TinkerProof unless the
+   object is set Tinker.
+4. Wizards control non-tinkerproof objects owned by players equal to or less
+   than their level.
+5. Wizards control non-tinkerproof objects equal to or less than their level
+   if the object's owner's level is higher than the wizard but the owner is
+   set Guest.
+6. ArchWizards and above are not affected by TinkerProof rules.
+
+Muf programs can sometimes do things in muf that their owners can't do on
+the real muck.  That's part of the power of Muf.  The 'perms' muf primitive
+will let a program know if it can do certain things based on it's mucker
+level or mlevel.  This is particularly true for Wizbit programs.  The
+distinguishment between 'controls' and 'perms' is that 'controls' indicates
+what a given player should be allowed to do, while 'perms' indicates what
+the program is allowed to do.  Modification actions done to objects when a
+'perms' check return false will generally crash the program.  This includes
+setting properties on objects, moving them, renaming them, etc.  Wizbit
+programs that previously assumed they could freely modify anything should at
+least use 'perms' so they won't crash, but preferably use 'controls' to give
+players only the abilities they already have without the muf program.
+
+   6.3. The TinkerProof flag
+
+The best help for this flag is available by typing 'help tinkerproof' on the
+muck.  It explains the reasons behind having the tinkerproof flag and how it
+works.  The reason behind tinkerproof was actually to give Mages more power,
+not less.  Originally Mages were coded with no wizard powers beyond being
+able to use examine and a few other wizard commands (ie read-only access.)
+By allowing the TinkerProof flag, it is possible to allow Mages to help out
+newbies including fixing description typos, etc.  When a player decides they
+no longer wish for wizard assistance, or possibly feel a need for greater
+privacy, they may set themselves tinkerproof to prevent Mages from affecting
+them.  This includes changing properties and moving into rooms owned by the
+tinkerproof player.  Higher level muf teleport programs may still grant a
+Mage access to such rooms or items, this is up to each muck to decide.
+
+   6.4. @tunes that affect what wizards can do
+
+There are several @tune parameters that greatly affect the powers that
+wizards of a given level have.  Each one does have some help available by
+typing @tune and then the parameter name.  Essentially, any @tune parameter
+with 'mlevel' in it can affect wizards.  It is possible for some of the
+@tune values to set the mlevel lower than a Wizard level, however some have
+checks hard-coded that won't allow anyone lower than a Mage to perform the
+listed ability.  To get a list of these parameters, type '@tune *mlevel*' on
+the muck.

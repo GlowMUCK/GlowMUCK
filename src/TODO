@@ -1,0 +1,9 @@
+
+5/31/98: Support quota better in muf programs, offer quota checking support
+         and also enforce quota in newroom, newobject, newexit, etc.
+
+4/31/98: If noone finds problems with the new httpd fix, remove the
+         HTTPDELAY code and clean up httpd_get() to prune excess clauses.
+
+Backburner Wishlist (Pain in arse :)
+ -- Have 'examine' list details and objects.

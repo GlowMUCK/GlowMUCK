@@ -1,0 +1,62 @@
+This directory contains files to create the Windows 95/NT (not Win 3.1!)
+version of GlowMuck.  Windows 3.1 will never work cuz it's sockets stacks
+are hopelessly bugridden and unstable.  Use Windows 95/NT, end of subject. :)
+
+I used Microsoft C++ 6.0 and Borland Visual Builder 3.0 to create the Windows
+version of glowmuck.  The Cygnus GNU libraries are not used at all.  The
+ending executable is a 100% pure Windows 95/NT console application runnable
+from any MS-Dos prompt, but it is highly advised to use the provided
+RESTART.BAT batch file.  Use RESTART.CMD for Windows NT.
+
+To compile...
+
+Open the project in the subdirectory you want to compile.  If you have
+problems where it can't find the paths, you can try to recreate the
+project using the following guidelines:
+
+Create a blank Console Application Project:
+
+1. Include WSOCK32.LIB in the library set.
+   -- Will cause linking errors if not set.
+2. Define WIN95 in the definitions setting (this is critical.)
+   -- Will cause piles of errors if not set.
+3. Set your INCLUDE directory to include the GLOW/SRC/INC dir.
+   -- Will say can't find copyright.h and any other header if not set.
+
+Set up debugging as you want.  I recommend using 4-byte (32 bit)
+aligment for data, but 8-byte (64 bit) should be ok.  This is
+standard on Windows compilers.
+
+If you have to make a new project, include all files in X:\glow\src except
+those with main() functions other than interface.c.  Those are separate
+utility functions, mostly unused.  Right now the only ones to exclude should
+be resolver.c and topwords.c as I moved other non-used files to src\util.
+
+Select 'console application' for the project type if you are using an IDE.
+I truly pity you if you have to build a makefile by hand. *grin*  Select
+all but the above mentioned files to compile and let her rip.  If God has
+smiled on you, you just might get your own executable.  But since 9 out of
+10 Win95 muck admins prolly wouldn't get this to work, I am going to be
+providing the executable for most GlowMuck releases separately.  If I
+haven't posted a new Win95 server for a version of Glow you want, send me
+Email and nag me at least once every 3 days.  Hee.
+
+Neither resolver.c or topwords.c has been ported yet and are unusable.  I
+don't plan on porting topwords.c any time soon due to quirks I've seen in
+the compression code when using anything but the original wordlist.txt file.
+I do hope to eventually get the resolver working as a separate process, but
+don't know a solution as yet to do it, so this may be a while.  Name
+resolving should work now at least.
+
+Lastly don't forget to copy the executable into your path statement, I made
+the mistake several times of forgetting to copy the ending executable to
+either the X:\glow\game directory or some other path in your PATH statement.
+And don't forget to modify restart.bat, it's pretty useless until you do.
+
+If you are using a non-Glow file setup, make sure you have a
+X:\glow\game\logs\oldlogs directory and all other paths in the batch file
+are correct.  I have used the script, it works, not sure bout @restart tho,
+it should so long as 'restart' is in your path statement before anything
+else.
+
+-Andy/PakRat/Artie

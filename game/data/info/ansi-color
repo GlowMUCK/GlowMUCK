@@ -1,0 +1,23 @@
+
+ANSI Color Sequences for use with ansi_notify and {ansi:msg,player}
+
+Effects:
+^NORMAL^   ^FLASH^    ^INVERT^   ^ ^      ( ^ ^ is the same as ^NORMAL^ )
+
+Dark:
+^BLACK^    ^CRIMSON^  ^FOREST^   ^BROWN^
+^NAVY^     ^VIOLET^   ^AQUA^     ^GRAY^
+
+Light:
+^GLOOM^    ^RED^      ^GREEN^    ^YELLOW^
+^BLUE^     ^PURPLE^   ^CYAN^     ^WHITE^
+
+Background:
+^BBLACK^   ^BRED^     ^BGREEN^   ^BBROWN^
+^BBLUE^    ^BPURPLE^  ^BCYAN^    ^BGRAY^
+
+*Note, to have colored forgrounds on backgrounds, set the color first:
+^BLUE^^BGRAY^
+Setting a foreground color resets the background color to black.
+Flash and Invert can be set before or after colors and/or background colors.
+Two ^^s will produce one ^ in text.

@@ -1,0 +1,76 @@
+- BUILDING A HOME on the muck - by Jaeger
+
+This help file is designed for those individuals who want a home, but has
+tried to understand and comprehend the appropriate help files for building
+on the muck. Building a home is time consuming, but this help screen, I
+hope, will simplify the those files and commands.  To build a home one has
+to have a Builders bit and the coinage of the muck. However, some places
+may have already have your character default set with this bit.  To begin,
+one has to think of a name for his/her room. Then type:
+
+    @dig Roomname 
+    EXAMPLE: @dig My room
+
+And you receive the following:  
+
+    Room #1000R created. (This statement will differ from muck to muck)
+
+And you will recieve the room name with a #dbref (datebase number). This
+#dbref is to be used later. Therefore, write it down for future reference.
+This is a single room where you can next 'teleport' and 'link' to, making
+it your home.
+
+To teleport to the room, type:
+
+    tel 1000
+
+As you enter the room, you should see something like:
+
+    My room(#1000R)
+
+To make it your home, type:
+
+    @link me=here
+
+To describe the room use the @describe command:
+
+    @desc here=description
+    EXAMPLE: @desc here=This is my own little room to play in.
+
+When you have decided to build additional rooms to your home, the @dig
+command is used again and you receive another #dbref for the room.
+
+    EXAMPLE: @dig Living Room
+
+And you receive the following: 
+
+    Room #1001R created.
+
+Write it down as well because this number will be used later.  These numbers
+will be very important. With the creation of these rooms, you can now create
+the paths to each. The paths allow one to pass from one room to the other.
+This is where the #dbrefs come into play.
+
+To create one path from 'My Room' to the 'Living Room' that is done by using
+the #dbrefs, and typing the following @path command:
+
+    @path direction=#dbref of room
+    EXAMPLE: @path west=#1001
+
+And you receive the following: 
+
+    Path created from My room(#1000R) to Living Room(#1001R).
+
+Type 'west' to go into the second room you created.  Now make an exit back
+to the first room.  This is done the same with the path back from the Living
+Room to My Room using the same command with the 'My Room' #dbref:
+
+    EXAMPLE: @path east=#1000
+
+Describe your second room like you did the first room using @describe.
+
+That's all there is to it!  You can type 'home' to get back to your home
+room from anywhere in the muck.  If you would like to learn more about
+building see the building tutorial with 'info building-tutorial'.  It has a
+more detailed version of this tutorial as well as more things you can do
+with your rooms.

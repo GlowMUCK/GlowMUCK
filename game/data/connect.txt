@@ -1,0 +1,24 @@
+  
+  
+TO CONNECT TO YOUR CHARACTER... (if you have one)
+  
+  Type 'connect name password' (with no quotes) where 'name'
+  is the name of your character, and 'password' is its password.
+  
+TO EXPLORE AS A GUEST... (if you don't have a character)
+  
+  Type 'connect guest' and you will be connected to a guest character.
+  
+TO GET YOUR OWN CHARACTER... (if you would like one of your own)
+  
+  Type 'request name your@email.address Your RealName' where 'name' is the
+  character name you would like.  We also need your email address and real
+  name for recordkeeping.  A character will be created, and the password
+  will be e-mailed to you.  You should receive the e-mail within minutes.
+  
+  Check on your character's status at the login screen or as a guest online
+  anytime by typing 'note'.  If the e-mail sent to you bounces, we will add
+  a note as soon as we discover it bounced.
+  
+WHO in all caps lists everyone online and QUIT leaves the muck.
+  

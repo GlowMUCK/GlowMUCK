@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ ! -x glowmuck ]; then
+	echo "Need to compile glowmuck first."
+	exit 1
+fi
+
+echo "Moving glowmuck..."
+rm -f ../game/glowmuck.old
+mv -f ../game/glowmuck ../game/glowmuck.old
+cp -f glowmuck ../game
+
+echo "Restarting glowmuck..."
+kill -USR1 `cat ../game/glowmuck.pid`

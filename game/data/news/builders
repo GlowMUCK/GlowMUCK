@@ -1,0 +1,22 @@
+
+Read the building section of the help files (help index2) and commands
+available there.  Also try 'info building' for how to use lsedit, @path, and
+@object/@details.  It is very very expensive not to learn to use them as
+@paths and @objects are free but regular objects and exits cost 10x the
+price of a room.  Just an economic incentive for the pursuit of education!
+
+If you need more pobbles to build an area, talk to wizstaff with an idea of
+about how big an area you'd like to build would be.  A basic pobble estimate
+would be helpful too.  Rooms are 100, exits and objects 1000, @linking,
+@paths, @objects, and @details are all free.  Players start with 100 pobbles.
+Thus each player can create 5 interconnected rooms on startup without any
+undue grovelling. *grin*
+
+For the most part, building areas is what the muck has been designed around. 
+Players are encouraged to create interesting places to explore, role play,
+or just chat in.  To promote this, objects and exits are limited to just a
+few per player so the muck doesn't bloat with a lot of trinkets that are
+usually forgotten.  Most mucks are roughly 50% exits.  The 'path' system we
+use cuts our database bloating in half alone.  Talk to wizstaff if you need
+help learning how to use our rapid area-building techniques and commands.
+

@@ -1,0 +1,603 @@
+
+
+    How to build a large multi-room home or area
+    (Created by Jaeger, expanded by Andy)
+
+
+This tutorial is designed for individuals who want a home for themselves on
+the muck.  Building a home can be time consuming, until you get the hang of
+it.  This tutorial, I hope, will explain all the steps needed to create a
+beautiful new home for yourselves and loved ones.
+
+Sections are split up with titles in large parentheses.  Commands and
+results are indented.  Usually the command format is shown first, then an
+example with 'EX:' before it on the next line.  Other commands are hidden in
+the explanation paragraphs.  Don't type single '' quotes for such commands
+hidden in paragraphs.  There are also indented paragraphes noted with words
+such as Hint, Tip, or Point that give a more detailed or technical
+explanation for why some things are how they are.
+
+After you're done reading this tutorial we'd appreciate your input on what
+you thought of it so we can modify it to be the clearest and most useful
+tutorial it can be!
+
+And now we begin your trip to end being homeless...
+
+
+ /                              \
+|   Getting the power to build   |
+ \                              /
+
+To build a home, one has to have a Builder bit some coinage.  However, some
+places may have already have your player default set with this bit.  Other
+mucks do not require a Builder bit and already give you enough coinage to
+build a home from the start (like this one).  The easiest way to see if
+you can build is to try the first @dig command.  If it fails, hunt down
+a wizard (type 'wizzes' or 'helpstaff') and grovel for a Builders bit
+and some starting money.
+
+
+ /                       \
+|   Creating a new room   |
+ \                       /
+
+To begin, one has to think of a name for his/her room. Then type: 
+
+    @dig Roomname 
+EX: @dig My lil Home
+
+You should then see something like:
+  Room #1000 created.
+
+@dig created a room for you, one of the five basic object types in the muck.
+Other commands are used to create things, exits, programs, and players.
+
+Point:  Creating a room gives you a #dbref (datebase number) to the room.
+        This #dbref is used by many other commands to get to the room,
+        make exits in the room, describe the room, and many other things.
+        Write it down for future reference.  If you ever lose the number
+        you can type:   @find =R   to get a list of all rooms you own.
+
+
+ /                       \
+|   Go to your new room   |
+ \                       /
+
+You now have a single room where you can 'teleport' to and 'link' to, making
+it your very own home.  Using the number the @dig command gave you, teleport
+to the room by typing:
+
+    @tel #dbref
+EX: @tel #1000
+
+    ( or use a special 'muf' program version of teleport: )
+
+    tel dbref
+EX: tel 1000
+
+Point:  Most mucks have a special program that gives you more abilities than
+        the standard @teleport command.  For one you don't have to use the #
+        sign.  You may also be able to get to some rooms with 'tel' that you
+        can't get to with the @teleport command.  Experiment and see which
+        one works for you.  You can only get to other players directly using
+        the non-standard teleport command (by using the player's name as the
+        destination.)  Most muckers use the non-standard teleport whenever
+        they can.
+
+
+ /                            \
+|   Make this room your home   |
+ \                            /
+
+You can always get to your home room by typing 'home' from ANYWHERE in the
+muck (unless you are in the mud area or in jail.)  Players start out with
+their home room set to a special room that all new players start in.  Some
+never change their homes.  Others move in with friends who love to build.
+To make this new room become your home, type:
+
+    @link me=here
+
+You should see:
+  Home set.
+
+At this point you have your home.  From here we show many things you can do
+to make your home a better place, as well as letting other friends stay here
+too.
+
+
+ /                                         \
+|   Let friends make this room their home   |
+ \                                         /
+
+If you have friends who would also like to make this new room your home,
+you need to set a special flag on the room called ABODE.  This lets anyone
+make your room their home too.  So it is recommended to only set this flag
+while you are having friends make this room their home.  To set a room
+Abode, type:
+
+    @set here=ABODE
+
+You should see:
+  Flag set.
+
+Point:  You can just use the letter 'A' as an abbreviation as you can with
+        almost any object flag.  If you type 'look' you will see that the
+        dbref after the room name will have an 'A' after it, ie:
+
+            My Home(#1000RA)
+
+        The 'R' means room, and the 'A' means Abode.  Typing 'ex here' will
+        give you even more information about your room including a list of
+        flags set on it.  Only the room owner (you) and wizards can examine
+        things you own, including this room.
+
+Now while the room is set Abode, with your friends in the room with you,
+tell them to type the same thing you typed to make this room your home,
+'@link me=here'.
+
+Point:  You can watch and see if they did it using another command, 
+        '@ent here'.  Only the room owner (you) can use this command.  The
+        command is called @entrances because it lists everything that is
+        @linked to your room including players, things, and exits.
+
+After you see that all of your friends have @linked themselves to your new
+room, type:
+
+    @set here=!ABODE
+
+You should see:
+  Flag cleared.
+
+This will remove the Abode flag on the room and keep other players from
+setting your new room as their home.  We highly recommend this because
+it is very difficult to get unwanted people out of your home.
+
+
+ /                                                 \
+|   Making your home look nice with a description   |
+ \                                                 /
+
+There are two main ways to describe your home.  If you just want a simple
+something for now so people don't think you're completely bare, try this:
+
+    @desc here=description
+EX: @desc here=This is my home, I hope you like it.
+
+You should see something like:
+  Description set.
+
+If you want a multi-line description you can use something called a list
+editor.  Mucks have different versions of these.  Try each one in sequence
+until you find one that works:
+
+1)  enterdesc here
+      (Enter description here line by line, press Return after each line)
+    .end
+      (If the editor says to use just a period, do that instead of .end)
+    .
+
+2)  lsedit here=_desc
+      (Enter description here line by line, press Return after each line)
+    .end
+    @desc here=@$desc _desc
+      (If you just see _desc after looking at the room, try this instead:)
+    @desc here=@$desc %list[_desc]
+
+3)  write here=_desc
+      (Enter description here line by line, press Return after each line)
+    .
+      (Write should set the room to use the list on it's own.)
+
+Depending on the editor you are using, you can fix typos in several ways.
+The easiest way to fix mistakes is to type the same command you did before
+to do the multi-line list edit, and within the editor delete the old list,
+then put in a new one.  Most muck multi-line editors are very obscure and
+difficult to figure out.  Sometimes the easiest way is to ask a wizard in
+the know to fix the mistakes for you or show you how.  Most of the editors
+also have help screens you can get within the editor by typing:
+
+    .h
+      (or possibly)
+    .help
+
+** Tricks with the lsedit multi-line editor:
+
+After doing '.h', look at the commands available.  Often there are ways to
+change word sequences from one thing to another, try something like this:
+
+    .repl =/old word/new word
+EX: .repl =/typu/typo
+
+Where 'typu' is the wrong spelling and 'typo' is the right spelling.  Be
+careful with this command as it will replace ALL occurances of 'typu' with
+'typo'.  You can get a listing of what you've done so far with:
+
+    .l  (what you see is what you get mode)
+    .p  (with line numbers before the lines)
+
+A lot of people forget to press return after each line.  If you list your
+text and it only shows one line with '.p', you can make it formatted with
+the .format command:
+
+    .format =columns
+EX: .format =78
+
+This will spread your words out so nothing is more than 78 columns, wrapping
+words at clean break pionts.  Lsedit has many other advanced features like
+centering text and spacing text out.  Experiment and see what you can do!
+If at any time you make a big enough boo-boo that you don't want to save
+what you have done, you can always type:
+
+     .abort
+
+When in doubt, pester someone in the know!
+
+
+ /                                     \
+|   Adding on more rooms to your home   |
+ \                                     /
+
+Right now you have one fully assembled room for you and your friends.  From
+here we will expand your one room home into a larger home that will let you
+walk between rooms.  Each room allows separate conversations to go on using
+the say and pose commands, so they can be useful if you want private moments
+with your significant other while other friends are visiting.  You can also
+set up a special room for friends to call their home, while making your own
+home room for you and your sweetie.  You can create bathrooms, bedrooms,
+living rooms, back yards, anything you can imagine!
+
+When you have decided to build additional rooms to your home, the @dig
+command is used again and you get another #dbref for the new room.
+
+EX: @dig Living Room
+
+You should see something like:
+  Room #1001R created.
+
+Write down this dbref number and note what room it is for because the
+number will be used later.  These dbrefs will be very important.
+
+
+ /                                             \
+|   Connecting rooms in your home using paths   |
+ \                                             /
+
+With the creation of these rooms, you can now create the exits to each. The
+exits allow one to pass from one room to the other. This is where the
+#dbrefs come into play.
+
+A new development in mucks is a special space-saving program called @path.
+You can do almost anything with paths that you can with normal exits.  To
+see if your muck has @path, just type '@path'.  If you see something like
+'Huh?', the muck probably isn't set up to use @paths.  If you do have the
+@path program on the muck, follow the examples for it, otherwise use the
+@open commands.
+
+Point:  @Paths save you a LOT of effort in building.  You don't have to
+        @desc, @succ, @osucc, or @odrop paths because they automatically
+        have those messages built in.  You can also look through most
+        paths and see the description of the room the path leads to
+        without doing anything.  Paths also automatically set up the
+        'obvious exits' list you see when you type 'look' in a room.
+
+If your muck does have @path, use the dbrefs to create a path from 'My Lil
+Home' to the 'Living Room' by typing the following:
+
+    @path direction=#dbref=Obvious Exits Name
+EX: @path east=#1001=Living Room
+
+You should see something like:
+  Path linked from My Lil Home(#1000R) to Living Room(#1001R).
+
+Point:  If you miss being able to set custom messages on your @path do not
+        fret!  You can use @pdesc, @psucc, @posucc, @podrop, and @plock as
+        well as most other message commands to customize your paths.
+
+Now go through the path you just created to get to the second room you dug:
+
+    direction  (if you used @path)
+EX: east
+
+You should see something like:
+  You walk east.
+  Living Room(#1001R)
+
+
+ /                                                    \
+|   Connecting rooms in your home using normal exits   |
+ \                                                    /
+
+If the muck you are on has @paths, then exits are probably very expensive so
+you should always use paths whenever you can.  If you can not use @path,
+then use @open and several other commands:
+
+    @open Exitname;exit;name=#dbref
+EX: @open Living Room (LR);living;room;lr=#1001
+    (The first name is used for Obvious Exits, the rest are aliases.)
+
+You should see something like:
+  Exit #1002 created and opened.
+  Trying to link...
+  Linked to Living Room(#1001R).
+
+Now describe the exit and set messages players see when using the exit.
+After each command you should see 'Message set.' or something similar.
+(Groan, you can see why paths are so much better...)
+
+    @desc exitname=description of exit
+EX: @desc lr=You see an exit leading to the living room.
+
+    @succ exitname=message player sees when going through the exit
+EX: @succ lr=You walk to the living room.
+
+    @osucc exitname=message others see when you walk through the exit
+EX: @osucc lr=walks over to the living room.
+    (The player's name is prepended to @osucc, @ofail, and @odrop messages.)
+
+    @odrop exitname=message others see when you enter a room from the exit
+EX  @odrop lr=walks in from the main room.
+
+Now go through the exit you just created to get to the second room you dug.
+
+    exitname
+EX: lr
+
+You should see something like:
+    You walk to the living room.
+    Living Room(#1001R)
+
+
+ /                                                  \
+|   Connnecting other rooms back to the first room   |
+ \                                                  /
+
+This is done the same with the path or exit back from the Living Room to My
+Room using the same commands with the 'My Room' #dbref.  Just use the first
+dbref as the destination of the path or exit and name the exit or path
+appropriately.
+
+When you have created the exit from your second room back to your home room,
+walk through it to get back to your home room to test that it works. 
+Remember you can also type 'home' to get to your home room from any room in
+the muck.
+
+
+ /                                      \
+|   Setting rooms to use obvious exits   |
+ \                                      /
+
+Unfortunately every muck is different when it comes to obvious exit listers.
+This special program is used to let people who walk through your rooms to
+know what other paths or exits exist in the room that the player can use
+to get to different rooms.  Some players set all the exits dark so you
+have to read the room description to figure out where you can go.
+
+If your muck does have @path, then the obvious exit lister may get added to
+the room just by creating a path.  Type 'look' to see if this is so, if it
+is just skip to the next section.  You would see something like:
+
+  Paths: Living Room <E>
+
+If you don't see something like that in the room, ask a wizard or helper
+what to use for obvious exits.  Sometimes this is documented in hint sheets
+but they are often very hard to find.  Some common ways to get it are:
+
+    @succ here=@$exits
+    @succ here=@$cmd/path
+    @succ here=@$obvious-exits
+
+If none of the above cause anything to happen besides another 'You see
+nothing special', type the following to clear the @succ of the room:
+
+    @succ here=
+
+
+ /                                      \
+|   Adding little details to your home   |
+ \                                      /
+
+Some mucks have a special program called @object or @detail that lets you
+add little perks to your room descriptions.
+
+@details are hidden descriptions that a person can 'look' at in the room.
+You can hide references to them in your descriptions.  For instance if you
+mention a pot of flowers in your description you could do:
+
+    @detail here=name;alias;more aliases=description
+EX: @detail here=pot;flowers=They smell lovely, don't they?
+
+Then when someone looks at either 'pot' or 'flowers', they will see the
+description you set.
+
+@object works like @detail plus it puts the first name you gave the
+detail in the contents list of the room.
+
+    @object here=name;aliases=description
+EX: @object here=My piano;piano=It's 88 keys of pure ecstasy!
+
+Now when someone looks at 'piano' or 'my piano' they will see the
+description set, and if they type 'look' or 'look here', they will see
+'My piano' in the room's contents list.
+
+You can also put @objects and @details on yourself for effect, or on things
+you might create in the room.  If you have an @object or @detail on a
+non-room object, you need to look at the object and the @object or @detail:
+
+    look object=detail
+EX: look Gerbil=fur
+
+If you are good with MPI or multi-line descriptions, you can use both with
+@objects and @details.  To use MPI on your room make sure the room is set
+Meeper (not all mucks have this bit, or MPI enabled.)  If you want to use
+multi-line descriptions on @objects or @details, put the list itself on
+the room, and then use the same method the editor uses to display the list
+in the room's description as the @object or @detail's description.
+
+
+ /                                          \
+|   Adding interactive things to your home   |
+ \                                          /
+
+Virtual @objects and @details are neat, but there are some things you can
+only do with real objects, called things.  Things are simple objects you can
+pick up, drop, describe, and do many other interesting things with.  They
+can be inanimate objects like pianos, trees, or furniture (although @objects
+tend to work better for these.)  They can also be pets or fake players that
+you can have stay in your room.  (Yes, even Isis J. Blowup doll could be
+made with a thing.)
+
+To create a new thing, use the @create command:
+
+    @create name=cost=registered name
+EX: @create Bill the Gerbil
+EX: @create Bill the Gerbil=100=gerbil
+
+You should see something like:
+  Object #1003 created.
+  Registered as $gerbil
+
+You only really need to give the name of the thing.  Some mucks allow you to
+give your things a value, to store money in.  You can 'give' money to things
+to change their value also.  The last option, the registered name, is useful
+if you want access to the thing from a far off place.  You can do most muck
+commands on the registered name by putting a dollar sign in front of it, ie
+'ex $gerbil' or '@set $gerbil=M' even if the thing isn't in your inventory
+or the room you are in.
+
+Next describe your thing:
+
+    @desc name=description
+EX: @desc Bill=I will hug you and cuddle you and kiss you and call you George!
+EX: @desc $gerbil=Oh you're such a cuddly wuddly little gerbil!
+
+You should see something like:
+  Description set.
+
+When you create things their homes are usually the room you create them in. 
+If you want to move a thing's home to another room, just go to that room
+with the thing in your inventory (type 'get thing' if it's in the room)
+and type:
+
+    @link name=here
+EX: @link Bill=here
+EX: @link $gerbil=here
+
+You should see something like:
+  Home set.
+
+It is a good idea to lock your things so noone can get them, or so only you
+can get them:
+
+    @lock name=lock expression
+EX: @lock Bill=#0&!#0          (so noone can play with Bill)
+EX: @lock Bill=me              (so only you can play with Bill)
+
+Lock expressions can get pretty fancy.  You can lock things to players'
+genders, to other things that are used as keys, to rooms, or to players.
+
+You can set messages on your things for when someone gets the thing, or
+isn't allowed to get the thing.  You should see something like 'Message
+set.' after typing these: (You can use $ registered names too.)
+
+    @succ name=message player sees when getting the thing
+EX: @succ Bill=Bill jumps in your arms and under your coat!
+
+    @osucc name=message others see when you get the thing
+EX: @osucc Bill=picks a furry rodent off of the floor.
+    (The player's name is prepended to @osucc, @ofail, and @odrop messages.)
+
+    @fail name=message you see when you can't get the thing (it's locked)
+EX: @fail Bill=Bill jumps in your arms and under your coat!
+
+    @ofail name=message others see when you can't get the thing
+EX: @ofail Bill=picks a furry rodent off of the floor.
+
+    @fail name=message you see when dropping the thing
+EX: @fail Bill=Bill jumps out of your arms and scurries away.
+
+    @ofail name=message others see you drop the thing
+EX: @odrop Bill=screams as Bill scurries away!
+
+
+ /                \
+|   Parent Rooms   |
+ \                /
+
+This is one of the more confusing parts of muck building.  Everyone asks,
+how do I make a parent room?  It's not really that hard.  All you do is
+@dig a room called something like 'Bill's Parent'.  Then use the @teleport
+command (for this you can't use the non-standard teleport program) to send
+all your other rooms into this room.  Say your parent room is #1005 and you
+have your home room #1000 and living room #1001.  You would just type:
+
+    @tel #dbref=#dbrefOfParent
+EX: @tel #1001=#1005
+EX: @tel #1002=#1005
+
+To see what rooms are in your parent room you can use the examine command or
+else use the @contents command if you just want a simple list of only rooms.
+
+    ex #dbref
+EX: ex #1005
+
+    @contents #dbref=R
+EX: @contents #1005=R
+
+What good are parent rooms?  You can do several things in them including
+creating global exits that work in any room contained in the parent room. 
+This can allow you to make an exit that takes you to your home room from any
+other room in your parent room by typing the name of the exit in that room.
+
+You can also set global settings for your area in the parent room including
+the land name, world name, sweep permissions, and the default properties for
+the obvious exit lister.  Ask a wizard or helpstaff person to get a list of
+what properties you can set on a parent room to make it useful.
+
+Point:  You can't use @path for global area exits or commands.  This is one
+        thing you still need to use @open for.
+
+Parent rooms also let you join another person's area without having to move
+each of your rooms individually.  Once all of your rooms are in your parent
+room you only have to put your parent room in the other player's parent room
+to join the world.  Some mucks have special commands like 'setworld' and
+'setland' to do this for you and get a list of what worlds you can join.
+
+
+ /                                    \
+|   Removing vagrants from your home   |
+ \                                    /
+
+Every once and a while some smart-aleck discovers you forgot to remove the
+Abode flag from your room after allowing friends to make it their home. If
+you do get people set home to your room you can try typing this:
+
+    @unlink *playername
+EX: @unlink *FredTheJerk
+
+(Yes you need the * before the player name, don't ask why. :)
+If you own the room you are in and they are linked to it, you should see:
+
+  Player's home reset to default player start room.  
+
+Some mucks have a program called 'sweep' or 'zap' that will remove players
+from rooms you own.  To get players out of your room that are not @linked
+(set home) to it try:
+
+    sweep playername
+EX: sweep FredTheJerk
+
+If the above command doesn't work, try just typing 'sweep' or 'zap'.  This
+may remove other sleeping friends in the room if they are not set home to
+your room however, so be careful!
+
+
+ /                         \
+|   Where to go from here   |
+ \                         /
+
+Now that you have your home set up so you and your friends can enjoy it, you
+probably would like a way for others to come into it.  To do this you
+usually have to hunt down someone on the muck who can link your room to the
+rest of the world.  This can be either a wizard or another player who has an
+area ready for new homes to be linked to.  They will tell you what to type
+or else set your room up for you if they have the power to.

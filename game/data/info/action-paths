@@ -1,0 +1,21 @@
+
+To create an action with @path, follow these simple steps:
+
+1. @path <verb>=here
+2. @hide <verb>
+3. @lock <verb>=me&!me
+4. @desc <verb>=<description>
+5. @fail <verb>=You <do something...>
+6. @ofail <verb>=<does something...>
+
+Example: (A simple 'sit' action)
+
+1. @path sit;sit down=here
+2. @hide sit
+3. @lock sit=me&!me
+4. @desc sit=Type 'sit' to sit down.
+5. @fail sit=You sit down.
+6. @ofail sit=sits down.
+
+It's as simple as that!  Put all the verb names you want after the @path
+statement in step #1 and separate them by semicolons.

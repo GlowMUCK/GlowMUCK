@@ -1,0 +1,9 @@
+#! /bin/sh
+
+# Set this to the full path of your glow/bin directory
+GLOWDIR=/home/legacy/glow
+
+# Set this to the user account owning the glow directory set
+GLOWUSER=legacy
+
+/bin/su $GLOWUSER -c $GLOWDIR/bin/restart
