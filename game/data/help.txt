@@ -1577,7 +1577,7 @@ Objects have several standard strings:
 
 See properties.
 ~
-substitutions|pronouns|pronoun_subst|pronoun substitution|%a|%s|%o|%p|%r|%n
+substitutions|pronouns|pronoun_subst|pronoun substitution|%a|%s|%o|%p|%r|%n|pronoun|subst|pron
 
 @osuccess, @ofail, and @odrop messages may contain %-substitutions,
 which evaluate to gender-specific pronouns if the player's sex is
