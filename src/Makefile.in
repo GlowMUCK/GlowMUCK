@@ -1,8 +1,14 @@
 #!/bin/make -f
-
+# $Revision: 1.4 $ $Date: 2005/03/10 16:50:44 $
 # #######################################################################
 #                  Makefile for TinyMUCK 2.2fb5.x
 # #######################################################################
+
+# $Log: Makefile.in,v $
+# Revision 1.4  2005/03/10 16:50:44  feaelin
+# Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
+# was passed, the server would crash.
+#
 
 # #######################################################################
 #			User tunable options

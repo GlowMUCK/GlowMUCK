@@ -84,7 +84,7 @@ extern void update_rwho(void);
 
 extern int notify(dbref player, const char *msg);
 extern int notify_nolisten(dbref player, const char *msg, int ispriv);
-extern void notify_descriptor(int c, const char *msg);
+extern int notify_descriptor(int c, const char *msg);
 extern int ansi_notify(dbref player, const char *msg, int parseansi);
 extern int queue_ansi(struct descriptor_data *d, const char *s);
 extern int queue_string(struct descriptor_data *d, const char *s);

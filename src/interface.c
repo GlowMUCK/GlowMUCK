@@ -1,10 +1,14 @@
 /*
  *  interface.c
- *  $Revision: 1.4 $ $Date: 2005/03/08 18:57:36 $
+ *  $Revision: 1.5 $ $Date: 2005/03/10 16:50:44 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.5  2005/03/10 16:50:44  feaelin
+ *  Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
+ *  was passed, the server would crash.
+ *
  *  Revision 1.4  2005/03/08 18:57:36  feaelin
  *  Added the heartbeat modifications. You can add programs to the @heartbeat
  *  propdir and the programs will be executed every 15 seconds.
@@ -462,29 +466,37 @@ main(int argc, char **argv)
 
 
 
-void
+int
 notify_descriptor(int descr, const char *msg)
 {
-   char *ptr1;
-   const char *ptr2;
-   char buf[BUFFER_LEN + 2];
-   struct descriptor_data *d;
-
-   for (d = descriptor_list; d && (d->descriptor != descr); d = d->next);
-
-    ptr2 = msg;
-    while (ptr2 && *ptr2) {
-	ptr1 = buf;
-	while (ptr2 && *ptr2 && *ptr2 != '\r')
-	    *(ptr1++) = *(ptr2++);
-	*(ptr1++) = '\r';
-	*(ptr1++) = '\n';
-	*(ptr1++) = '\0';
-	if (*ptr2 == '\r')
-	    ptr2++;
-   }
-   queue_string(d, buf);
-   process_output(d);   
+  char *ptr1;
+  const char *ptr2;
+  char buf[BUFFER_LEN + 2];
+  struct descriptor_data *d;
+  
+  for (d = descriptor_list; d && (d->descriptor != descr); d = d->next);
+  
+  /* Mainly for the notify_descriptor prim. Prevents programmer from passing
+   * an invalid descriptor to the muf primitive
+   */
+  if (d == NULL) {
+    return(-1);
+  }
+  
+  
+  ptr2 = msg;
+  while (ptr2 && *ptr2) {
+    ptr1 = buf;
+    while (ptr2 && *ptr2 && *ptr2 != '\r')
+      *(ptr1++) = *(ptr2++);
+    *(ptr1++) = '\r';
+    *(ptr1++) = '\n';
+    *(ptr1++) = '\0';
+    if (*ptr2 == '\r')
+      ptr2++;
+  }
+  queue_string(d, buf);
+  process_output(d);   
 }
 
 int 

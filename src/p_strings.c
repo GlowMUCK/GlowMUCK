@@ -1,3 +1,15 @@
+/* p_strings.c
+ * $Revision: 1.2 $ $Date: 2005/03/10 16:50:44 $
+ * String related MUF primitives
+ */
+
+/*
+ * $Log: p_strings.c,v $
+ * Revision 1.2  2005/03/10 16:50:44  feaelin
+ * Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
+ * was passed, the server would crash.
+ *
+ */
 #include "copyright.h"
 #include "config.h"
 #include "params.h"
@@ -204,20 +216,26 @@ prim_atoi(PRIM_PROTOTYPE)
 void 
 prim_notify_descriptor(PRIM_PROTOTYPE)
 {
-    CHECKOP(2);
-    oper1 = POP();
-    oper2 = POP();
-    if (mlev < LMAGE)
-	abort_interp("Mage prim");
-    if (oper1->type != PROG_STRING)
-	abort_interp("Non-string argument (2)");
-    if (oper2->type != PROG_INTEGER)
-	abort_interp("Invalid object argument (1)");
-    if (oper1->data.string)
-	strcpy(buf, oper1->data.string->data);
-	notify_descriptor(oper2->data.number, buf);
-    CLEAR(oper1);
-    CLEAR(oper2);
+  int retval = 0;
+  
+  CHECKOP(2);
+  oper1 = POP();
+  oper2 = POP();
+  if (mlev < LMAGE)
+    abort_interp("Mage prim");
+  if (oper1->type != PROG_STRING)
+    abort_interp("Non-string argument (2)");
+  if (oper2->type != PROG_INTEGER)
+    abort_interp("Invalid object argument (1)");
+  if (oper1->data.string)
+    strcpy(buf, oper1->data.string->data);
+  
+  retval = notify_descriptor(oper2->data.number, buf);
+  if (retval == -1) {
+    abort_interp("Invalid descriptor");
+  }
+  CLEAR(oper1);
+  CLEAR(oper2);
 }
 
 void 
