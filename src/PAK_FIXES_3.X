@@ -24,7 +24,9 @@ properly assign blame...:). Anything not marked is presumably done by PakRat.
 
 03/18/04 [IDE]: Hopefully, I've correctly corrected the variable conversions in
   compress.c and interface.c that were causing MSVC to generate
-  warnings. 
+  warnings. Fixed the trigraph warning thrown out by gcc in interface.c and
+  the operation on 'prop' is undefined error. Fixed the 'operation on curpath is
+  undefined' error in path.c.
 
 ## 08/04/02: Release 3.1.8, bug fixes, system muf prim ##
 
