@@ -383,7 +383,7 @@ int tp_gender_commands		= 1;
 int tp_www_player_pages		= 1;
 int tp_restricted_www		= 0;
 int tp_transparent_paths	= 1;
-int tp_exit_guest_flag          = 1;
+int tp_exit_guest_flag          = 0;
 
 struct tune_bool_entry {
     const char *name;
