@@ -79,7 +79,7 @@ MISCSRC= Makefile
 
 CSRC= boolexp.c case.c cast.c color.c compile.c compress.c create.c db.c \
 	debugger.c disassem.c diskprop.c edit.c events.c game.c hashtab.c \
-	heart.c \
+	heartbeat.c \
 	help.c inst.c interp.c log.c look.c match.c mfuns.c mfuns2.c \
 	msgparse.c move.c mud.c crt_malloc.c netresolve.c oldcompress.c \
 	path.c player.c predicates.c p_connects.c p_db.c p_math.c p_misc.c \
@@ -93,7 +93,7 @@ SRC= ${MISCSRC} ${CSRC} ${MSRC}
 
 COBJ= boolexp.o case.o cast.o color.o compile.o compress.o create.o db.o \
 	debugger.o disassem.o diskprop.o edit.o events.o game.o hashtab.o \
-	heart.o \
+	heartbeat.o \
 	help.o inst.o interp.o log.o look.o match.o mfuns.o mfuns2.o \
 	msgparse.o move.o mud.o crt_malloc.o netresolve.o oldcompress.o \
 	path.o player.o predicates.o p_connects.o p_db.o p_math.o p_misc.o \
