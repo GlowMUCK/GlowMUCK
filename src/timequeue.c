@@ -1,5 +1,15 @@
+/* timequeue.c
+ * $Date: 2005/03/08 15:00:52 $ $Revision: 1.2 $
+ * 
+ */
 /* Timequeue event code by Foxen */
-
+/*
+ * $Log: timequeue.c,v $
+ * Revision 1.2  2005/03/08 15:00:52  feaelin
+ * Added new muf primitive 'proctime' that returns the time until next
+ * execution of a enqueued process.
+ *
+ */
 #include "copyright.h"
 #include "config.h"
 #include "params.h"
@@ -1035,4 +1045,18 @@ listenqueue(dbref player, dbref where, dbref trigger, dbref what, dbref xclude,
     }
 }
 
+int time_for_pid(int pid)
+{
+  timequeue ptr = tqhead;
+  time_t rtime = time((time_t *) NULL);
+  int result = -1;
 
+  while (ptr != NULL) {
+    if (pid == ptr->eventnum) {
+      result = ptr->when - rtime;
+      break;
+    }
+    ptr = ptr->next;
+  }
+  return (result);
+}

@@ -22,8 +22,8 @@ Variable Handling:
   var    lvar    variable    localvar    !    @
 
 Multi-Tasking:
-  preempt  background  foreground  ispid?   fork  sleep  kill  pid  queue
-  pr_mode  bg_mode     fg_mode     setmode  mode  abort
+  preempt  background  foreground  ispid?   fork  sleep  kill queue
+  pr_mode  bg_mode     fg_mode     setmode  mode  abort  pid  proctime
 
 Math and Comparison:
   +   -   *   /   %   <   >   =   <=   >=   and   or   not
@@ -1163,6 +1163,13 @@ PID
 pid ( -- i)
 
 Returns the process ID of the program that is currently running.
+~
+PROCTIME
+
+proctime ( i -- i)
+
+Given PID 'i' proctime returns the seconds remaining until the next
+execution of an enqueued process.
 ~
 ISPID?
 

@@ -11,6 +11,7 @@ extern void prim_force(PRIM_PROTOTYPE);
 extern void prim_timestamps(PRIM_PROTOTYPE);
 extern void prim_fork(PRIM_PROTOTYPE);
 extern void prim_pid(PRIM_PROTOTYPE);
+extern void prim_proctime (PRIM_PROTOTYPE);
 extern void prim_stats(PRIM_PROTOTYPE);
 extern void prim_abort(PRIM_PROTOTYPE);
 extern void prim_ispidp(PRIM_PROTOTYPE);
@@ -25,12 +26,12 @@ extern void prim_system(PRIM_PROTOTYPE);
     prim_systime, prim_timesplit, prim_timefmt, prim_queue, prim_kill,   \
     prim_force, prim_timestamps, prim_fork, prim_pid, prim_stats,        \
     prim_abort, prim_ispidp, prim_parselock, prim_unparselock,           \
-    prim_prettylock, prim_testlock, prim_sysparm, prim_system
+    prim_prettylock, prim_testlock, prim_sysparm, prim_system, prim_proctime
 
 #define PRIMS_MISC_NAMES "TIME", "CONVTIME", "DATE", "GMTOFFSET", \
     "SYSTIME", "TIMESPLIT", "TIMEFMT", "QUEUE", "KILL",  \
     "FORCE", "TIMESTAMPS", "FORK", "PID", "STATS",       \
     "ABORT", "ISPID?", "PARSELOCK", "UNPARSELOCK",       \
-    "PRETTYLOCK", "TESTLOCK", "SYSPARM", "SYSTEM"
+    "PRETTYLOCK", "TESTLOCK", "SYSPARM", "SYSTEM", "PROCTIME"
 
-#define PRIMS_MISC_CNT 22
+#define PRIMS_MISC_CNT 23

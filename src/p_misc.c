@@ -390,6 +390,23 @@ prim_pid(PRIM_PROTOTYPE)
     PushInt(result);
 }
 
+void
+prim_proctime(PRIM_PROTOTYPE)
+{
+  int result = 0;
+
+  CHECKOP(1);
+  CHECKOFLOW(1);
+
+  oper1 = POP();
+  if (oper1->type != PROG_INTEGER) {
+    abort_interp("Non-integer argument (1)");
+  }
+  
+  result = time_for_pid(oper1->data.number);
+  CLEAR(oper1);
+  PushInt(result);
+}
 
 void 
 prim_stats(PRIM_PROTOTYPE)

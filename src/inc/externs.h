@@ -57,6 +57,7 @@ extern void propqueue(dbref player, dbref where, dbref trigger, dbref what,
 extern void envpropqueue(dbref player, dbref where, dbref trigger, dbref what,
 	    dbref xclude, const char *propname, const char *toparg,
 	    int mlev, int mt);
+extern int time_for_pid (int pid);
 
 /* From compress.c */
 extern void init_compress_from_file(FILE *dicto);

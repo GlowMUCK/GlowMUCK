@@ -1,6 +1,6 @@
 Notes to new administrators using minimal.db:
 
-1. There is one objects of type player in minimal.db: One(#1), with
+1. There is one database item of type player in minimal.db: One(#1), with
 the password "potrzebie."  One is the administrative player; it has
 its WIZARD bit set, and it owns everything.
 

@@ -120,9 +120,11 @@ const char *infotext[] =
     CWHITE
     "The following programmers currently maintain the code:",
     CYELLOW
-    "  PakRat/Artie:  artie@muq.org           GlowMuck Enhancements",
+    "  Feaelin Moilar:  feaelin@kemenel.org     GlowMuck Enhancements",
     CYELLOW
-    "  Foxen/Revar:   foxen@belfry.com        Main Fuzzball Developer",
+    "  PakRat/Artie:    artie@muq.org           GlowMuck Enhancements",
+    CYELLOW
+    "  Foxen/Revar:     foxen@belfry.com        Main Fuzzball Developer",
     CYELLOW
     "  Fre'ta:                                Crazy Fuzzball Developer",
     " ",

@@ -11,11 +11,7 @@ ftp://ftp.belfry.com/pub/fuzzball. Older muck versions can be found at
 ftp://ftp.tcp.com/pub/muds.
 *******************************************************************************
 IED_FIXES_3.2
-$Revision: 1.1 $ $Date: 2004/12/12 15:41:27 $
-$Log: IED_CHANGES,v $
-Revision 1.1  2004/12/12 15:41:27  feaelin
-Primarily, moving files around.
-
+$Revision: 1.2 $ $Date: 2005/03/08 15:00:47 $
 *******************************************************************************
 Note: There are forums for discussion, trackers for bugs, support and feature
 requests all at: http://glowmuck.sourceforge.net/. The latest versions
@@ -24,6 +20,12 @@ of the standard MUF programs and glowmuck itself will be posted there.
 Any changes in this file was written by Iain E. Davis. Pakrat's changes to the
 code are stored in the PAK_FIXES files. Original Fuzzball changes are stored
 in the CHANGESfb5 file.
+
+2005-Mar-08: Added the muf primitive 'proctime' which returns the time until
+             the next execution of an enqueued muf process.
+
+2004-Dec-12: Added feature to @hopper to allow a wizard to delete entries
+             from the list.
 
 2004-Dec-11: Fixed issue where the code preventing aliases to be rewritten
 	     programmatically (proven to be a security risk in the past) was
