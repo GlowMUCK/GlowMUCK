@@ -1,0 +1,13 @@
+#!/bin/sh
+# Start/stop the glowmuck server.
+
+HOME=$HOME
+
+case "$1" in
+start)	$HOME/glow/bin/restart & ;;
+on)	$HOME/glow/bin/restart & ;;
+stop)	kill `cat $HOME/glow/game/glowmuck.pid` ;;
+off)	kill `cat $HOME/glow/game/glowmuck.pid` ;;
+*)	echo "Usage: $0 start|stop"; exit 1 ;;
+esac
+exit 0
