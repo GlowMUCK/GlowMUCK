@@ -2488,8 +2488,10 @@ httpd_get(struct descriptor_data *d, const char *name, const char *http) {
 	return;
     } else if (tp_www_player_pages && (*name == '~')) { 
 	prop = ++name;
-	while (*prop && (*prop != '?') && (*prop != '/') && ((prop-name) < (BUFFER_LEN - 1)))
-	    buf[prop-name] = (*(prop++));
+	while (*prop && (*prop != '?') && (*prop != '/') && ((prop-name) < (BUFFER_LEN - 1))) {
+            prop++;
+	    buf[prop-name] = (*prop);
+        }
 	buf[prop-name] = '\0';
 	if (*buf) {
 	    what = lookup_player(buf);
@@ -3695,7 +3697,7 @@ dump_users(struct descriptor_data * e, char *user)
 	    idlecount++;
 	if (!user || (d->connected && string_prefix(NAME(d->player), user))) {
 	    if (d->connected && (!OkObj(d->player))) {
-		sprintf( buf, "<???> desc %d #%d", d->descriptor, d->player );
+		sprintf( buf, "<\?\?\?> desc %d #%d", d->descriptor, d->player );
 	    } else if (wizard) {
 		if(d->connected)
 		    sprintf(pbuf, "%s", unparse_object(MAN, d->player));
