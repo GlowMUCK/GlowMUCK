@@ -1,10 +1,13 @@
 /*
  *  interface.c
- *  $Revision: 1.6 $ $Date: 2005/03/10 18:25:23 $
+ *  $Revision: 1.7 $ $Date: 2005/03/12 16:04:38 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.7  2005/03/12 16:04:38  feaelin
+ *  MUF error messages on logwall now provide more information (who and how)
+ *
  *  Revision 1.6  2005/03/10 18:25:23  feaelin
  *  Failed to finish the return values for notify_descriptor. All fixed now.
  *
@@ -3578,6 +3581,7 @@ request( dbref player, struct descriptor_data *d, const char *msg )
 		 || strchr(email,'|')
 		 || strchr(email,'%')
 		 || strchr(email,'&')
+		 || strchr(email,'\'')
 		 || strchr(email,':')  ) {
 	    queue_string(d,
 		"There are unacceptable characters in your email address.\r\n"

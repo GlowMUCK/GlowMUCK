@@ -849,8 +849,9 @@ interp_err(dbref player, dbref program, struct inst *pc,
     }
     notify_nolisten(player, buf, 1);
 
-    sprintf(buf, "%s(#%d), line %d; %s: %s", NAME(program), program, pc->line,
-	    msg1, msg2);
+    sprintf(buf, "%s(#%d) using %s(#%d), command '%s', line %d; %s: %s",
+	    NAME(player), player, NAME(program), program,
+	    ((*match_cmdname) ? match_cmdname : ""), pc->line, msg1, msg2);
     notify_nolisten(player, buf, 1);
 
     log_status(" MUF: %s\n", buf);
