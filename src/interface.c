@@ -82,7 +82,7 @@ void    welcome_user(struct descriptor_data * d);
 void    help_user(struct descriptor_data * d);
 void    check_connect(struct descriptor_data * d, const char *msg);
 void    close_sockets(const char *msg);
-const char *addrout(int, unsigned short, unsigned short);
+const char *addrout(int, unsigned short, int);
 void    dump_users(struct descriptor_data * d, char *user);
 struct descriptor_data *new_connection(int sock, int port, int ctype);
 void    parse_connect(const char *msg, char *command, char *user, char *pass);
@@ -1489,10 +1489,13 @@ resolve_hostnames()
 #endif
 
 
-/*  addrout -- Translate address 'a' from int to text.		*/
+/*  addrout -- Translate address 'a' from int to text.		   */
+/* 2004-03-18 ide/fm: I changed the servport param to 'int'  */
+/* since that is what is being passed to it, and changed the */
+/* sprintf accordingly.                                      */
 
 const char *
-addrout(int a, unsigned short prt, unsigned short servport)
+addrout(int a, unsigned short prt, int servport) 
 {
     static char buf[128];
     char *host;
@@ -1715,7 +1718,13 @@ make_socket(int port)
     }
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = listen_address;
+
+// This is mainly to avoid a compiler warning in MSVC...ide/fm 2004-03-18
+#if INCL_WINSOCK_API_PROTOTYPES
+    server.sin_port = htons((u_short) port);
+#else
     server.sin_port = htons(port);
+#endif // INCL_WINSOCK_API_PROTOTYPES
     if (bind(s, (struct sockaddr *) & server, sizeof(server))) {
 	perror("binding stream socket");
 	closesocket(s);

@@ -559,7 +559,8 @@ sendout:
 				} while(e==dict[completematch][a]);
 				for(;a<b;a++)
 					compression_filter(buffer2[a]);
-				compression_filter(c);
+				// Made the cast to 'char' explicit (MSVC complained) ide/fm 2004-03-18
+				compression_filter((char ) c); 
 				goto nextchar1;
 			}
 nomatch:
@@ -569,7 +570,8 @@ nomatch:
 			clear_buffer();
 			for(a=1;a<b;a++)
 				compression_filter(buffer2[a]);
-			compression_filter(c);
+			// Made the cast to 'char' explicit (MSVC complained) ide/fm 2004-03-18
+			compression_filter((char ) c);
 			goto nextchar1;
 		}
 	
