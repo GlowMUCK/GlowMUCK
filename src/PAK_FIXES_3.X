@@ -15,11 +15,16 @@ And now, PakRat and Artie Productions bring you the...
 		* * * * * * * * * * * * * * * * *
 		* GlowMuck Shameless Hacks List *
 		* * * * * * * * * * * * * * * * *
+Note: There are forums for discussion, trackers for bugs, support and feature
+requests all at: http://sourceforge.net/projects/glowmuck/. The latest versions
+of the standard MUF programs and glowmuck itself will be posted there.
 
-Note: Some helpful information can be perused from the GlowMuck mailing
-lists available at http://www.egroups.com/group/glowmuck.  Anyone using
-GlowMuck is welcome to subscribe to the list.
+Note: Below, I (Iain E. Davis) have flagged my entries with [IDE], so that you can
+properly assign blame...:). Anything not marked is presumably done by PakRat.
 
+03/18/04 [IDE]: Hopefully, I've correctly corrected the variable conversions in
+  compress.c and interface.c that were causing MSVC to generate
+  warnings. 
 
 ## 08/04/02: Release 3.1.8, bug fixes, system muf prim ##
 
