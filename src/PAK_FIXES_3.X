@@ -10,49 +10,6 @@ server distribution.  The current site to acquire FuzzBall code is
 ftp://ftp.belfry.com/pub/fuzzball. Older muck versions can be found at
 ftp://ftp.tcp.com/pub/muds.
 
-
-### A MESSAGE (ok, it's a plug) TO ALL GLOWMUCKERS ###
-
-Are you looking for even more feeps than what GlowMuck provides?  Some
-people are asking for socket muf primitives and other advanced features. 
-Others are asking that I finish the mud support.  Unfortunately I do not
-have plans of adding either of these at the current time.  I am hoping to
-devote my talents towards Cynbe's muq project over Fuzzball and TinyMuck.
-
-What does muq offer that has me giving a lower priority to TinyMuck?  If you
-look in the GlowMuck mailing archives just at the turn of the millenium, I
-made a post explaining why I'm doing this.  The short answer is that
-Fuzzball and Tinymuck weren't designed for a lot of the high-power server
-and processing features people keep asking for nowadays.  Muq is.
-
-There's a lot of work to be done to get Muq to where it has the end-user
-access available in TinyMuck/Mush/Mud/Moo, etc.  Most of the current design
-work for Muq has been done to the internal virtual machine which supports an
-amazing amount of programming features including TCP/IP and UDP/IP sockets,
-heavy encryption for secure communications, transparent network object
-distribution, RAM usage management, multiple online programming languages
-(you can even write your own compiler/parser) and much much more.  In short,
-muq is a muck/mud/moo power-hacker's dream come true.  I recommend that
-anyone who wants to try it out have a firm grasp of the TinyMuck muf
-programming language and and actually like programming it.
-
-Muq is available for free download at ftp://muq.org/pub/muq.  Other
-information is available at http://muq.org.  Muq is licensed under the GNU
-GPL (I don't plug stuff people have to pay to use. ;)  If you'd like more
-information about the muq project, feel free to email me or the real author
-of muq, cynbe@muq.org.
-
-I will continue to update GlowMuck as crash bugs and simple feep additions
-come in as well as new releases of Fuzzball 5.  I do not plan on reworking
-code to add significant features unless someone sends me a 'patch' file that
-appears obviously safe and is stable.  Please do not ask me to add features
-found only in NeonMuck or Fuzzball 6.  This includes muf primitives and FB6
-ANSI color support.  GlowMuck has its own versions of most of the useful
-features found in either offshoot of Fuzzball 5.
-
-### END OF MESSAGE (plug O:) ###
-
-
 And now, PakRat and Artie Productions bring you the...
 
 		* * * * * * * * * * * * * * * * *
@@ -63,6 +20,48 @@ Note: Some helpful information can be perused from the GlowMuck mailing
 lists available at http://www.egroups.com/group/glowmuck.  Anyone using
 GlowMuck is welcome to subscribe to the list.
 
+
+## 08/04/02: Release 3.1.8, bug fixes, system muf prim ##
+
+08/04/02: Fixed (?) the fold MPI prim to properly check a MesgParse return
+  pointer (every other call to MesgParse checks the return pointer, this
+  could be a crashing bug.)  I have confirmed it happens in FB 5.68 using
+  the 'parseprop' prim, but it can be a little tricker to make it happen.
+  One annoying quirk is if you have MPI parsed in what people say and pose,
+  others can keep executing this bug and spy on other conversations.
+
+  Changed the CLEARLOCK macro to just remove the _/lok property instead of
+  setting it to the *UNLOCKED* state.  I'm not sure why we'd want a stray
+  property floating around that evaluates to the same thing if the property
+  isn't there.  This affects 'setlockstr' and '@unlock'.  It was reported
+  that the *UNLOCKED* setting may cause problems with database saves, so
+  just removing the property is the easiest fix.
+
+  Changed the 'timefmt' muf primitive to abort if a negative time is given.
+  On Windows the localtime() function may crash if a negative time is used.
+
+  Added support for the system() function of Unix and Windows using the muf
+  'system' primitive.  This feature will only be active if the user compiles
+  the server with INSECURE_SYSTEM_MUF_PRIM defined in local.h.  Otherwise
+  the feature will issue an abort_interp() saying it is not supported.  Only
+  muf programs running with the MAN (M8) privilege can execute this prim.
+  ***MASSIVE HUGE WARNING***: You can execute ANYTHING on the host system
+  with this feature.  It is a HUGE security risk.  You have been warned!
+  Also, unless you are in Unix and append an ampersand '&' to the end of the
+  command, THE MUCK WILL BLOCK until the script or program finishes.  If you
+  kill the spawned and stalled command in a shell prompt, the muck server
+  should start up again.  Executing the system muf primitive regularly is
+  NOT recommended as it WILL cause lag.  Once again, YOU HAVE BEEN WARNED!
+  You should not use this feature unless you really know what you are doing
+  and are willing to take these risks.  That is why this feature is disabled
+  by default.  I take no responsibility for crackers figuring out a hole in
+  some muf program you wrote that uses this feature that lets them e-mail
+  themselves your /etc/passwd file or gain access to your server account.
+  If you do use this feature, I highly recommend you do NOT support any
+  user input being used as an argument to this function.  Yes, it is possible
+  to build scripts that let you check on your muck's state via 'ps' and pipe
+  it to a file you can read on the muck in the 'info' directory (at least in
+  Unix, not sure about Windows).
 
 ## 12/11/00: Release 3.1.7, FB5.68, minor tweaks, stack usage reduction ##
 

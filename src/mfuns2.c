@@ -608,7 +608,7 @@ mfn_fold(MFUNARGS)
 	}
 	strcpy(tmp2, ptr);
 	strcpy(tmp, buf);
-	MesgParse(argv[3],buf);
+	ptr = MesgParse(argv[3],buf);
 	CHECKRETURN(ptr,"FOLD","arg 4");
 	ptr = ptr2;
 	if (!(--iter_limit))

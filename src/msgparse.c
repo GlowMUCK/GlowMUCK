@@ -807,7 +807,7 @@ mesg_parse(dbref player, dbref what, dbref perms, const char *inbuf, char *outbu
     char    *argv[9]; /* [BUFFER_LEN] */
     const char *ptr;
     char *dptr;
-    int     p, q, s;
+    int     p, q, s, inlen;
     int i;
     int     argc;
     int showtextflag = 0;
@@ -841,7 +841,15 @@ mesg_parse(dbref player, dbref what, dbref perms, const char *inbuf, char *outbu
 	argv[i] = mem + (BUFFER_LEN * (5 + i));
 
     strcpy(wbuf, inbuf);
-    for (p = q = 0; wbuf[p] && (p < maxchars - 1) && q < (maxchars - 1); p++) {
+
+    /* Bugfix: At 'unknown substitution', p can == end of input string */
+    /* I could have done a check of wbuf[p] before allowing the p++    */
+    /* that occurs at the end of the for() construct, but this will    */
+    /* catch ALL cases where p could increment past the end of the     */
+    /* input string. */
+    inlen = strlen(wbuf);
+
+    for (p = q = 0; (p < inlen) && wbuf[p] && (p < maxchars - 1) && (q < (maxchars - 1)); p++) {
 	if (wbuf[p] == '\\') {
 	    p++;
 	    showtextflag = 1;
@@ -1210,7 +1218,7 @@ do_parse_mesg(dbref player, dbref what, const char *inbuf, const char *abuf, cha
         gettimeofday(&st,NULL);
 	tmp=do_parse_mesg_2(player, what, what, inbuf, abuf, outbuf, mesgtyp);
 	gettimeofday(&et,NULL);
-	if (strcmp(tmp,inbuf)) {
+	if (tmp && strcmp(tmp,inbuf)) {
 	    et.tv_usec -= st.tv_usec;
 	    et.tv_sec -= st.tv_sec;
 	    if (et.tv_usec < 0) {

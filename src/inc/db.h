@@ -194,7 +194,11 @@ typedef int dbref;		/* offset into db */
 
 #define SETLOCK(x,y)	{set_property(x, "_/lok", PROP_LOKTYP, (PTYPE)y);}
 #define LOADLOCK(x,y)	{set_property_nofetch(x, "_/lok", PROP_LOKTYP, (PTYPE)y); DBDIRTY(x);}
-#define CLEARLOCK(x)	{set_property(x, "_/lok", PROP_LOKTYP, (PTYPE)TRUE_BOOLEXP);}
+
+/* Bugfix: Appears to be an issue with setting a NULL lock vs just removing it */
+/* #define CLEARLOCK(x)	{set_property(x, "_/lok", PROP_LOKTYP, (PTYPE)TRUE_BOOLEXP);} */
+#define CLEARLOCK(x)	{remove_property(x, "_/lok");}
+
 #define GETLOCK(x)	(get_property_lock(x, "_/lok"))
 
 #define DB_PARMSINFO	0x0001

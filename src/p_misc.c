@@ -167,6 +167,8 @@ prim_timefmt(PRIM_PROTOTYPE)
 	abort_interp("Illegal NULL string (1)");
     if (oper2->type != PROG_INTEGER)
 	abort_interp("Invalid argument (2)");
+    if(oper2->data.number < 0)
+	abort_interp("Negative time (2)");
     lt = (time_t) oper2->data.number;
     time_tm = localtime(&lt);
     if (!format_time(buf, BUFFER_LEN, oper1->data.string->data, time_tm))
@@ -557,3 +559,32 @@ prim_sysparm(PRIM_PROTOTYPE)
 }
 
 
+void 
+prim_system(PRIM_PROTOTYPE)
+{
+    const char *tstr;
+
+    CHECKOP(1);
+    oper1 = POP();
+    result = 0;
+    if (mlev < LMAN)
+	abort_interp(NOPERM_MESG);
+    if (fr->level > 8)
+	abort_interp("Interp call loops not allowed");
+    if (oper1->type != PROG_STRING || !oper1->data.string)
+	abort_interp("Invalid argument");
+
+    tstr = oper1->data.string->data;
+
+    if((!tstr) || (!*tstr))
+	abort_interp("Illegal NULL string (1)");
+
+#ifdef INSECURE_SYSTEM_MUF_PRIM
+    result = system(tstr);
+#else
+    abort_interp("system is not supported");
+#endif
+
+    CLEAR(oper1);
+    PushInt(result);
+}

@@ -118,6 +118,14 @@ or overwriting a file and losing some upgrade material.
 /* Normally it returns the uncolored version of the passed string. */
 #undef NULL_OANSI
 
+/* Define this to allow totally insecure (your account can be at risk!)   */
+/* access to the system() call that allows the muck to execute ANY        */
+/* arbitrary program or script on the host system.  USE AT YOUR OWN RISK! */
+/* This is intended to support muf-based character request systems that   */
+/* need to send an e-mail but can't use the inserver system which is more */
+/* secure as it normally uses lpexec or a sister function.                */
+#undef INSECURE_SYSTEM_MUF_PRIM
+
 
 /************************************************************************
    Game Options

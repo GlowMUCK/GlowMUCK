@@ -2340,6 +2340,17 @@ format, and boolean is returned as 'yes' or 'no'
 Checking an invalid parameter or a parameter with higher permissions then
 the program has will return an empty string.
 ~
+SYSTEM
+
+system ( s -- i ) (#1 only)
+
+Takes an arbitrary string and executes it on the host system.  The result
+code is returned as an integer.  0 usually indicates success, while another
+number indicates failure.  This is a HIGHLY INSECURE feature and must be
+explicitly compiled into the server and can only be executed by the Man.
+See the CHANGES file for how to do this, after reading the warnings
+included therein.  Caveat Admin!
+~
 DESCR_SETECHO
 
 descr_setecho ( i i -- i )  W3 / W
