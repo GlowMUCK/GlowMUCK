@@ -368,8 +368,10 @@ path_name_set( const char *pathname, char *buf )
     buf[0] = '\0';
     while(*pathname && (endpath = strchr(pathname, EXIT_DELIMITER)) != NULL) {
 	curpath = pathname;
-	while(curpath < endpath)
-	    pathbuf[curpath - pathname] = *(curpath++);
+	while(curpath < endpath) {
+            curpath++;
+	    pathbuf[curpath - pathname] = *curpath;
+        }
 	pathbuf[curpath - pathname] = '\0';
 	while(*endpath == EXIT_DELIMITER) endpath++;
 	if(*pathbuf) {
