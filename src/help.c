@@ -101,6 +101,39 @@ spit_file_segment(dbref player, const char *filename, const char *seg, int linen
     return lines;
 }
 
+void
+remove_file_line( const char *filename, int line )
+{
+  FILE *of;
+  FILE *nf;
+  char tmpname[BUFFER_LEN];
+  char *p;
+  int currline = 0;
+  char buf[BUFFER_LEN];
+
+  sprintf(tmpname, "%s.tmp", filename);
+  
+  if ((of = fopen(filename, "rb"))) {
+   nf = fopen(tmpname, "w");
+    while(fgets(buf, sizeof buf, of)) {
+      for (p = buf; *p; p++)
+	if (*p == '\n') {
+	  *p = '\0';
+	  break;
+	}
+      currline++;
+      if (currline != line) {
+	fprintf(nf, buf);
+      }
+    }
+    fclose(nf);
+    fclose(of);
+  }
+  unlink(filename);
+  rename(tmpname, filename);
+}
+
+
 void 
 get_file_line( const char *filename, char *retbuf, int line )
 {

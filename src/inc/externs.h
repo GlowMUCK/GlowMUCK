@@ -118,6 +118,7 @@ extern void kill_hash(hash_tab *table, unsigned size, int freeptrs);
 
 /* From help.c */
 extern void get_file_line( const char *filename, char *retbuf, int line );
+extern void remove_file_line (const char *filename, int line);
 extern void spit_file(dbref player, const char *filename);
 extern int spit_file_segment(dbref player, const char *filename, const char *seg, int linenums);
 extern void do_help(dbref player, const char *topic, const char *seg);

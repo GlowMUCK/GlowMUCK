@@ -240,77 +240,95 @@ do_getpw( dbref player, const char *arg )
 void
 do_hopper( dbref player, const char *arg )
 {
-    char buf[BUFFER_LEN];
-    char *a, *p;
-    int e;
+  char buf[BUFFER_LEN];
+  char *a, *p;
+  int e;
+  
+  a = strcpy( buf, arg );
+  
+  if (!Wiz(OWNER(player))) {
+    anotify_fmt (player, CINFO "%s", tp_huh_mesg);
+    return;
+  }
+  
+  if ((*a == '\0') || !string_compare( a, "help" )) {
+    notify (player,    "Type:");
+    notify (player, "@hopper list <num1>-<num2> -- list 'num1' to 'num2' registrations");
+    notify (player, "@hopper count              -- show number of regs in hopper");
+    notify (player, "@hopper clear              -- clear the hopper");
+    notify (player, "@hopper reg <entry>        -- perform a registration");
+    notify (player, "@hopper del <entry>        -- delete a hopper entry");
+    notify (player, "  ");
+    notify (player, "To add a bad email to the jerk list:");
+    notify (player, "@set #0=@/jerks/email@address:DYMonYR:YourWizName:Reason");
+    return;
+  }
 
-    a = strcpy( buf, arg );
+  p = a;
+  while( (*p) != '\0' && (*p) != ' ' ) p++;
+  
+  if( *p == ' ' ) *(p++) = '\0'; 
+  
+  while( (*p) == ' ' ) p++;
 
-    if( !Wiz( OWNER( player ) ) ) {
-	anotify_fmt( player, CINFO "%s", tp_huh_mesg ); return;
+  if (!string_compare(a, "count")) {
+    anotify_fmt (player, CNOTE
+		 "There are %d registrations in the hopper.",
+		 hop_count()
+		 );
+    return;
+  }
+
+  if (!string_compare (a, "list")) {
+    if (hop_count() > 0) {
+      spit_file_segment( player, LOG_HOPPER, p, 1 );
+      anotify( player, CINFO "Done." );
+    } else {
+      anotify( player, CINFO "The registration hopper is empty." );
     }
+    return;
+  }
 
-    if( (*a == '\0') || !string_compare( a, "help" ) ) {
-notify( player,    "Type:" );
-notify( player, "@hopper list num1-num2 -- list 'num1' to 'num2' registrations" );
-notify( player, "@hopper count          -- show number of regs in hopper" );
-notify( player, "@hopper clear          -- clear the hopper" );
-notify( player, "@hopper reg entry      -- perform a registration" );
-notify( player, "  " );
-notify( player, "To add a bad email to the jerk list:" );
-notify( player, "@set #0=@/jerks/email@address:DYMonYR:YourWizName:Reason" );
-	return;
+  if (tp_reg_wiz != player) {
+    anotify( player, CFAIL "You are not set as the registration " NAMEWIZ "." );
+    anotify( player, CINFO "To process or clear registrations, type:" );
+    anotify( player, CNOTE "@tune reg_wiz=me" );
+    return;
+  }
+
+  if (!string_compare(a, "reg")) {
+    e = atoi(p);
+    
+    if( e <= 0 || (*p) == '\0' ) {
+      anotify( player, CFAIL "Missing or invalid file entry number." );
+      return;
     }
+    hop_newbie( player, e );
+    return;
+  }
 
-    p = a;
-    while( (*p) != '\0' && (*p) != ' ' ) p++;
-    if( *p == ' ' ) *(p++) = '\0'; 
-    while( (*p) == ' ' ) p++;
-
-    if( !string_compare( a, "count" ) ) {
-	anotify_fmt( player, CNOTE
-	    "There are %d registrations in the hopper.",
-	    hop_count()
-	);
-	return;
+  if (!string_compare(a, "del")) {
+    e = atoi(p);
+    
+    if (e <= 0 || (*p) == '\0') {
+      anotify (player, CFAIL "Missing or invalid file entry number.");
+      return;
     }
+    remove_file_line(LOG_HOPPER, e);
+    anotify (player, CSUCC "Removed.");
+    return;
+  }
 
-    if( !string_compare( a, "list" ) ) {
-	if( hop_count() > 0 ) {
-	    spit_file_segment( player, LOG_HOPPER, p, 1 );
-	    anotify( player, CINFO "Done." );
-	} else
-	    anotify( player, CINFO "The registration hopper is empty." );
-	return;
+  if (!string_compare(a, "clear" )) {
+    if (unlink( LOG_HOPPER)) {
+      perror(LOG_HOPPER);
     }
+    anotify (player, CSUCC "Registration hopper cleared." );
+    anotify (player, CINFO "Type 'note clear' to clear the request note list.");
+    return;
+  }
 
-    if( tp_reg_wiz != player ) {
-	anotify( player, CFAIL "You are not set as the registration " NAMEWIZ "." );
-	anotify( player, CINFO "To process or clear registrations, type:" );
-	anotify( player, CNOTE "@tune reg_wiz=me" );
-	return;
-    }
-
-    if( !string_compare( a, "reg" ) ) {
-	e = atoi(p);
-
-	if( e <= 0 || (*p) == '\0' ) {
-	    anotify( player, CFAIL "Missing or invalid file entry number." );
-	    return;
-	}
-	hop_newbie( player, e );
-	return;
-    }
-
-    if( !string_compare( a, "clear" ) ) {
-	if(unlink( LOG_HOPPER ))
-	    perror(LOG_HOPPER);
-	anotify( player, CSUCC "Registration hopper cleared." );
-	anotify( player, CINFO "Type 'note clear' to clear the request note list.");
-	return;
-    }
-
-    anotify( player, CINFO "Unknown option, type '@hopper' for help." );
+  anotify( player, CINFO "Unknown option, type '@hopper' for help." );
 }
 
 void
