@@ -19,10 +19,13 @@ Note: There are forums for discussion, trackers for bugs, support and feature
 requests all at: http://sourceforge.net/projects/glowmuck/. The latest versions
 of the standard MUF programs and glowmuck itself will be posted there.
 
-Note: Below, I (Iain E. Davis) have flagged my entries with [IDE], so that you can
+Note: Below, I (Iain E. Davis) have flagged my entries with [IED], so that you can
 properly assign blame...:). Anything not marked is presumably done by PakRat.
 
-03/18/04 [IDE]: Hopefully, I've correctly corrected the variable conversions in
+04/03/04 [IED]: Updated the restart files for the windows platform to be a little
+                       more intelligent.
+
+03/18/04 [IED]: Hopefully, I've correctly corrected the variable conversions in
   compress.c and interface.c that were causing MSVC to generate
   warnings. Fixed the trigraph warning thrown out by gcc in interface.c and
   the operation on 'prop' is undefined error. Fixed the 'operation on curpath is
