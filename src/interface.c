@@ -1,10 +1,13 @@
 /*
  *  interface.c
- *  $Revision: 1.5 $ $Date: 2005/03/10 16:50:44 $
+ *  $Revision: 1.6 $ $Date: 2005/03/10 18:25:23 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.6  2005/03/10 18:25:23  feaelin
+ *  Failed to finish the return values for notify_descriptor. All fixed now.
+ *
  *  Revision 1.5  2005/03/10 16:50:44  feaelin
  *  Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
  *  was passed, the server would crash.
@@ -496,7 +499,8 @@ notify_descriptor(int descr, const char *msg)
       ptr2++;
   }
   queue_string(d, buf);
-  process_output(d);   
+  process_output(d);
+  return (1);
 }
 
 int 
