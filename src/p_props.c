@@ -42,11 +42,13 @@ prop_write_perms(dbref player, dbref obj, const char *name, int mlev)
 {
     if (mlev < (tp_compatible_muf ? LMAGE : tp_hidden_prop_mlevel)) {
 	if (Prop_Hidden(name)) return 0;
-    } else if(
-	PropDir_Check(name, PROP_HIDDEN, PROP_ALIAS) ||
-	PropDir_Check(name, PROP_HIDDEN, PROP_GLOW )
-    )	return 0; /* Check for @/alias */
-
+    } else if (PropDir_Check(name, PROP_HIDDEN, PROP_GLOW)) {
+      return 0;
+    }
+    if (strncmp(name, "@/alias", 7) == 0 ||
+	strncmp(name, "/@/alias", 8) == 0) {
+      return 0;
+    }
     if (mlev < (tp_compatible_muf ? LMAGE : tp_seeonly_prop_mlevel)) {
 	if (Prop_SeeOnly(name)) return 0;
     }
