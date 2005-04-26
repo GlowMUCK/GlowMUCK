@@ -2,6 +2,10 @@
 
 
 /* Ansi Colors */
+/* Refer to: http://rtfm.etla.org/xterm/ctlseq.html */
+
+#define ANSI256BACK     "\033[48;5;"
+#define ANSI256FORE     "\033[38;5;"
 
 #define ANSINORMAL	"\033[0m"
 #define ANSICLS		"\033[H\033[J\033[r"
@@ -35,7 +39,6 @@
 #define ANSIBPURPLE	"\033[45m"
 #define ANSIBCYAN	"\033[46m"
 #define ANSIBGRAY	"\033[47m"
-
 
 /* Colors */
 

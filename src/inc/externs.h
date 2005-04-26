@@ -460,10 +460,10 @@ extern void  do_cast(dbref, const char *, const char *);
 
 /* From color.c */
 
-extern char *ansi( char *buf, const char *from, const char *an, int coloron, int parseansi );
+extern char *ansi( char *buf, const char *from, const char *an, int coloron, int parseansi, int allow_256 );
 extern int ansi_striplen( const char *word, int parseansi );
 extern int ansi_offset( const char *from, int offset, int mode );
-extern char *parse_ansi( char *buf, const char *from, const char *an, int parseansi );
+extern char *parse_ansi( char *buf, const char *from, const char *an, int parseansi, int allow_256 );
 extern char *unparse_ansi( char *buf, const char *from, int parseansi );
 extern char *tct( const char *in, char out[BUFFER_LEN] );
 extern void do_colorset( dbref, const char *, const char * );

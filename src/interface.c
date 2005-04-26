@@ -1,10 +1,14 @@
 /*
  *  interface.c
- *  $Revision: 1.7 $ $Date: 2005/03/12 16:04:38 $
+ *  $Revision: 1.8 $ $Date: 2005/04/26 19:53:05 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.8  2005/04/26 19:53:05  feaelin
+ *  Added 256 color support.
+ *  Added the debug inserver defines
+ *
  *  Revision 1.7  2005/03/12 16:04:38  feaelin
  *  MUF error messages on logwall now provide more information (who and how)
  *
@@ -708,10 +712,11 @@ ansi_notify_nolisten(dbref player, const char *msg, int isprivate, int parseansi
 
     /* ansi() checks that ansi lookup table != NULL */
     ansi(buf, msg, DBFETCH(OWNER(player))->sp.player.ansi,
-	((parseansi != 2) || tp_server_ansi) &&
-	(Typeof(OWNER(player)) == TYPE_PLAYER) &&
-	(FLAGS(OWNER(player)) & CHOWN_OK),
-	parseansi
+	 ((parseansi != 2) || tp_server_ansi) &&
+	 (Typeof(OWNER(player)) == TYPE_PLAYER) &&
+	 (FLAGS(OWNER(player)) & CHOWN_OK),
+	 parseansi,
+	 get_property_value(player, PREF_256COLORS)
     );
 
     return notify_nolisten(player, buf, isprivate);
@@ -1866,7 +1871,7 @@ int queue_ansi(struct descriptor_data *d, const char *s)
 	(d->connected) ? DBFETCH(d->player)->sp.player.ansi : NULL,
 	tp_server_ansi && (d->connected) &&
 	(FLAGS(d->player) & CHOWN_OK),
-	2
+	 2, get_property_value(d->player, PREF_256COLORS)
     );
     strcat(buf, "\r\n");
     return queue_string(d, buf);

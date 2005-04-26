@@ -11,7 +11,7 @@ ftp://ftp.belfry.com/pub/fuzzball. Older muck versions can be found at
 ftp://ftp.tcp.com/pub/muds.
 *******************************************************************************
 IED_CHANGES
-$Revision: 1.5 $ $Date: 2005/03/12 16:04:34 $
+$Revision: 1.6 $ $Date: 2005/04/26 19:53:02 $
 *******************************************************************************
 Note: There are forums for discussion, trackers for bugs, support and feature
 requests all at: http://glowmuck.sourceforge.net/. The latest versions
@@ -21,6 +21,18 @@ Any changes in this file was written by Iain E. Davis. Pakrat's changes to the
 code are stored in the PAK_FIXES files. Original Fuzzball changes are stored
 in the CHANGESfb5 file.
 
+2005-Apr-26: Added some inserver defines. The now classic debug-on, debug-off,
+             and debug-line macros are now inserver defines. I also added the
+             symbol __prefs_propdir which by default points to _prefs, can be
+             changed via a #define in local.h...compare to config.h. I also
+             added __pref_256colors, which is the property pathname of the
+             prop used to determine whether the player wants 256color support.
+2005-Apr-25: Support for xterm's 256 color mode added. This adds two additional
+             color codes: ^256BG-xxx^ (background) and ^256FG-xxx^ (foreground)
+             xxx represents three numbers ranging from 0-5 these each represent
+             red, green, and blue. Additionally, gray scale colors can be
+             selected in the form: ^256BG-Gxx^ where xx is a number between
+             0 and 24.
 2005-Mar-11: Updated MUF error output for logwall to reflect who generated
              the error and what command they used.
 2005-Mar-10: Fixed flaw in the notify_descriptor primitive that would cause

@@ -338,9 +338,14 @@ init_defs(void)
 #endif
 
     insert_def("__muckname", tp_muckname);
+    insert_def("__prefs_propdir", "\""PREFS_PROPDIR"\"");
+    insert_def("__pref_256colors", "\""PREF_256COLORS"\"");
     insert_def("strip", "striplead striptail");
     insert_def("instring", "tolower swap tolower swap instr");
     insert_def("rinstring", "tolower swap tolower swap rinstr");
+    insert_def("debug-on", "prog \"D\" set");
+    insert_def("debug-off", "prog \"!D\" set");
+    insert_def("debug-line", "prog \"!d\" over \"d\" set set");
     insert_intdef("bg_mode", BACKGROUND);
     insert_intdef("fg_mode", FOREGROUND);
     insert_intdef("pr_mode", PREEMPT);

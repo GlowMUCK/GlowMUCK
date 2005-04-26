@@ -1,6 +1,6 @@
 /*
  * config.h
- * $Revision: 1.3 $ $Date: 2005/03/08 18:57:36 $
+ * $Revision: 1.4 $ $Date: 2005/04/26 19:53:06 $
  * 
  * Tunable parameters -- Edit to you heart's content (override in local.h)
  *
@@ -18,6 +18,10 @@ or overwriting a file and losing some upgrade material.
 
 /*
  * $Log: config.h,v $
+ * Revision 1.4  2005/04/26 19:53:06  feaelin
+ * Added 256 color support.
+ * Added the debug inserver defines
+ *
  * Revision 1.3  2005/03/08 18:57:36  feaelin
  * Added the heartbeat modifications. You can add programs to the @heartbeat
  * propdir and the programs will be executed every 15 seconds.
@@ -215,6 +219,12 @@ or overwriting a file and losing some upgrade material.
 #define NO_MAN_MSG "That topic does not exist.  Type 'man' to list the MUF topics available."
 #define NO_INFO_MSG "That file does not exist.  Type 'info' to get a list of the info files available."
 
+/*
+ *  An attempt to standardize where preferences are stored
+ */
+
+#define PREFS_PROPDIR  "/_prefs/"
+#define PREF_256COLORS PREFS_PROPDIR"256-colors"
 /************************************************************************
    File locations
  

@@ -1587,11 +1587,21 @@ process_command(dbref player, const char *command, int alias)
 		    case 'o':
 		    case 'O':
 			Matched("color");
-			do_set(player, "me",
-			    ((arg1[0] != 'y') && (arg1[0] != 'Y') && strcasecmp(arg1, "on"))
-			    ? "!C"
-			    : "C"
-			);
+			if (arg1[0] == 'y' || arg1[0] == 'Y' ||
+			    strcasecmp(arg1, "on") == 0 ||
+			    strcmp(arg1, "256") == 0 ||
+			    strcasecmp(arg1, "enhanced") == 0)
+			  {
+			    do_set(player, "me", "C");
+			  } else {
+			    do_set(player, "me", "!C");
+			    remove_property(player, PREF_256COLORS);
+			  }
+			if (strcmp(arg1, "256") == 0 ||
+			    strcasecmp(arg1, "enhanced") == 0) {
+			  set_property(player, PREF_256COLORS, PROP_INTTYP,
+				       (PTYPE)(long int) 1 );
+			}
 			break;
 
 		    default:

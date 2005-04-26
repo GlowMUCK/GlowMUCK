@@ -459,14 +459,19 @@ anco(const char *an, int ani, const char *defcol)
 }
 
 const char *
-color_lookup( const char *color, const char *an )
+color_lookup( const char *color, const char *an, const int allow_256, char *buf)
 {
+  int color_num;
+  int red;
+  int green;
+  int blue;
+
    if( (!color) || (!*color) )
 	return ANSINORMAL;
 
     /* Do wrapper lookups */
 
-	   if( !strcasecmp( "SUCC", color )) {
+    if( !strcasecmp( "SUCC", color )) {
 	color = CCSUCC;
     } else if( !strcasecmp( "FAIL", color )) {
 	color = CCFAIL;
@@ -478,7 +483,7 @@ color_lookup( const char *color, const char *an )
 	color = CCMOVE;
     }
 
-	   if( !strcasecmp( "NORMAL", color )) {
+    if( !strcasecmp( "NORMAL", color )) {
 	return ANSINORMAL;
     } else if( !strcasecmp( "CLS", color )) {
 	return ANSICLS;
@@ -536,8 +541,36 @@ color_lookup( const char *color, const char *an )
 	return anco(an, 22, ANSIBCYAN);
     } else if( !strcasecmp( "BGRAY", color )) {
 	return anco(an, 23, ANSIBGRAY);
+    } else if (strncasecmp("256", color, 3) == 0) {
+      if (strncasecmp("G", color+6, 1) == 0) {
+	color_num = atoi(color+7);
+	if (color_num < 0 || color_num > 24) {
+	  return ANSINORMAL;
+	} else {
+	  color_num = color_num + 231;
+	}
+      } else {
+	red = color[6] - '0';
+        green = color[7] - '0';
+        blue = color[8] - '0';
+	if (red < 0 || red > 5 ||
+	    green < 0 || green > 5 ||
+	    blue < 0 || blue > 5) {
+	  return ANSINORMAL;
+	}
+	color_num = 16 + (red * 36) + (green * 6) + blue;
+      }
+      if (strncasecmp("256BG-", color, 6) == 0) {
+        sprintf(buf, ANSI256BACK"%0dm", color_num);
+	return buf;
+      }
+      if (strncasecmp("256FG-", color, 6) == 0) {
+        sprintf(buf, ANSI256FORE"%0dm", color_num);
+	return buf;
+      }
+      return ANSINORMAL;
     } else {
-	return ANSINORMAL;
+      return ANSINORMAL;
     }
 }
 
@@ -548,11 +581,12 @@ color_lookup( const char *color, const char *an )
 */
 
 char *
-parse_ansi( char *buf, const char *from, const char *an, int parseansi )
+parse_ansi( char *buf, const char *from, const char *an, int parseansi, int allow_256 )
 {
     int isbold = 0;
     char *to, *color, cbuf[BUFFER_LEN + 2];
     const char *ansi;
+    char newansi[30];
 
     if(parseansi <= 0) {
 	strcpy(buf, from);
@@ -590,9 +624,15 @@ parse_ansi( char *buf, const char *from, const char *an, int parseansi )
 	    if(!*from) break;
 	    if(*from) from++;
 	    if(*cbuf) {
-		if( (ansi = color_lookup(cbuf, an)) && (((to - buf) + strlen(ansi)) < BUFFER_LEN) )
-		    while(*ansi)
-			*(to++) = (*(ansi++));
+              ansi = color_lookup(cbuf, an, allow_256, newansi);
+	      if (ansi == NULL) {
+		ansi = (const char *) newansi;
+	      }
+	      if(ansi && (((to - buf) + strlen(ansi)) < BUFFER_LEN) ) {
+		while(*ansi) {
+		  *(to++) = (*(ansi++));
+		}
+	      }
 	    } else
 		*(to++) = '^'; /* Escape ^^ -> ^ */
         } else if( ((parseansi == 1) && tp_tilde_ansi) &&
@@ -636,8 +676,15 @@ parse_ansi( char *buf, const char *from, const char *an, int parseansi )
 		    case '7': ansi = isbold ? "WHITE"  : "GRAY";    break;
 		    case '-':					    break;
 		}
-		if(ansi && (ansi = color_lookup(ansi, an)) && (((to - buf) + strlen(ansi)) < BUFFER_LEN) )
+		if (ansi) {
+		  ansi = color_lookup(ansi, an, allow_256, newansi);
+		  if (ansi == NULL) {
+		    ansi = newansi;
+		  }
+		  if(ansi && (((to - buf) + strlen(ansi)) < BUFFER_LEN) ) {
 		    while(*ansi) *(to++) = (*(ansi++));
+		  }
+		}
 
 		/* now handle others in first position, which is attributes */
 		ansi = NULL;
@@ -652,8 +699,15 @@ parse_ansi( char *buf, const char *from, const char *an, int parseansi )
 		    case '-': /* keep the same */
 			break;
 		}
-		if(ansi && (ansi = color_lookup(ansi, an)) && (((to - buf) + strlen(ansi)) < BUFFER_LEN) )
+		if (ansi) {
+		  ansi = color_lookup(ansi, an, allow_256, newansi);
+		  if (ansi == NULL) {
+		    ansi = newansi;
+		  }
+		  if(ansi && (((to - buf) + strlen(ansi)) < BUFFER_LEN) ) {
 		    while(*ansi) *(to++) = (*(ansi++));
+		  }
+		}
 		from++;
 		if(!*from) break;
 
@@ -670,8 +724,15 @@ parse_ansi( char *buf, const char *from, const char *an, int parseansi )
 		    case '7': ansi = "BGRAY";	break;
 		    case '-':			break;
 		}
-		if(ansi && (ansi = color_lookup(ansi, an)) && (((to - buf) + strlen(ansi)) < BUFFER_LEN) )
+                if (ansi) {
+		  ansi = color_lookup(ansi, an, allow_256, newansi);
+		  if (ansi == NULL) {
+		    ansi = newansi;
+		  }
+		  if(ansi && (((to - buf) + strlen(ansi)) < BUFFER_LEN) ) {
 		    while(*ansi) *(to++) = (*(ansi++));
+		  }
+		}
 		from++;
 		if(!*from) break;
 
@@ -693,8 +754,15 @@ parse_ansi( char *buf, const char *from, const char *an, int parseansi )
 		    case 'B':
 			ansi = "BEEP"; break;
 		}
-		if(ansi && (ansi = color_lookup(ansi, an)) && (((to - buf) + strlen(ansi)) < BUFFER_LEN) )
+		if (ansi) {
+		  ansi = color_lookup(ansi, an, allow_256, newansi);
+		  if (ansi == NULL) {
+		    ansi = newansi;
+		  }
+		  if(ansi && (((to - buf) + strlen(ansi)) < BUFFER_LEN) ) {
 		    while(*ansi) *(to++) = (*(ansi++));
+		  }
+		}
 		from++;
 		if(!*from) break;
 	    }
@@ -856,15 +924,17 @@ unparse_ansi( char *buf, const char *from, int parseansi )
 }
 
 char *
-ansi( char *buf, const char *from, const char *an, int docolor, int parseansi )
+ansi( char *buf, const char *from, const char *an, int docolor, int parseansi, int allow_256 )
 {
-    *buf = '\0';
+  *buf = '\0';
+  
+  if(!*from)
+    return buf;
+  
+  if (docolor == 0) {
+    return unparse_ansi(buf, from, parseansi);
+  } else {
+    return parse_ansi(buf, from, an, parseansi, allow_256);
+  }
 
-    if(!*from)
-	return buf;
-
-    if(docolor != 0)
-	return parse_ansi(buf, from, an, parseansi);
-    else
-	return unparse_ansi(buf, from, parseansi);
 }
