@@ -2102,6 +2102,11 @@ is set GUEST a wizard can examine and modify anything they own, even if the
 objects have the TINKERPROOF flag set.  It is basically the same as being
 arrested.
 
+On exits, the functionality depends on the status of the sysparm/tune:
+'guest_exit_flag'. If set to yes, an exit cannot be used by a guest unless
+the exit is set guest. If set to no, a guest can use any exit that is not
+set guest.
+
 See request, tinkerproof, and @jail.
 ~
 ic|ooc|in-character|out-of-character|in_character|roleplay|roleplaying
