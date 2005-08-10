@@ -93,7 +93,7 @@ Miscellaneous:
     me             money           newbie          number          objects
     robbery        strings         substitutions   success         timestamps
     types          newlevels       mages           wizards         archwizards
-    realms         countinst       messages
+    realms         countinst       messages        heartbeat
 
 For help on a specific topic, type 'help <topic>'.
 For a list of subjects, try 'help index'.
@@ -104,10 +104,10 @@ For a list of subjects, try 'help index'.
 
 Creates a new action and attaches it to the thing, room, or player
 specified. If a <regname> is specified, then the _reg/<regname> property on
-the player is set to the dbref of the new object.  This lets players refer
-to the object as $<regname> (ie: $mybutton) in @locks, @sets, etc.  You may
-only attach actions you control to things you control.  Creating an action
-costs 1 penny.  The action can then be linked with the command @LINK.
+the player is set to the dbref of the new database item.  This lets players
+refer to the database item as $<regname> (ie: $mybutton) in @locks, @sets,
+etc. You may only attach actions you control to things you control. The action
+can then be linked with the command @LINK.
 ~
 @attach
 
@@ -121,9 +121,9 @@ You must control the action in question.
 @bootme        (Everybody.)
 @boot <player> (Mage only.)
 
-Disconnects a player from the game.  If a player is connected more than once
-it affects the oldest connection.  If used with no argument, boots off all
-but the newest connection.  (Useful if you get knocked offline and can't
+Disconnects a player from the game. If a player is connected more than once
+it affects the oldest connection. If used with no argument, boots off all
+but the newest connection. (Useful if you get knocked offline and can't
 get rid of your multiple personalities.)
 
 @bootme will take out all but the least-idle connection.  @boot takes out
@@ -1000,18 +1000,20 @@ room has left.
 ~
 examine
 
-examine <object>[=propdir]
+examine <database item>[=property directory]
 
-If you control <object>, examine will give you a complete breakdown of all
-fields, flags, &c that are associated with the object.  If the optional
-propdir field is supplied, then it instead lists out all the properties
-directly under that propdir.  To list the base propdir of an object, use 'ex
-<object>=/'.
+If you do not control <database item> examine simply reports the owner
+of the database item.
+
+If you control <database item>, examine will give you a complete breakdown of
+all fields, flags, etc. that are associated with the database item. If the
+optional property directory field is supplied then it instead lists out all
+the properties directly under that property directory. To list the root
+property directory of a database item, use 'examine <database item>=/'. To
+list ALL properties of a database item, use 'examine <database item>=/**'.
 
 Program-executing fields are displayed as their true text, rather than
-executing the program in question.  If you do not control <object>, however,
-it prints the owner of the object in question, and, again, displays the true
-text of the description.
+executing the program in question.
 
 See @when, @set, and @setprop.
 ~
