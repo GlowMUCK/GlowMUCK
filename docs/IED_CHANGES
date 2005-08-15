@@ -11,7 +11,7 @@ ftp://ftp.belfry.com/pub/fuzzball. Older muck versions can be found at
 ftp://ftp.tcp.com/pub/muds.
 *******************************************************************************
 IED_CHANGES
-$Revision: 1.7 $ $Date: 2005/04/30 22:28:16 $
+$Revision: 1.8 $ $Date: 2005/08/15 17:56:03 $
 *******************************************************************************
 Note: There are forums for discussion, trackers for bugs, support and feature
 requests all at: http://glowmuck.sourceforge.net/. The latest versions
@@ -68,3 +68,4 @@ in the CHANGESfb5 file.
              specified so you still have color even if you don't support 256
              colors. For example: ^256FG-505:VIOLET^ will display in violet
              for non-256 color users.
+2005-Aug-15: Tightened @force security in regards to inter-wizard forcing.
