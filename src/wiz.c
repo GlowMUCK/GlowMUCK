@@ -640,6 +640,10 @@ do_force(dbref player, const char *what, char *command)
 	zombie = 1;
     }
 
+    if (Typeof(victim) == TYPE_PLAYER && MLevel(player) <= MLevel(victim)) {
+      anotify(player, CFAIL NOPERM_MESG);
+    }
+
     if( !zombie )
 	log_status("FORC: %s by %s(%d): %s\n", unparse_object(MAN, victim),
 	       NAME(player), player, command);
