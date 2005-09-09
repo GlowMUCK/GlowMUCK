@@ -1,4 +1,4 @@
-               TinyMUCK 2.2fb5.xx / GlowMuck 3.x.x MUF Manual
+                       GlowMuck 3.x.x MUF Manual
 
 To get manual information on a topic, type MAN <topic>, the following 
 topics are available:
@@ -15,7 +15,6 @@ LEVELS          - Restrictions by mucker level.
 MULTITASKING    - Various MUF multi-tasking information.
 FLAGS           - What effects various flags have on programs.
 MISCELLANEOUS   - Random bits of information.
-HEARTBEAT       - How utilize the heartbeat
 ~
 P1|PRIM|PRIM1|PRIMITIVE1|PRIMITIVES|PRIMITIVES1|PRIMS|PRIMS1
 
@@ -23,8 +22,8 @@ Variable Handling:
   var    lvar    variable    localvar    !    @
 
 Multi-Tasking:
-  preempt  background  foreground  ispid?   fork  sleep  kill queue
-  pr_mode  bg_mode     fg_mode     setmode  mode  abort  pid  proctime
+  preempt  background  foreground  ispid?   fork  sleep  kill  pid  queue
+  pr_mode  bg_mode     fg_mode     setmode  mode  abort
 
 Math and Comparison:
   +   -   *   /   %   <   >   =   <=   >=   and   or   not
@@ -321,14 +320,6 @@ getpropval ( d s -- i )
 
 s must be a string. Retrieves the integer value i associated with
 property s in object d. If the property is cleared, 0 is returned.
-~
-HEARTBEAT
-
-If a property is set with an appropiate program reference (dbref,
-registered name, etc.) in the @heartbeat property directory, that
-program will be automatically ran every 15 seconds. To function
-'heartbeat' must be @tune'd to 'yes' and heartbeat_user must be
-@tune'd to a valid player object for program permissions.
 ~
 IF
 
@@ -696,13 +687,13 @@ sort ( di ... d1 i im -- di ... d1 i ) (Modes 4-5)
 Sorts a string list on the top of the stack using a given sort criteria
 specified by value im, possible sort modes are:
 
-0 - string list, case sensitive, A-Z, where A is on the top of the stack
-1 - string list, case sensitive, Z-A, where Z is on the top of the stack
-2 - string list, case insensitive, A-Z, A on top
-3 - string list, case insensitive, Z-A, Z on top
+0 - string list, case sensitive, Z-A, where Z is on the top of the stack
+1 - string list, case sensitive, A-Z, where A is on the top of the stack
+2 - string list, case insensitive, Z-A, Z on top
+3 - string list, case insensitive, A-Z, A on top
 
-4 - dbref list, by object name, A-Z, A on top (as dbref)
-5 - dbref list, by object name, A-Z, Z on top (as dbref)
+4 - dbref list, by object name, A-Z, Z on top (as dbref)
+5 - dbref list, by object name, A-Z, A on top (as dbref)
 
 See also rotate, popn.
 ~
@@ -1172,13 +1163,6 @@ PID
 pid ( -- i)
 
 Returns the process ID of the program that is currently running.
-~
-PROCTIME
-
-proctime ( i -- i)
-
-Given PID 'i' proctime returns the seconds remaining until the next
-execution of an enqueued process.
 ~
 ISPID?
 
@@ -2437,3 +2421,4 @@ private_prop_mlevel that affect the above listed mucker levels.  Use @tune
 followed by the option name to get help on that option.
 
 See also perms and controls.
+
