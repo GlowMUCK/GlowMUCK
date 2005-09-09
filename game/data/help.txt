@@ -13,8 +13,8 @@ Basic Muck Commands
 
 When you start out, make sure to set these on yourself: (See 'help me')
 
-    @desc me=<Your decription>  @lock me=me           (Then pick a sex)
-    @sex me=male                @sex me=female        @species me=human
+    @desc me=<Your decription>  @lock me=me
+    @gender me=male             @gender me=female     @species me=human
     @password <old>=<new>       (Change your password)
 
 For help on a specific command, type 'help <command>' or 'help index'.
@@ -27,50 +27,51 @@ There are 3 separate indices:
 
         index1: normal commands (drop, look, etc)
         index2: @ commands (@action, @fail, etc)
-        index3: concepts, terms, and flags (objects, wizard, sticky)
+        index3: concepts, terms, and flags
 
 If you find anything confusing or a typo on any helpscreen, please use the
-'gripe' command with what you typed, ie 'gripe help index'.
+'gripe', 'typo' or 'idea' commands and provide a comment on what you found
+confusing, incorrect or incomplete: Something like 'typo You misspelled
+database in the @action help entry'.
 
 For a list of subjects, try 'help index1','help index2', or 'help index3'.
 For help on a specific command, type 'help <command>'.
 ~
-index2
-@action         @armageddon     @attach         @boot           @chown
-@colorset       @contents       @create         @describe       @dig
-@drop           @dump           @edit           @entrances      @fail
-@find           @fixwizbits     @force          @free           @frob
-@getpw          @hopper         @idescribe      @jail           @linewrap
-@link           @lock           @kill           @name           @newpassword
-@odrop          @ofail          @open           @osuccess       @owned
-@password       @pcreate        @pecho          @program        @propset
-@ps             @purge          @recycle        @restart        @set
-@sex            @shutdown       @species        @stats          @success
-@sweep          @teleport       @title          @unlink         @unlock
-@usage          @wall           @wrap           @permissions    @doing
-@when           @quota          @setquota       @setcontents    @restrict
-@sanity         @sanfix         @dos            @proginfo       @oname
-@tops           @memory         @dbginfo        @examine        @gag
-@ignore         @ungag          @unignore       @path           @relink
-@junk           @show           @hide           @muftops        @mpitops
-@position       @hostcache      @flock          @conlock        @chlock
-@glowflags      @localhost      @toad           @soul           @oecho
-@sanchange
+index1
+
+QUIT           WHO            alias          attack         dboot
+dforce         dinfo          drop           dwall          examine
+follow         get            give           go             gripe
+help           home           inventory      kill           lead
+look           more           move           news           note
+outputprefix   outputsuffix   page           read           release
+request        rob            say            scan           score
+take           throw          whisper        wizchat
 
 For help on a specific command, type 'help <command>'.
 For a list of subjects, try 'help index'.
 ~
-index1
-
-drop            gripe           look            page            score
-examine         help            move            QUIT            take
-get             home            news            read            throw
-give            inventory       outputprefix    rob             whisper
-go              kill            outputsuffix    say             WHO
-attack          wizchat         scan            more            request
-lead            follow          release         alias           note
-dinfo           dwall           dboot           dforce          ic/ooc
-paths           cgi
+index2
+@action        @armageddon    @attach        @boot          @chlock
+@chown         @colorset      @conlock       @contents      @create
+@dbginfo       @describe      @dig           @doing         @dos
+@drop          @dump          @edit          @entrances     @examine
+@fail          @find          @fixwizbits    @flock         @force
+@free          @frob          @gag           @getpw         @glowflags
+@hide          @hopper        @hostcache     @idescribe     @ignore
+@jail          @junk          @kill          @linewrap      @link
+@localhost     @lock          @memory        @mpitops       @muftops
+@name          @newpassword   @odrop         @oecho         @ofail
+@oname         @open          @osuccess      @owned         @password
+@path          @pcreate       @pecho         @permissions   @position
+@proginfo      @program       @propset       @ps            @purge
+@quota         @recycle       @relink        @restart       @restrict
+@sanchange     @sanfix        @sanity        @set           @setcontents
+@setquota      @sex           @show          @shutdown      @soul
+@species       @stats         @success       @sweep         @teleport
+@title         @toad          @tops          @ungag         @unignore
+@unlink        @unlock        @usage         @wall          @when
+@wrap
 
 For help on a specific command, type 'help <command>'.
 For a list of subjects, try 'help index'.
@@ -94,6 +95,8 @@ Miscellaneous:
     robbery        strings         substitutions   success         timestamps
     types          newlevels       mages           wizards         archwizards
     realms         countinst       messages        heartbeat
+    paths           cgi
+          ic/ooc
 
 For help on a specific topic, type 'help <topic>'.
 For a list of subjects, try 'help index'.
@@ -108,6 +111,18 @@ the player is set to the dbref of the new database item.  This lets players
 refer to the database item as $<regname> (ie: $mybutton) in @locks, @sets,
 etc. You may only attach actions you control to things you control. The action
 can then be linked with the command @LINK.
+~
+@armageddon
+
+@armageddon <muck name> (Archwizard only.)
+
+Aborts the game. Must be typed in full. The muck name is set using the @tune
+command. It is used to ensure a wizard really means to abort the muck.
+*** ALL DATA WILL BE LOST *** beyond the previous save. The muck quits with no
+data saving at all. Use this when you just accidentially @recycled half of the
+muck.
+
+See @shutdown, @dump, and @delta.
 ~
 @attach
 
@@ -131,13 +146,13 @@ the oldest (but not necessarily most idle) connection.
 ~
 @permissions|@check|@perm
 
-@check <object>
-@permissions <object>
+@check <database item>
+@permissions <database item>
 
-Tells you if you control the object or not and why.  Useful if you get
-confused as to why something fails.  For normal players @check will say
-if you own the object or not.  For wizards it will analyze permission
-levels.  Realms managers will find @check very useful in stress prevention.
+Tells you if you control the database item or not and why. Useful if you get
+confused as to why something fails. For normal players @check will say
+if you own the database item or not. For wizards it will analyze permission
+levels. Realms managers will find @check very useful in stress prevention.
 @check will also do the same thing as @permissions, however many mucks use
 @check to see if rooms are correct, so the official command is now
 @permissions.
@@ -146,88 +161,101 @@ See TINKERPROOF.
 ~
 @chown
 
-@chown <object>
-@chown <object> = <player> (Mage only.)
+@chown <database item>
+@chown <database item> = <player> (Mage only.)
 
-Changes the ownership of <object> to <player>, or if no player is given, to
-yourself.  All players are allowed to take possession of objects, rooms, and
-actions, provided the CHOWN_OK flag is set. Mortals cannot take ownership of
-a room unless they are standing in it, and may not take ownership of an
-object unless they are holding it.  Wizards own almost everything.
+Changes the ownership of <database item> to <player>, or if no player is
+given, to yourself. All players are allowed to take possession of things,
+rooms, and actions, provided the CHOWN_OK flag is set. Mortals cannot take
+ownership of a room unless they are standing in it, and may not take ownership
+of a thing unless they are holding it. Wizards own almost everything.
+~
+@colorset
+
+@colorset
+@colorset load
+@colorset save
+@colorset clear
+@colorset <oldcolor> = <newcolor>
+
+Changes values used in a player's ANSI color table. This command is useful for
+players who use ANSI color but find certain colors annoying or painful on the
+eyes. Typing just '@colorset' will list current settings.  You can load or
+save your stored colorset if you mess up changes to your colorset or like the
+arrangement you have.
 ~
 @create
 
-@create <object> [ = <cost> [ = <reg name> ] ] (Builder only.)
+@create <thing> [ = <cost> [ = <reg name> ] ] (Builder only.)
 
-Creates a new object and places it in your inventory.  This costs at least
-ten pennies.  If <cost> is specified, you are charged that many pennies, and
-in return, the object is endowed with a value according to a sepcial
+Creates a new thing and places it in your inventory. This costs at least
+ten pennies. If <cost> is specified, you are charged that many pennies, and
+in return, the thing is endowed with a value according to a special
 formula.
 
-Usually the maximum value of an object is 100 pennies, which would cost 505
+Usually the maximum value of a thing is 100 pennies, which would cost 505
 pennies to create. If a <regname> is specified, then the _reg/<regname>
-property on the player is set to the dbref of the new object.  This lets
-players refer to the object as $<regname> (ie: $mybutton) in @locks, @sets,
+property on the player is set to the dbref of the new thing.  This lets
+players refer to the thing as $<regname> (ie: $mybutton) in @locks, @sets,
 etc.
-~
-@idescribe|@idesc
-
-@idescribe <object> [ = <text> ]
-
-Sets the idescription field of <object> to <text>.  If <text> is not
-specified, the description field is cleared.  This is the same as '@set
-<object>=_/ide:[text]' An idescription is what is seen on the inside of a
-vehicle, when a player inside it looks around.
 ~
 @describe|@desc
 
-@describe <object> [ = <text> ]
+@describe <database item> [ = <text> ]
 
-Sets the description field of <object> to <text>.  If <text> is not
+Sets the description field of <database item> to <text>. If <text> is not
 specified, the description field is cleared.  This is the same as
-'@set <object>=_/de:[text]'  A description is what is seen when a
+'@set <object>=_/de:[text]' A description is what is seen when a
 player looks at something.
-
 ~
 @dig
 
 @dig <room> [ = <parent> [ = <reg name> ] ] (Builder only.)
 
 Creates a new room, sets its parent, and gives it a personal registered
-name.  If no parent is given, it defaults to the first ABODE room down the
-environment tree from the current room.  If it fails to find one, it sets
-the parent to the global environment, which is typically room #0.  If no
-regname is given, then it doesn't register the object.  If one is given,
-then the object's dbref is recorded in the player's _reg/<regname> property,
-so that they can refer to the object later as $<regname>.  Digging a room
-costs 10 pennies, and you must be able to link to the parent room if
-specified.  Only a builder may use this command.
+name. If no parent is given, it defaults to the first ABODE room down the
+environment tree from the current room.  If it fails to find one, it sets the
+parent to the global environment, which is typically room #0.  If no regname
+is given, then it doesn't register the object.  If one is given, then the
+object's dbref is recorded in the player's _reg/<regname> property, so that
+they can refer to the object later as $<regname>.  Digging a room costs 10
+pennies, and you must be able to link to the parent room if specified. Only a
+builder may use this command.
+~
+@doing
+
+@doing [ <message> ]
+
+Set or clear the message shown on the WHO list.  This message is stored on
+your player as the _/do property.  Other commands or programs may use it.
+
+See @set and @propset.
 ~
 @drop
 
-@drop <object> [ = <text> ] 
+@drop <database item> [ = <text> ] 
 
-Sets the drop field of <object> to <text>. If <text> is not specified, the
-drop field is cleared.  The drop message on an object is displayed when you
-drop it.  On an exit, it is displayed upon entering the destination room. 
-On a player it is displayed to whoever kills them.  On a room, it is
-displayed when an object is dropped there.  This is the same as '@set
-<object>=_/dr:[text]'
+Sets the drop field of <database item> to <text>. If <text> is not specified,
+the drop field is cleared. The drop message on a thing is displayed when you
+drop it. On an exit, it is displayed upon entering the destination room. On a
+player it is displayed to whoever kills them. On a room, it is displayed when
+a thing is dropped there. This is the same as:
+'@set <database item>=_/dr:[text]'
 ~
 @dump|@delta
 
 @dump [ <filename> ] (Mage only.)
 @delta (Mage only.)
 
-Only wizards may use this command. Saves the database from memory to disk.
-Only the Man (player #1) can dump to a different filename.  New dumps also
-use this filename so use it with caution.  Automatically occurs every two
-hours or whatever @tune dump_interval or @tune monolithic_interval is set
-to, and when @shutdown is used.  Monolithic_interval affects full dumps,
-dump_interval affects delta dumps.  It does slow down the server, so only
-use if you fear a server crash is iminent or have done a decent amount of
-work you feel is worth saving.  If a filename is given, it will save the db
-to that file, and save any subsequent dumps to it as well.
+Only wizards may use this command. Saves the database from memory to
+disk. Only the Man (player #1) can dump to a different filename. New dumps
+also use this filename so use it with caution. Automatically occurs every two
+hours or whatever @tune dump_interval or @tune monolithic_interval is set to,
+and when @shutdown is used. Monolithic_interval affects full dumps, 
+dump_interval affects delta dumps. It does slow down the server, so only use
+if you fear a server crash is iminent or have done a decent amount of work you
+feel is worth saving. If a filename is given, it will save the db to that
+file, and save any subsequent dumps to it as well.
 
 See @shutdown, @restart, and @armageddon.
 ~
@@ -241,12 +269,12 @@ See @PROGRAM.
 ~
 @fail
 
-@fail <object> [ = <message> ]
+@fail <database item> [ = <message> ]
 
-<object> can be a thing, player, exit, or room, specified as <name> or
-#<number> or 'me' or 'here'. Sets the fail message for <object>. The message
-is displayed when a player fails to use <object>. Without a message
-argument, it clears the message.  This is the same as:
+<database item> can be a thing, player, exit, or room, specified as <name> or
+#<number> or 'me' or 'here'. Sets the fail message for <database item>. The
+message is displayed when a player fails to use <database item>. Without a
+message argument, it clears the message. This is the same as:
 '@set <object>=_/fl:[text]'
 
 See @ofail and @desc.
@@ -255,17 +283,97 @@ See @ofail and @desc.
 
 @force <player> = <command>
 
-Causes the game to process <command> as if typed by <player>.  The Man cannot
-be forced by anyone.  Wizards can force mortals.  Only the Man can force
-wizards.
+Causes the game to process <command> as if typed by <player>. The Man cannot
+be forced by anyone. Wizards can force mortals. Wizards can only force wizards
+of lower rank than themselves.
+~
+@frob|@soul|@toad
+
+@frob <player1> = <player2> (Archwizard only.) -> a soul
+@soul <player1> = <player2> (Archwizard only.) -> a soul
+@toad <player1> = <player2> (Archwizard only.) -> a slimy toad
+
+Turns <player1> into a thing, destroying their character. All possessions of
+<player1> are @chowned to <player2>. Must be typed in full. If recycle_frobs
+is @tuned on, the thing (regardless of command) is instantly recycled.
+
+See @purge.
+~
+@getpassword|@getpw
+
+@getpw <player> (Man only.)
+
+Gets a player's password. Used for players who misplace their password. For
+security reasons only the Man can retrieve passwords.
+~
+@gag|@ungag|@ignore|@unignore|ignore|gag|gagging|ignoring
+
+@gag <player>
+@ignore <player>
+
+@ungag <player>
+@unignore <player>
+
+@ignore and @gag are synonymous, as are @unignore and @ungag. Both maintain
+the same list. Without options, @gag lists the players you are gagging.
+Othwerise the specified player will be added or removed from your gag
+list. Any text from a player on your gag list will not be displayed. Although 
+you can put wizards in your gag list, they will be able to speak to you unless
+they are set quell.
+~
+@idescribe|@idesc
+
+@idescribe <thing> [ = <text> ]
+@idescribe <player> [ = <text> ]
+
+Sets the idescription field of <thing> to <text>.  If <text> is not
+specified, the description field is cleared.  This is the same as '@set
+<object>=_/ide:[text]' An idescription is what is seen on the inside of a
+vehicle (a thing with the vehicle flag), when a player inside it looks around.
+Likewise, if a player is 'inside' another player, this message is displayed
+when the player looks.
+~
+@jail|@free|suspect
+
+@jail <player> (Mage only.)
+@free <player> (Mage only.)
+@set <player> = [!] suspect (Man only.)
+
+This command allows a wizard to jail misbehaving players. Jailing consists of
+moving the player to a special room that their activity will be extremely 
+inhibited within. The player is set GUEST to limit their activity primarily to
+the room itself. By being jailed a wizard can remove a player's mucker bit or
+other bits if they are misbehaving, even if they are set TINKERPROOF.
+
+Players can also be set 'suspect' by the Man. Suspects are logged in the
+common command log file. Using the suspect flag is highly recommended instead
+of turning on full command logging of all players. Remember that the only logs
+that can be used against a muck are ones that exist. Players generally prefer
+places they know they aren't actively spied upon as well. Only the Man can set
+a player suspect, and only people with access to the site can access the logs
+for security reasons.
+~
+@kill
+
+@kill <processid|playername|program database reference>
+@kill all (Man only.)
+
+If passed a processid (a number without a '#' preceeding it), it will kill the
+given process, if the player controls it.  If passed a player name, it will
+kill all the processes controlled by that player.  If passed a program dbref,
+it will kill all processes that that program is running in.
+
+If the argument passed is "all", it will kill all processes on the timequeue.
+
+See @ps, @tops, and @proginfo.
 ~
 @link
 
-@link <object1> = <object2> [ ; <object3> ; ...  <objectn> ]
+@link <db-item 1> = <db-item 2> [ ; <db-item 3> ; ...  <db-item n> ]
 
-Links <object1> to <object2>, provided you control <object1>, and <object2>
-is either controlled by you or linkable.  Actions may be linked to more than
-one thing, specified in a list separated by semi-colons.
+Links <db-item 1> to <db-item 2>, provided you control <db-item 1>, and
+<db-item 2> is either controlled by you or linkable. Actions may be linked to
+more than one thing, specified in a list separated by semi-colons.
 ~
 @linewrap|@wrap|linewrap|line wrap|wrap|line|wordwrap|word wrap|word
 
@@ -274,9 +382,9 @@ one thing, specified in a list separated by semi-colons.
 @wrap <columns>
 @wrap off
 
-Sets your maximum column size for lines of text.  This is useful for people
+Sets your maximum column size for lines of text. This is useful for people
 using clients without built-in linewrap.  Long lines are wrapped continually
-in <columns> letters per line.  @wrap is a synonym of @linewrap.  For most
+in <columns> letters per line. @wrap is a synonym of @linewrap.  For most
 people '@wrap 80' will give the best results.  If each line has an extra
 linefeed (you get text every other line), try '@wrap 79'.
 
@@ -292,116 +400,114 @@ to list.  If no lines are given, the entire program is listed.
 ~
 @lock|@flock|@conlock|@chlock
 
-@lock    <object> = <key>
-@flock   <object> = [ <key> ]  (@force lock)
-@conlock <object> = [ <key> ]  (container lock)
-@chlock  <object> = [ <key> ]  (@chown lock)
+@lock    <database item> = <key>
+@flock   <database item> = [ <key> ]  (@force lock)
+@conlock <database item> = [ <key> ]  (container lock)
+@chlock  <database item> = [ <key> ]  (@chown lock)
 
-Locks <object> to a specific key(s). <object> can be specified as <name> or
-#<number>, or as 'me' or 'here'.  Boolean expressions are allowed, using '&'
-(and), '|' (or), '!' (not), and parentheses ('(' and ')') for grouping.  To
-lock to a player, prefix their name with '*' (ex. '*Igor').  A key may be a
-player, an object, or 'property:value'.
+Locks <database item> to a specific key(s). <database item> can be specified
+as <name> or #<number>, or as 'me' or 'here'.  Boolean expressions are
+allowed, using '&' (and), '|' (or), '!' (not), and parentheses ('(' and ')')
+for grouping. To lock to a player, prefix their name with '*' (ex. '*Igor'). A
+key may be a player, an object, or 'property:value'.
 
-@lock prevents others from getting an object or triggering @succ values.  It
-also prevents others from going through exits or paths.  @flock allows you
-to @force an object set XFORCIBLE.  @conlock allows you to put items in an
-object.  @chlock prevents others from being able to @chown an object set
-CHOWN_OK.  @unlock only unlocks @locks.  For the other commands, specify no
-key to unlock the lock.
+@lock prevents others from getting a thing or triggering @succ values. It also
+prevents others from going through exits or paths.  @flock allows you to
+@force an object set XFORCIBLE. @conlock allows you to put things in an
+thing. @chlock prevents others from being able to @chown a database item set
+CHOWN_OK. @unlock only unlocks @locks. For the other commands, specify an
+empty key to unlock the lock.
 
 See @unlock.
 ~
-@kill
-
-@kill <processid|playername|programdbref>
-@kill all (Man only.)
-
-If passed a processid (a number without a '#' preceeding it), it will kill
-the given process, if the player controls it.  If passed a player name, it
-will kill all the processes controlled by that player.  If passed a program
-dbref, it will kill all processes that that program is running in.
-
-If the argument passed is "all", it will kill all processes on the timequeue.
-
-See @ps, @tops, and @proginfo.
-~
 @name
 
-@name <object> = <name> [ <password> ]
+@name <database item> = <name> [ <password> ]
 
-Sets the name field of <object> to <name>.  <name> cannot be empty, a blank
-name is illegal.  <password> must be supplied to rename a player.  Wizards
-can rename any player using a password of 'yes'.  On some mucks only Wizards
+Sets the name field of <database item> to <name>. <name> cannot be empty, a
+blank name is illegal. <password> must be supplied to rename a player. Wizards
+can rename any player using a password of 'yes'. On some mucks only Wizards
 can rename players.
-~
-@oname|@title
 
-@title <object> = <title>
-@oname <object> = <dropped name>
-
-Sets the oname field of <object> to <name>.  <name> cannot be empty, a blank
-name is illegal.  The title and oname are used mostly in the mud part of the
-muck.  For objects this name is what one sees when looking in the room.  For
-players it is the title appended to their name when looking in the room.
+See @oname
 ~
 @newpassword
 
 @newpassword <player> [ = <new password> ] (Archwizard only.)
 
 Changes <player>'s password, informing <player> that you changed it. Must
-be typed in full.  Noone can change the Man (player #1)'s password with
-this command.  If no password is used, the password is cleared.  This is
+be typed in full. No one can change the Man (player #1)'s password with
+this command. If no password is used, the password is cleared. This is
 useful to allow guests to connect with any password.
 ~
 @odrop
 
-@odrop <object> [ = <text> ]
+@odrop <database item> [ = <text> ]
 
-Sets the odrop field of <object> to <text>.  If <text> is not specified, the
-odrop field is cleared. Odrop on an object is displayed prefixed by the
-player's name when s/he drops that object.  On an exit, it is displayed upon
+Sets the odrop field of <database item> to <text>. If <text> is not specified,
+the odrop field is cleared. Odrop on a thing is displayed prefixed by the
+player's name when s/he drops that thing. On an exit, it is displayed upon
 a player's arrival to the destination room (or the location of the
-destination player).  On a player, it is displayed after the `name killed
-victim!' message.  On a room, it is displayed when an object is dropped
-there, prefixed by the object's name.  This is the same as: '@set
-<object>=_/odr:[text]'
+destination player). On a player, it is displayed after the `name killed
+victim!' message. On a room, it is displayed when a thing is dropped
+there, prefixed by the thing's name.  This is the same as:
+  '@set <database item>=_/odr:[text]'
 
 See @drop.
 ~
+@oecho
+
+@oecho <database item> = <messageprefix>
+
+Sets the given container's prefix message which will be prepended to text it
+sees from outside. If no prefix is set, 'Outside' is used.
+~
 @ofail
 
-@ofail <object> [ = <message> ]
+@ofail <database item> [ = <message> ]
 
 The @ofail message, prefixed by the player's name, is shown to others when
-the player fails to use <object>. Without a message argument, it clears the
-message. <object> can be specified as <name> or #<number>, or as 'me' or
-'here'.  This is the same as: '@set <object>=_/ofl:[text]'.
+the player fails to use <database item>. Without a message argument, it clears
+the message. <database item> can be specified as <name> or #<number>, or as
+'me' or 'here'. This is the same as:
+   '@set <database item>=_/ofl:[text]'.
 
 See @fail.
 ~
+@oname|@title
+
+@oname <database item> = <dropped name>
+@title <database item> = <title>
+(MUD mode only)
+
+Sets the oname field of <object> to <name>.  <name> cannot be empty, a blank
+name is illegal.  The title and oname are used mostly in the mud part of the
+muck. For objects this name is what one sees when looking in the room. For
+players it is the title appended to their name when looking in the room. The
+database item typically needs the 'K' flag for the name to be used. This
+feature is only available if the MUD option is compiled into the server.
+~
 @open
 
-@open <exit> [ = <object> [ ; <object2>; ... <objectn> ] [ = <reg name> ] ]
+@open <exit name> [= <db-item 1> [ ; <thing 2>; ... <thing n> ][ = <regname>]]
 (Builder only.)
 
 Opens an exit in the current room, optionally attempting to link it
-simultaneously.  If a <regname> is specified, then the _reg/<regname>
-property on the player is set to the dbref of the new object.  This lets
-players refer to the object as $<regname> (ie: $mybutton) in @locks, @sets,
-etc.  Opening an exit costs a penny, and an extra penny to link it, and you
-must control the room where it is being opened.
-
+simultaneously. If a <regname> is specified, then the _reg/<regname>
+property on the player is set to the dbref of the new exit. This lets players
+refer to the exit as $<regname> (ie: $mybutton) in @locks, @sets, etc. You
+must control the room where the exit is being opened.
 ~
 @osuccess|@osucc
 
-@osuccess <object> [ = <message> ]
+@osuccess <database item> [ = <message> ]
 
 The @osuccess message, prefixed by the player's name, is shown to others
-when the player successfully uses <object>. Without a message argument, it
-clears the @osuccess message. It can be abbreviated @osucc. <object> can be
-specified as <name> or #<number>, or as 'me' or 'here'.  This is the same as
-'@set <object>=_/osc:[text]'
+when the player successfully uses <database item>. Without a message argument,
+it clears the @osuccess message. It can be abbreviated @osucc. <database item>
+can be specified as <name> or #<number>, or as 'me' or 'here'. This is the
+same as:
+   '@set <database item>=_/osc:[text]'
 
 See @success.
 ~
@@ -409,18 +515,17 @@ See @success.
 
 @owned <name> [ = <flags/types> [ = <output type> ] ]
 
-Searches through the database for items that <name> controls.  Flags or
-types can be specified to check for or against certain ones.  (A ! before
-the flag indicates that it is to be excluded.) A "%" in the flags list
-indicates an unlinked item.  The output types that can be specified are
-owners, links (which outputs either *UNLINKED*, the object to which the item
-is linked, or *METALINK* for exits linked to more than one thing), count,
-and location.
+Searches through the database for items that <name> controls. Flags or types
+can be specified to check for or against certain ones.  (A ! before the flag
+indicates that it is to be excluded.) A "%" in the flags list indicates an
+unlinked item. The output types that can be specified are owners, links (which
+outputs either *UNLINKED*, the object to which the item is linked, or
+*METALINK* for exits linked to more than one thing), count, and location.
 
 Valid flags:  ABCDHJKLMQSW
-Flags of E, F, G, P, R, and T will match Exits, programs, Garbage,
-Players, Rooms, and Things, respectively.  U will match unlinked
-objects.  0-7 will match Mucker Levels.
+Flags of E, F, G, P, R, and T will match Exits, programs, Garbage, Players,
+Rooms, and Things, respectively.  U will match unlinked items.  0-7 will match
+Mucker Levels.
 
 Example:  @owned Revar=f!l3=location   will list all M3 programs (F)
 owned by revar, that are NOT set Link_OK (!L), and it will give the
@@ -432,48 +537,41 @@ See @entrances, @find, and @contents.
 
 @password <old password> = <new password>
 
-This changes your password.  Your new password should be at least 6 letters
+This changes your password. Your new password should be at least 6 letters
 long and contain a mixture of lowercase and upper case characters, numbers,
-and symbols to keep people from guessing them.  Do NOT use your significant
+and symbols to keep people from guessing them. Do NOT use your significant
 other or a friend's name as they are the first things crackers guess with!
 
-See @sex, @species, and @doing.
+See @gender, @species, and @doing.
 ~
 @pcreate
 
 @pcreate <player> = <password> (Wizard only.)
 
-This command creates a new player.  A password must be supplied.  The player
+This command creates a new player. A password must be supplied. The player
 should have their @/id property set to something to note who the player is. 
 Recommended information includes the original player name, the email address
-of the user, and the user's real name and age.  A non-wizard cannot connect
+of the user, and the user's real name and age. A non-wizard cannot connect
 without the @/id set if @tune mortals_need_id_prop is set.
 ~
 @pecho
 
-@pecho <object> = <messageprefix>
+@pecho <zombie|thing> = <messageprefix>
 
 Sets the given zombie object's prefix message which will be appended to all
-text it sees.  If a zombie is set QUELL no output is displayed.  If no
+text it sees. If a zombie is set QUELL no output is displayed.  If no
 prefix is set, the object's full name is used.
-~
-@oecho
-
-@oecho <object> = <messageprefix>
-
-Sets the given container's prefix message which will be prepended to text it
-sees from outside.  If no prefix is set, 'Outside' is used.
 ~
 @program|@prog
 
 @program <program name> (Muffer only.)
 @program <program dbref> (Muffer only.)
 
-Create a new program, or enter edit mode on an existing one.  Upon entering
-this command you will be put into the online muf editor.  To leave the
-editor enter a 'q'.  For a list of commands enter 'h'.  All commands in the
-editor are in reverse-polish notation, thus to list lines you would do
-'1 1000 l' to list lines 1-1000, for instance.
+Create a new program, or enter edit mode on an existing one. Upon entering
+this command you will be put into the online muf editor. To leave the editor
+enter a 'q'. For a list of commands enter 'h'. All commands in the editor are
+in reverse-polish notation, thus to list lines you would do '1 1000 l' to list
+lines 1-1000, for instance.
 
 See @edit and Programmer's Reference ('man' command).
 ~
@@ -482,31 +580,45 @@ See @edit and Programmer's Reference ('man' command).
 @proginfo (Mage only.)
 @proginfo <program dbref> (Muffer only.)
 
-List statistics of all programs running in memory, or list how many
-instances of a specific program are in memory.  'examine' does a better job
-of listing detailed info about a program's memory usage now, but for wizards
-@proginfo can be very useful in knowing how much memory muf programs are
-using in general.
+List statistics of all programs running in memory, or list how many instances
+of a specific program are in memory. 'examine' does a better job of listing
+detailed info about a program's memory usage now, but for wizards @proginfo
+can be very useful in knowing how much memory muf programs are using in
+general.
 
 See @program, @ps, @edit, @kill, and @tops.
 ~
-@uncompile
+@propset
 
-@uncompile (Man only.)
+@propset <database item> = <type> : <property> : <value> -or-
+@propset <database item> = erase : <property>
 
-Uncompile all programs and remove them from memory.  Be very careful using
-this command as it will KILL all running muf programs.  If any player is
-reading mail or using an editor like lsedit, all their data will be lost.
+@propset can set and clear properties from a database item.
 
-See @program, @proginfo, @ps, @tops, and @kill.
+If the first format above is specified, the @propset command sets
+<property> on <database item> to <value>, where <value> is of type <type>.
+<type> can be one of 'string', 'integer', 'dbref', or 'lock'.  A string
+can be any set of characters the MUCK recognizes.  An integer must be
+composed solely of numerals with the possible exception of a leading sign
+indicator (+ or -). A dbref must be of the form # followed by a positive
+integer, and it must be a valid dbref (i.e., the database uten must exist). A
+lock value must be a key that would be accepted by @lock or a similar
+command (see the help for @lock for more details).
+
+The second format removes <property> on the database item. Note that if
+<property> is a propdir, it removes all properties below <property> as well.
+If you wish to clear the value of a propdir without removing the properties
+below it, use '@propset <database item> = integer:<property>:0'.
+
+See flags and @set.
 ~
 @ps
 
 @ps
 
 Lists the status of the currently running MUF program processes. This lists
-all processes for a Wizard.  Non-Wizards only see the muf processes that
-they can @kill.  The fields @ps lists are:
+all processes for a Wizard. Non-Wizards only see the muf processes that
+they can @kill. The fields @ps lists are:
 
 PID:    The process number to use with @kill to stop the process.
 Next:   The amount of time (seconds) until the process 'wakes up' if sleeping.
@@ -517,148 +629,29 @@ Prog#:  The dbref of the program.
 Player: The dbref of the player the program is running as (user ID or uid).
 
 The last entry @ps displays is the total number of events running in the
-system.  Any player can use this to know how many background muf programs
-are running on the muck.  An event is usually a muf program in either a
+system. Any player can use this to know how many background muf programs
+are running on the muck. An event is usually a muf program in either a
 'read' or 'sleep' mode waiting for user input or a timer to wake up.
 
 See @tops, @proginfo, and @kill.
 ~
-@tops|@muftops|@mpitops
-
-@tops <count>
-@muftops <count>
-@mpitops <count>
-
-List usage information for the top <count> muf programs and/or MPI objects
-in terms of CPU usage time.  Percent usage time, total usage time, and use
-count along with the name, dbref, and flags of each program are listed.
-
-See @proginfo, @ps, and @kill.
-~
 @recycle
 
-@recycle <object>
+@recycle <database item>
 
-Destroy an object and remove all references to it within the database.  The
-object is then added to a free list, and newly created objects are assigned
-from the pool of recycled objects first.  You *must* own the object being
-recycled, even wizards must use the @chown command to recycle someone else's
-belongings.
-~
-@set
-
-@set <object> = [!] <flag>
-@set <object> = <property> : <string>
-@set <object> = <property> :
-@set <object> = :clear
-@set <object> = <mud statistic> = <value>
-
-@set can modify flags, add properties to an object, or remove properties
-@from an object.
-
-Using the first format, you may set flags, which are listed in the flags
-section. You can also set the MUCKER (or Priority) Level of an object by
-using 0-8 as the flag name.
-
-The second format sets <property> on <object> to <string>, or if <string>
-is not given, removes <property> (the third format).  The last format clears
-ALL properties from the object.
-
-You can also set Mud statistic data: level, experience, magicpoints,
-hitpoints, weight, and restore.  Setting an object's level to 0 clears all
-statistics and removes the KILL_OK flag.  Restore restores hitpoints/magic.
-
-See flags and @propset.
-~
-@propset
-
-@propset <object> = <type> : <property> : <value> -or-
-@propset <object> = erase : <property>
-
-@propset can set and clear properties from an object.
-
-If the first format above is specified, the @propset command sets
-<property> on <object> to <value>, where <value> is of type <type>.
-<type> can be one of 'string', 'integer', 'dbref', or 'lock'.  A string
-can be any set of characters the MUCK recognizes.  An integer must be
-composed solely of numerals with the possible exception of a leading sign
-indicator (+ or -).  A dbref must be of the form # followed by a positive
-integer, and it must be a valid dbref (i.e., the object must exist).  A
-lock value must be a key that would be accepted by @lock or a similar
-command (see the help for @lock for more details).
-
-The second format removes <property> on object.  Note that if <property>
-is a propdir, it removes all properties below <property> as well.
-If you wish to clear the value of a propdir without removing the
-properties below it, use '@propset <object> = integer:<property>:0'.
-
-See flags and @set.
-~
-@sex|@species|@position
-
-@position <object> = [ <position> ]
-@sex      <object> = [ <gender> ]
-@species  <object> = [ <species> ]
-
-Sets or clears the gender, species, or position for the object.  Each is the
-same as '@set <object>=sex:[text]', '@set <object>=species:[text]', or
-'@set <object>=pos:[text]'.
-
-See @set and @propset.
-~
-@doing
-
-@doing [ <message> ]
-
-Set or clear the message shown on the WHO list.  This message is stored on
-your player as the _/do property.  Other commands or programs may use it.
-
-See @set and @propset.
-~
-@setcontents
-
-@setcontents <object> = [ <message> ]
-
-Set or clear the message used to replace the contents listing for rooms,
-players, and things.  This message is stored on your player as the _/co
-property.  MPI and muf programs can be parsed by setting this property.
-If the property is cleared look will use the standard contents listing.
-
-See @set and @propset.
-~
-@shutdown|@restart
-
-@shutdown <muck name> (Wizard only.)
-@restart <muck name> (Mage only.)
-
-Shuts down the game.  Must be typed in full.  The muck name is set using
-the @tune command.  It is used to ensure a wizard really means to shut the
-muck down and the correct muck.  It is possible for wizards to have this
-power on more than one muck they administrate and cause unintentional
-downtime on the wrong muck.  @restart will attempt to start the muck up
-again after saving the database.
-
-See @armageddon, @dump, and @delta.
-~
-@armageddon
-
-@armageddon <muck name> (Archwizard only.)
-
-Aborts the game.  Must be typed in full.  The muck name is set using the
-@tune command.  It is used to ensure a wizard really means to abort the
-muck.  *** ALL DATA WILL BE LOST *** beyond the previous save.  The muck
-quits with no data saving at all.  Use this when you just accidentially
-@recced half of the muck.
-
-See @shutdown, @dump, and @delta.
+Destroy a database item and remove all references to it within the
+database. The database item is then added to a free list, and newly created
+database items are assigned from the pool of recycled database items
+first. You *must* own the database item being recycled, even wizards must use
+the @chown command to recycle someone else's belongings.
 ~
 @restrict|restrict|wizonly|wiz-only
 
 @restrict < on | off > (Archwizard only.)
 
-Restrict connections to wizards only.  If the muck database is corrupt on
-loading, only wizards can connect.  Use this command to allow mortals on
-after using @sanity or @sanfix to clean up the muck.
+Restrict connections to wizards only. If the muck database is corrupt on 
+loading, only wizards can connect. Use this command to allow mortals on after
+using @sanity or @sanfix to clean up the muck.
 
 See @armageddon, @restart, @shutdown, @dump, @delta, @sanity, and @sanfix.
 ~
@@ -671,139 +664,106 @@ See @armageddon, @restart, @shutdown, @dump, @delta, @sanity, and @sanfix.
 
 Use @sanity to check if there is corruption in the muck database.  Use
 @examine to check the low-level information about database objects by dbref. 
-Use sanfix to attempt to repair it as best as the muck can.  Not all damage
-is repairable with @sanfix.  If the muck loads a corrupt database, it will
-enter wizonly restricted connection mode.  Use @restrict to allow mortal
-players on after repairing the database.  Type @sanchange as #1 to get more
-help on using it.  Only use @sanchange if you REALLY know what you are doing
-AND have a full backup of the muck database archived first.
+Use sanfix to attempt to repair it as best as the muck can. Not all damage is
+repairable with @sanfix.  If the muck loads a corrupt database, it will enter
+wizonly restricted connection mode. Use @restrict to allow mortal players on
+after repairing the database. Type @sanchange as #1 to get more help on using
+it. Only use @sanchange if you REALLY know what you are doing AND have a full
+backup of the muck database archived first.
 
 See @restrict, @armageddon, @shutdown, @restart, @dump, and @delta.
+~
+@set
+
+@set <database item> = [!] <flag>
+@set <database item> = <property> : <string>
+@set <database item> = <property> :
+@set <database item> = :clear
+@set <database item> = <mud statistic> = <value>
+
+@set can modify flags, add properties to a database item, or remove properties
+@from a database item.
+
+Using the first format, you may set flags, which are listed in the flags
+section. You can also set the MUCKER (or Priority) Level of a database item by
+using 0-8 as the flag name.
+
+The second format sets <property> on <database item> to <string>, or if
+<string> is not given, removes <property> (the third format). The last format
+clears ALL properties from the object.
+
+You can also set Mud statistic data: level, experience, magicpoints,
+hitpoints, weight, and restore. Setting a database item's level to 0 clears all
+statistics and removes the KILL_OK flag. Restore restores hitpoints/magic.
+
+See flags and @propset.
+~
+@setcontents
+
+@setcontents <database item> = [ <message> ]
+(MUD mode only)
+
+Set or clear the message used to replace the contents listing for rooms,
+players, and things. This message is stored on your player as the _/co
+property. MPI and muf programs can be parsed by setting this property.
+If the property is cleared look will use the standard contents listing. This
+feature usually requires the 'K' flag to work correctly. The feature is only
+available if the MUD option is compiled into the server.
+
+See @set and @propset.
+~
+@sex|@gender|@species|@position
+
+@position <database item> = [ <position> ]
+@sex      <database item> = [ <gender> ]
+@gender   <database item> = [ <gender> ]
+@species  <database item> = [ <species> ]
+
+Sets or clears the gender, species, or position for the database item. Each is
+the same as:
+   '@set <database item>=sex:[text]'
+   '@set <database item>=species:[text]',
+   '@set <database item>=pos:[text]'.
+
+See @set and @propset.
+~
+@shutdown|@restart
+
+@shutdown <muck name> (Wizard only.)
+@restart <muck name> (Mage only.)
+
+Shuts down the game. Must be typed in full. The muck name is set using the
+@tune command. It is used to ensure a wizard really means to shut the muck
+down and the correct muck. It is possible for wizards to have this power on
+more than one muck they administrate and cause unintentional downtime on the
+wrong muck. @restart will attempt to start the muck up again after saving the
+database.
+
+See @armageddon, @dump, and @delta.
+~
+@success|@succ
+
+@success <database item> [ = <message> ]
+
+Sets the success message for <database item>. The message is displayed when a
+player successfully uses <database item>. Without a message argument, it clears
+the message. It can be abbreviated @succ. <database item> can be specified as
+<name> or #<number>, or as 'me' or 'here'. This is the same as:
+  '@set <database item>=_/sc:[text]'
+
+See @osucc.
 ~
 @stats
 
 @stats [ <player> ]
 @stats me
 
-This gives a breakdown of each type of object: rooms, exits, things, programs,
-players, and garbage.  Wizards may also specify a <player> which returns a
-similar display limited to the possessions of <player>.  Individual players
-can see the stats of the whole muck or their own player.
+This gives a breakdown of each type of database item: rooms, exits, things,
+programs, players, and garbage. Wizards may also specify a <player> which
+returns a similar display limited to the possessions of <player>. Individual
+players can see the stats of the whole muck or their own player.
 
 See @usage, @tops, and @proginfo.
-~
-@success|@succ
-
-@success <object> [ = <message> ]
-
-Sets the success message for <object>.  The message is displayed when a
-player successfully uses <object>.  Without a message argument, it clears
-the message. It can be abbreviated @succ. <object> can be specified as
-<name> or #<number>, or as 'me' or 'here'. This is the same as
-'@set <object>=_/sc:[text]'
-
-See @osucc.
-~
-@teleport
-
-@teleport <object> [ = <destination> ]
-
-Moves <object> to <destination>, if <destination> is not given, moves you to
-<object>.  Wizards may teleport anything to anywhere, provided it makes
-sense, and mortals are allowed to do two things: teleport rooms to change
-their parent fields, and the may teleport things to a room they can link to,
-provided they control either the thing or its location.  Players can also
-teleport to a JUMP_OK room if they are in a JUMP_OK room.
-~
-@frob|@soul|@toad
-
-@frob <player1> = <player2> (Archwizard only.) -> a soul
-@soul <player1> = <player2> (Archwizard only.) -> a soul
-@toad <player1> = <player2> (Archwizard only.) -> a slimy toad
-
-Turns <player1> into a thing, destroying their character. All possessions of
-<player1> are @chowned to <player2>. Must be typed in full. If recycle_frobs
-is @tuned on, the thing (regardless of command) is instantly recycled.
-
-See @purge.
-~
-@colorset
-
-@colorset
-@colorset load
-@colorset save
-@colorset clear
-@colorset <oldcolor> = <newcolor>
-
-Changes values used in a player's ANSI color table.  This command is useful
-for players who use ANSI color but find certain colors annoying or painful
-on the eyes.  Typing just '@colorset' will list current settings.  You can
-load or save your stored colorset if you mess up changes to your colorset
-or like the arrangement you have.
-~
-@jail|@free|suspect
-
-@jail <player> (Mage only.)
-@free <player> (Mage only.)
-@set <player> = [!] suspect (Man only.)
-
-This command allows a wizard to jail misbehaving players.  Jailing consists
-of moving the player to a special room that their activity will be extremely
-inhibited within.  The player is set GUEST to limit their activity primarily
-to the room itself.  By being jailed a wizard can remove a player's mucker
-bit or other bits if they are misbehaving, even if they are set TINKERPROOF.
-
-Players can also be set 'suspect' by the Man.  Suspects are logged in the
-common command log file.  Using the suspect flag is highly recommended
-instead of turning on full command logging of all players.  Remember that
-the only logs that can be used against a muck are ones that exist.  Players
-generally prefer places they know they aren't actively spied upon as well.
-Only the Man can set a player suspect, and only people with access to the
-site can access the logs for security reasons.
-~
-logwall
-
-@set <player> = [!] logwall (Man only.)
-
-The logwall flag will send any information sent to the status log
-(log_status) prefixed with a [!] sign, but without the timestamp that gets
-logged to the status log.  The flag can be set on lower wizards, however
-this practice is not encouraged.  Non-mage players will not receive any
-logwall output.  There is no provision to limit sites or failed passwords to
-lower wizards, each log entry is @walled as-is. Examples of status log
-information include player accepts, connects, fails, disconnects, database
-dumps, and many other miscellaneous tidbits.
-~
-@getpassword|@getpw
-
-@getpw <player> (Man only.)
-
-Gets a player's password.  Used for players who misplace their password. 
-For security reasons only the Man can retrieve passwords.
-~
-@gag|@ungag|@ignore|@unignore|ignore|gag|gagging|ignoring
-
-@gag <player>
-@ignore <player>
-
-@ungag <player>
-@unignore <player>
-
-@ignore and @gag are synonymous, as are @unignore and @ungag.  Both maintain
-the same list.  Without options, @gag lists the players you are gagging. 
-Othwerise the specified player will be added or removed from your gag list. 
-Any text from a player on your gag list will not be displayed.  Although
-you can put wizards in your gag list, they will be able to speak to you
-unless they are set Quell.
-~
-@trace
-
-@trace <object> [ = <depth> ]
-
-Starts with <object> and traces all location fields, until the global
-environment room is reached or the optional <depth> is specified.  This is
-generally useful for finding which rooms are parents in your heirarchy.  If
-you cannot link to a particular location its name is replaced by stars ***.
 ~
 @sweep|scan
 
@@ -813,22 +773,64 @@ scan
 This shows what listeners are in the room.  For wizards it also lists what
 room common actions such as say/pose/whisper/page are on.
 ~
+@teleport
+
+@teleport <database item> [ = <destination> ]
+
+Moves <database item> to <destination>, if <destination> is not given, moves
+you to <database item>. Wizards may teleport anything to anywhere, provided it
+makes sense, and mortals are allowed to do two things: teleport rooms to change
+their parent fields, and the may teleport things to a room they can link to,
+provided they control either the thing or its location. Players can also 
+teleport to a JUMP_OK room if they are in a JUMP_OK room.
+~
+@tops|@muftops|@mpitops
+
+@tops <count>
+@muftops <count>
+@mpitops <count>
+
+List usage information for the top <count> muf programs and/or MPI items
+in terms of CPU usage time. Percent usage time, total usage time, and use
+count along with the name, dbref, and flags of each program are listed.
+
+See @proginfo, @ps, and @kill.
+~
+@trace
+
+@trace <database item> [ = <depth> ]
+
+Starts with <database item> and traces all location fields, until the global
+environment room is reached or the optional <depth> is specified.  This is
+generally useful for finding which rooms are parents in your heirarchy.  If
+you cannot link to a particular location its name is replaced by stars ***.
+~
+@uncompile
+
+@uncompile (Man only.)
+
+Uncompile all programs and remove them from memory. Be very careful using this
+command as it will KILL all running muf programs. If any player is reading
+mail or using an editor like lsedit, all their data will be lost.
+
+See @program, @proginfo, @ps, @tops, and @kill.
+~
 @unlink
 
 @unlink <dir>
 @unlink here
 
 Removes the link on the exit in the specified direction, or removes the
-drop-to on the room. Unlinked exits may be picked up and dropped elsewhere.
-Unlinking a thing or player will set their home to player start or the
-global environment.  Be careful, anyone can relink an unlinked exit,
-becoming its new owner.
+drop-to on the room. Unlinked exits may be picked up and dropped elsewhere. 
+Unlinking a thing or player will set their home to player start or the global
+environment. Be careful, anyone can relink an unlinked exit, becoming its new
+owner.
 
 See @link.
 ~
 @unlock
 
-@unlock <object>. Removes the lock on <object>.
+@unlock <database item>. Removes the lock on <database item>.
 
 See @lock.
 ~
@@ -838,7 +840,7 @@ See @lock.
 @dbginfo (Mage only.)
 
 Gives various information on system resource usage stats and performance for
-the muck server process.  Depending on the operating system the muck is
+the muck server process. Depending on the operating system the muck is
 running on, some of these commands may be unavailable.
 
 See @stats, @tops, and @proginfo.
@@ -852,39 +854,39 @@ ABODE|AUTHOR|AUTOSTART|ABATE
 
 ABODE, AUTHOR, AUTOSTART, and ABATE flag.
 
-@set <object> = [!] ABODE
+@set <database item> = [!] ABODE
 
 If a room is set ABODE, players can set their homes there, and can set the
-homes of objects there. (LINK_OK is now used only for exits, and ABODE is
-for players and objects.)
+homes of objects there. (LINK_OK is now used only for exits, and ABODE is for
+players and objects.)
 
-When set on a program, it means AUTOSTART.  This means that when the game is
-first started up, the program will automatically be run with a trigger of
-#-1 and a 'me @' of the owner of the program.  This is useful to restart
-processes that run in the background periodically.
+When set on a program, it means AUTOSTART. This means that when the game is
+first started up, the program will automatically be run with a trigger of #-1
+and a 'me @' of the owner of the program. This is useful to restart processes
+that run in the background periodically.
 
-When set on a player, it means AUTHOR.  This means that other players can
-see the dbrefs and flags of any object the player has created.
+When set on a player, it means AUTHOR. This means that other players can see
+the dbrefs and flags of any object the player has created.
 
-When set on an exit, it means ABATE.  This means that the exit has a lower
+When set on an exit, it means ABATE. This means that the exit has a lower
 priority than any exit without an ABATE flag, even if it has no exit level
 specified (mucker level).
 ~
 BOGUS|PSEUDO|PSUEDO
 
-Bogus commands can be made using exits. For example, to make a 'sit'
-command, one could "@open sit", then "@link sit=here" (because unlinked
-exits can be stolen), "@lock sit=me&!me" (impossible to be both at once,
-therefore always fails), and "@fail sit=You sit on the chair."; "@ofail=sits
-on the chair.".  Since nobody can go through it, it always fails. The @fail
-message is displayed to the player, and the @ofail message (preceded by the
-player's name) to everyone else.
+Bogus commands can be made using exits. For example, to make a 'sit' command,
+one could "@open sit", then "@link sit=here" (because unlinked exits can be
+stolen), "@lock sit=me&!me" (impossible to be both at once, therefore always
+fails), and "@fail sit=You sit on the chair."; "@ofail=sits on the chair.".
+Since nobody can go through it, it always fails. The @fail message is
+displayed to the player, and the @ofail message (preceded by the player's
+name) to everyone else.
 ~
 BUILDER|BUILDERS|BOUND
 
 BUILDER and BOUND flag.
 
-@set <object> = [!] BUILDER
+@set <database item> = [!] BUILDER
 
 Some mucks restrict building commands to players whose builder flag is set.
 On such systems, only builders can @create, @dig, @link, @open, or pick up
@@ -892,15 +894,15 @@ unlinked exits. Only a wizard can set this flag.
 
 When BUILDER is set on a program, it is called "BOUND" and it causes any
 functions within the program to run in preempt mode, regardless of the
-multitasking mode that the process had before calling this program.  When
-the execution exits this program, the multitasking mode returns to what
-it was before the function was called.  This lets libraries of atomic
-functions be written.
+multitasking mode that the process had before calling this program. When the
+execution exits this program, the multitasking mode returns to what it was
+before the function was called.  This lets libraries of atomic functions be
+written.
 
-When BUILDER is set on a room, no personal actions will work in that room. 
-This is useful for making a room that people can't escape from or interfere
-with the special functions of the room by using custom programs linked to
-personal actions.
+When BUILDER is set on a room, no personal actions will work in that
+room. This is useful for making a room that people can't escape from or
+interfere with the special functions of the room by using custom programs
+linked to personal actions.
 ~
 CHOWN_OK|COLOR|COLOR_ANSI|COUNT_INSTS|COUNTINST|COUNTINSTS|MUFCOUNT
 
@@ -975,6 +977,19 @@ printed out to any users of the program for each instruction executes.
 
 When a player is set DARK, all programs set DEBUG will list debug output
 to that player regardless if they own a program or not.
+~
+LOGWALL
+
+@set <player> = [!] logwall (Man only.)
+
+The logwall flag will send any information sent to the status log (log_status)
+prefixed with a [!] sign, but without the timestamp that gets logged to the
+status log. The flag can be set on lower wizards, however this practice is not
+encouraged. Non-mage players will not receive any logwall output. There is no
+provision to limit sites or failed passwords to lower wizards, each log entry
+is @walled as-is. Examples of status log information include player accepts,
+connects, fails, disconnects, database dumps, and many other miscellaneous
+tidbits.
 ~
 drop|throw|put
 
