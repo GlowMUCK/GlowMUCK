@@ -1,6 +1,6 @@
 /*
  * config.h
- * $Revision: 1.4 $ $Date: 2005/04/26 19:53:06 $
+ * $Revision: 1.5 $ $Date: 2005/09/11 18:31:51 $
  * 
  * Tunable parameters -- Edit to you heart's content (override in local.h)
  *
@@ -18,6 +18,10 @@ or overwriting a file and losing some upgrade material.
 
 /*
  * $Log: config.h,v $
+ * Revision 1.5  2005/09/11 18:31:51  feaelin
+ * Added the FD_SETSIZE define allowing changes in the descriptor limit at
+ * compile time.
+ *
  * Revision 1.4  2005/04/26 19:53:06  feaelin
  * Added 256 color support.
  * Added the debug inserver defines
@@ -337,6 +341,7 @@ or overwriting a file and losing some upgrade material.
 #undef DEBUGDBDIRTY
 #define FLUSHCHANGED /* outdated, needs to be removed from the source. */
 
+
 /*
  * Include all the good standard headers here.
  */
@@ -345,6 +350,9 @@ or overwriting a file and losing some upgrade material.
 #include <sys/types.h>
 
 #ifdef WIN95
+  /* If you really know what you're doing you can make this bigger. */
+#  define FD_SETSIZE 128
+
 # include "win95conf.h"
 # include "process.h"
 /* Define WINNT >= 4.0 to get better WinSock compile */
