@@ -7,6 +7,7 @@
 #include "local.h"
 
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -18,6 +19,7 @@
 #include "strings.h"
 #include "interp.h"
 #include "externs.h"
+#include "props.h"
 
 extern struct inst *oper1, *oper2, *oper3, *oper4;
 extern struct inst temp1, temp2, temp3;
@@ -604,4 +606,69 @@ prim_system(PRIM_PROTOTYPE)
 
     CLEAR(oper1);
     PushInt(result);
+}
+
+
+void 
+prim_email_password(PRIM_PROTOTYPE)
+{
+  const char* email = NULL;
+  const char* pw = NULL;
+  pid_t pid;
+
+  CHECKOP(1);
+  oper1 = POP();
+
+  if (mlev < LBOY) {
+    abort_interp(NOPERM_MESG);
+  }
+  if (!valid_object(oper1)) {
+    abort_interp("Invalid argument");
+  }
+
+  ref = oper1->data.objref;
+  if (Typeof(ref) != TYPE_PLAYER) {
+    abort_interp("DBref is not a player");
+  }
+
+  if (MLevel(ref) > LM3) {
+    abort_interp("Cannot use email_password for a wizard");
+  }
+
+  email = get_property_class(ref, "/@/Registration/E-MailAddress");
+
+  if (email == NULL) {
+    abort_interp("EMail address not available");
+  }
+
+  pw = DBFETCH(ref)->sp.player.password;
+
+  CHECKREMOTE(oper1->data.objref);
+#ifdef WIN95
+  {
+    char buf[ 1024 ];
+    /* Still gotta make this actually do something... */
+    sprintf(buf, "./sendpass '%s' '%s' '%s' &", email, NAME(ref), pw );
+    spawnl( P_WAIT, "/bin/sh", "sh", "-c", buf, NULL );
+  }
+#else
+  if(!(pid=fork())) {
+    char buf[ 1024 ];
+    
+    sprintf(buf, "./sendpass '%s' '%s' '%s' &", email, NAME(ref), pw );
+    close(0);
+    close(1);
+    execl( "/bin/sh", "sh", "-c", buf, NULL );
+    perror("sendpass execlp");
+    _exit(1);
+  } else waitpid(pid,NULL,0);
+#endif
+	
+  {
+    char buf[ 80 ];
+    
+    sprintf(buf, "E-mailed password to %s.", NAME(ref));
+    do_note(-1, buf);
+  }
+  CLEAR(oper1);
 }
