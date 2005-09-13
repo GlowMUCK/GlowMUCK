@@ -82,11 +82,11 @@ email_newbie( const char *name, const char *email, const char *rlname )
 		{   char buf[ 1024 ];
 		    char date[  40 ];
 
-		    /* Compute date in '93Dec01' format: */
+		    /* Compute date in '1993-Dec-01' format: */
 		    time_t t;
 		    
 		    t = current_systime;
-		    format_time( date,32,"%y%b%d\0", localtime(&t));
+		    format_time( date,32,"%Y-%b-%d\0", localtime(&t));
 		    sprintf(buf,"%s:%s:%s:%s:%s",
 			NAME(newguy), rlname, email, date, NAME(tp_reg_wiz)
 		    );
