@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+#	Simple script to mail new user info to an email address
+#
+
+#Change the following lines for your muck.
+
+MUCK="MUCK University"
+
+if [ "$#" -eq 3 ]; then
+
+/usr/bin/mail -s "Character Information for $MUCK Muck" "$1" <<EOF
+
+We received your request for your character's information. It is as
+follows:
+
+Name:     $2
+Password: $3
+
+Thank you for playing!
+
+EOF
+
+else
+	echo "sendpass: wrong # of args"
+	echo "usage: $0 email@address name password"
+fi
+
+exit 0
