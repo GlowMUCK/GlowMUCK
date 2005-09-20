@@ -614,7 +614,7 @@ prim_email_password(PRIM_PROTOTYPE)
 {
   const char* email = NULL;
   const char* pw = NULL;
-  pid_t pid;
+  pid_t pid = 0;
 
   CHECKOP(1);
   oper1 = POP();
@@ -637,6 +637,10 @@ prim_email_password(PRIM_PROTOTYPE)
 
   email = get_property_class(ref, "/@/Registration/E-MailAddress");
 
+#ifdef COMPRESS
+    if (email) email = uncompress(email);
+#endif
+
   if (email == NULL) {
     abort_interp("EMail address not available");
   }
@@ -652,7 +656,7 @@ prim_email_password(PRIM_PROTOTYPE)
     spawnl( P_WAIT, "/bin/sh", "sh", "-c", buf, NULL );
   }
 #else
-  if(!(pid=fork())) {
+  if (!(pid=fork()) ) {
     char buf[ 1024 ];
     
     sprintf(buf, "./sendpass '%s' '%s' '%s' &", email, NAME(ref), pw );
@@ -661,7 +665,9 @@ prim_email_password(PRIM_PROTOTYPE)
     execl( "/bin/sh", "sh", "-c", buf, NULL );
     perror("sendpass execlp");
     _exit(1);
-  } else waitpid(pid,NULL,0);
+  } else {
+    waitpid(pid,NULL,0);
+  }
 #endif
 	
   {
