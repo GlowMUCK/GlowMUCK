@@ -71,15 +71,6 @@ could_doit(dbref player, dbref thing)
     dbref   source, dest, owner;
 
     if (Typeof(thing) == TYPE_EXIT) {
-        if (tp_exit_guest_flag) {
-            if ((Guest(player) && !(FLAG2(thing)&F2GUEST) && !Mage(player))) {
-                return 0;
-            }
-        } else {
-            if ((Guest(player) && (FLAG2(thing)&F2GUEST) && !Mage(player))) {
-                return 0;
-            }
-        }
 
 	if (DBFETCH(thing)->sp.exit.ndest == 0) {
 	    return 0;
@@ -152,36 +143,52 @@ can_doit(dbref player, dbref thing, const char *default_fail_msg)
 {
     dbref   loc;
 
-    if ((loc = getloc(player)) == NOTHING)
-	return 0;
+    if ((loc = getloc(player)) == NOTHING) {
+      return 0;
+    }
 
     if (!Mage(OWNER(player)) && Typeof(player) == TYPE_THING &&
 	    (FLAGS(thing) & ZOMBIE)) {
-	anotify(player, CFAIL "Sorry, but zombies can't do that.");
-	return 0;
+      anotify(player, CFAIL "Sorry, but zombies can't do that.");
+      return 0;
     }
+
+    if (!Mage(player) && Guest(player) && Typeof(thing) == TYPE_EXIT ) {
+      if (tp_exit_guest_flag) {
+	if (!(FLAG2(thing)&F2GUEST)) {
+	  anotify(player, CFAIL "Sorry, but guests can't do that.");
+	  return 0;
+	}
+      } else {
+	if ((FLAG2(thing)&F2GUEST)) {
+	  anotify(player, CFAIL "Sorry, but guests can't do that.");
+	  return 0;
+	}
+      }
+    }
+
     if (!could_doit(player, thing)) {
-	/* can't do it */
-	if (GETFAIL(thing)) {
-	    exec_or_notify(player, thing, GETFAIL(thing), "(@Fail)");
-	} else if (default_fail_msg) {
-	    anotify(player, default_fail_msg);
-	}
-	if (GETOFAIL(thing) /*&& !Dark(player)*/) {
-	    parse_omessage(player, loc, thing, GETOFAIL(thing),
-			    PNAME(player), "(@Ofail)");
-	}
-	return 0;
+      /* can't do it */
+      if (GETFAIL(thing)) {
+	exec_or_notify(player, thing, GETFAIL(thing), "(@Fail)");
+      } else if (default_fail_msg) {
+	anotify(player, default_fail_msg);
+      }
+      if (GETOFAIL(thing) /*&& !Dark(player)*/) {
+	parse_omessage(player, loc, thing, GETOFAIL(thing),
+		       PNAME(player), "(@Ofail)");
+      }
+      return 0;
     } else {
-	/* can do it */
-	if (GETSUCC(thing)) {
-	    exec_or_notify(player, thing, GETSUCC(thing), "(@Succ)");
-	}
-	if (GETOSUCC(thing) /*&& !Dark(player)*/) {
-	    parse_omessage(player, loc, thing, GETOSUCC(thing),
-			    NAME(player), "(@Osucc)");
-	}
-	return 1;
+      /* can do it */
+      if (GETSUCC(thing)) {
+	exec_or_notify(player, thing, GETSUCC(thing), "(@Succ)");
+      }
+      if (GETOSUCC(thing) /*&& !Dark(player)*/) {
+	parse_omessage(player, loc, thing, GETOSUCC(thing),
+		       NAME(player), "(@Osucc)");
+      }
+      return 1;
     }
 }
 

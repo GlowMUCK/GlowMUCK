@@ -1,4 +1,7 @@
-
+*******************************************************************************
+IED_CHANGES
+$Revision: 1.9 $ $Date: 2005/09/20 16:07:27 $
+*******************************************************************************
 GlowMuck source code is Copyright 1996-1999 by Andrew Nelson, all rights
 reserved.  This product is supplied 'AS IS' with absolutely no warranties,
 express or implied.  Use it at your own risk.
@@ -10,9 +13,6 @@ server distribution.  The current site to acquire FuzzBall code is
 ftp://ftp.belfry.com/pub/fuzzball. Older muck versions can be found at
 ftp://ftp.tcp.com/pub/muds.
 *******************************************************************************
-IED_CHANGES
-$Revision: 1.8 $ $Date: 2005/08/15 17:56:03 $
-*******************************************************************************
 Note: There are forums for discussion, trackers for bugs, support and feature
 requests all at: http://glowmuck.sourceforge.net/. The latest versions
 of the standard MUF programs and glowmuck itself will be posted there.
@@ -20,15 +20,45 @@ of the standard MUF programs and glowmuck itself will be posted there.
 Any changes in this file was written by Iain E. Davis. Pakrat's changes to the
 code are stored in the PAK_FIXES files. Original Fuzzball changes are stored
 in the CHANGESfb5 file.
+*******************************************************************************
 
-2004-Mar-18: Hopefully, I've correctly corrected the variable conversions in
-             compress.c and interface.c that were causing MSVC to generate
-             warnings. Fixed the trigraph warning thrown out by gcc in
-             interface.c and the "operation on 'prop' is undefined"
-             error. Fixed the "operation on curpath is undefined" error in
-             path.c. 
-2004-Apr-03: Updated the restart files for the windows platform to be a little
-             more intelligent. 
+2005-Aug-15: Tightened @force security in regards to inter-wizard forcing.
+2005-Sep-17: Added the new 'email_password' muf primitive.
+2005-Sep-20: Fixed error message displayed when a guest attempts to use an
+             exit that isn't permitted for a guest.
+
+******************************** 3.2.0 Release ********************************
+2005-Apr-27: Revised the color support so that an alternate color can be
+             specified so you still have color even if you don't support 256
+             colors. For example: ^256FG-505:VIOLET^ will display in violet
+             for non-256 color users.
+2005-Apr-26: Added some inserver defines. The now classic debug-on, debug-off,
+             and debug-line macros are now inserver defines. I also added the
+             symbol __prefs_propdir which by default points to _prefs, can be
+             changed via a #define in local.h...compare to config.h. I also
+             added __pref_256colors, which is the property pathname of the
+             prop used to determine whether the player wants 256color support.
+2005-Apr-25: Support for xterm's 256 color mode added. This adds two additional
+             color codes: ^256BG-xxx^ (background) and ^256FG-xxx^ (foreground)
+             xxx represents three numbers ranging from 0-5 these each represent
+             red, green, and blue. Additionally, gray scale colors can be
+             selected in the form: ^256BG-Gxx^ where xx is a number between
+             0 and 24.
+2005-Mar-11: Updated MUF error output for logwall to reflect who generated
+             the error and what command they used.
+2005-Mar-10: Fixed flaw in the notify_descriptor primitive that would cause
+             the server to crash if an incorrect value was passed.
+2005-Mar-08: Added the muf primitive 'proctime' which returns the time until
+             the next execution of an enqueued muf process.
+             Added the @heartbeat property queue. Any programs set in that
+             queue will be executed every 15 seconds (or whatever BASE_PULSE
+             is set to).
+2004-Dec-12: Added feature to @hopper to allow a wizard to delete entries
+             from the list.
+2004-Dec-11: Fixed issue where the code preventing aliases to be rewritten
+	     programmatically (proven to be a security risk in the past) was
+	     also preventing programs from using 'alias' as a property name
+	     even when it wasn't referring to the alias property dir.
 2004-Apr-20: Fixed the problem where wiz-owned zombies could use a Z-exit even
              when the wizard was set quell.
              If the new tune exit_guest_flag is set to 'yes', no guest can
@@ -37,35 +67,12 @@ in the CHANGESfb5 file.
              The preferred method would be to tune to 'yes', and go through
    	     and carefully set those commands that a guest needs to be able
              to use 'G'.
-2004-Dec-11: Fixed issue where the code preventing aliases to be rewritten
-	     programmatically (proven to be a security risk in the past) was
-	     also preventing programs from using 'alias' as a property name
-	     even when it wasn't referring to the alias property dir.
-2004-Dec-12: Added feature to @hopper to allow a wizard to delete entries
-             from the list.
-2005-Mar-08: Added the muf primitive 'proctime' which returns the time until
-             the next execution of an enqueued muf process.
-2005-Mar-08: Added the @heartbeat property queue. Any programs set in that
-             queue will be executed every 15 seconds (or whatever BASE_PULSE
-             is set to).
-2005-Mar-10: Fixed flaw in the notify_descriptor primitive that would cause
-             the server to crash if an incorrect value was passed.
-2005-Mar-11: Updated MUF error output for logwall to reflect who generated
-             the error and what command they used.
-2005-Apr-25: Support for xterm's 256 color mode added. This adds two additional
-             color codes: ^256BG-xxx^ (background) and ^256FG-xxx^ (foreground)
-             xxx represents three numbers ranging from 0-5 these each represent
-             red, green, and blue. Additionally, gray scale colors can be
-             selected in the form: ^256BG-Gxx^ where xx is a number between
-             0 and 24.
-2005-Apr-26: Added some inserver defines. The now classic debug-on, debug-off,
-             and debug-line macros are now inserver defines. I also added the
-             symbol __prefs_propdir which by default points to _prefs, can be
-             changed via a #define in local.h...compare to config.h. I also
-             added __pref_256colors, which is the property pathname of the
-             prop used to determine whether the player wants 256color support.
-2005-Apr-27: Revised the color support so that an alternate color can be
-             specified so you still have color even if you don't support 256
-             colors. For example: ^256FG-505:VIOLET^ will display in violet
-             for non-256 color users.
-2005-Aug-15: Tightened @force security in regards to inter-wizard forcing.
+2004-Apr-03: Updated the restart files for the windows platform to be a little
+             more intelligent. 
+2004-Mar-18: Hopefully, I've correctly corrected the variable conversions in
+             compress.c and interface.c that were causing MSVC to generate
+             warnings. Fixed the trigraph warning thrown out by gcc in
+             interface.c and the "operation on 'prop' is undefined"
+             error. Fixed the "operation on curpath is undefined" error in
+             path.c. 
+
