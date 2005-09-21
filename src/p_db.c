@@ -83,7 +83,7 @@ prim_addpennies(PRIM_PROTOTYPE)
 	DBDIRTY(ref);
     } else if (Typeof(ref) == TYPE_THING) {
 	if (mlev < LMAGE)
-	    abort_interp(NOPERM_MESG);
+	    abort_interp("Mage level required");
 	result = DBFETCH(ref)->sp.thing.value + oper1->data.number;
 	if (result < 1)
 	    abort_interp("Result must be positive");
@@ -107,7 +107,7 @@ prim_moveto(PRIM_PROTOTYPE)
     if (fr->level > 8)
 	abort_interp("Interp call loops not allowed");
     if (!(valid_object(oper1) && valid_object(oper2)) && !is_home(oper1))
-	abort_interp("Non-object argument");
+	abort_interp("Non-database item argument");
     {
 	dbref   victim, dest;
 
@@ -117,11 +117,11 @@ prim_moveto(PRIM_PROTOTYPE)
 	if (Typeof(dest) == TYPE_EXIT)
 	    abort_interp("Destination argument is an exit");
 	if (Typeof(victim) == TYPE_EXIT && (mlev < LM3))
-	    abort_interp(NOPERM_MESG);
+	    abort_interp("M3 required for re-attaching an exit");
 	if (!(FLAGS(victim) & JUMP_OK)
 		&& !permissions(mlev, ProgUID, victim)
 		&& (mlev < (tp_compatible_muf ? LM3 : LWIZ)))
-	    abort_interp("Object can't be moved");
+	    abort_interp("Database item can't be moved");
 	switch (Typeof(victim)) {
 	    case TYPE_PLAYER:
 		if (Typeof(dest) != TYPE_ROOM &&
@@ -395,7 +395,7 @@ prim_setname(PRIM_PROTOTYPE)
 	    strcpy(buf, b);
 	    b = buf;
 	    if (mlev < LMAGE)
-		abort_interp(NOPERM_MESG);
+		abort_interp("Mage level required to change the name of a player");
 	    /* split off password */
 	    for (password = buf;
 		    *password && !isspace(*password);
@@ -1241,7 +1241,7 @@ prim_setown(PRIM_PROTOTYPE)
 		abort_interp(NOPERM_MESG);
 	    break;
 	case TYPE_PLAYER:
-	    abort_interp(NOPERM_MESG);
+	    abort_interp("Players always own themselves");
 	case TYPE_EXIT:
 	case TYPE_PROGRAM:
 	    break;
@@ -1521,7 +1521,7 @@ prim_recycle(PRIM_PROTOTYPE)
 	abort_interp("Invalid object (1)");
     result = oper1->data.objref;
     if (mlev < LM3)
-	abort_interp(NOPERM_MESG);
+	abort_interp("M3 level required for recycle");
     
     if ( tp_db_readonly )
 	abort_interp( DBRO_MESG );

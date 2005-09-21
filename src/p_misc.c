@@ -271,7 +271,7 @@ prim_force(PRIM_PROTOTYPE)
     if (index(oper1->data.string->data, '\r'))
 	abort_interp("Carriage returns not allowed in command string (2)");
     if (MLevel(oper2->data.objref) > mlev)
-	abort_interp(NOPERM_MESG);
+	abort_interp("Cannot force a level higher than yours");
     if (Man(oper2->data.objref))
 	abort_interp("Cannot force " NAMEMAN " (1)");
     force_level++;
@@ -587,7 +587,7 @@ prim_system(PRIM_PROTOTYPE)
     oper1 = POP();
     result = 0;
     if (mlev < LMAN)
-	abort_interp(NOPERM_MESG);
+	abort_interp("System prim can only be used by #1");
     if (fr->level > 8)
 	abort_interp("Interp call loops not allowed");
     if (oper1->type != PROG_STRING || !oper1->data.string)
@@ -620,7 +620,7 @@ prim_email_password(PRIM_PROTOTYPE)
   oper1 = POP();
 
   if (mlev < LBOY) {
-    abort_interp(NOPERM_MESG);
+    abort_interp("Email_password prim requires " NAMEMAN);
   }
   if (!valid_object(oper1)) {
     abort_interp("Invalid argument");

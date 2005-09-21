@@ -802,7 +802,7 @@ prim_parseprop(PRIM_PROTOTYPE)
 	Mage(oper3->data.objref) &&
 	TMage(OWNER(oper3->data.objref)) &&
 	(mlev < MLevel(oper3->data.objref))
-    )	abort_interp(NOPERM_MESG);
+    )	abort_interp("M-Level of database item is too high");
 
     CHECKREMOTE(oper3->data.objref);
     {
