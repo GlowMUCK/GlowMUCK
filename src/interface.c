@@ -1,10 +1,13 @@
 /*
  *  interface.c
- *  $Revision: 1.8 $ $Date: 2005/04/26 19:53:05 $
+ *  $Revision: 1.9 $ $Date: 2005/09/25 05:01:26 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.9  2005/09/25 05:01:26  feaelin
+ *  Changed init message from version to glow-version.
+ *
  *  Revision 1.8  2005/04/26 19:53:05  feaelin
  *  Added 256 color support.
  *  Added the debug inserver defines
@@ -321,7 +324,7 @@ main(int argc, char **argv)
 	    fclose(ffd);
 	}
 
-	log_status("INIT: %s starting.\n", VERSION);
+	log_status("INIT: %s starting.\n", GLOWVER);
 
 #ifdef DETACH
 	/* Detach from the TTY, log whatever output we have... */
