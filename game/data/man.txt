@@ -83,6 +83,9 @@ Bitwise Operators:
 ~
 P4|PRIM4|PRIMITIVE4|PRIMITIVES4|PRIMS4
 
+Debugging:
+  debug-on debug-off debug-line
+
 Misc:
   set     mlevel  next       checkargs  location  newroom     pennies
   flag    caller  force      sysparm    contents  newexit     addpennies
@@ -204,6 +207,30 @@ DESC
 desc ( d -- s )
 
 Takes object d and returns its description (@desc) string field.
+~
+debug-line
+
+debug-line ( -- )
+
+Sets current program (D)ebug and then removes the flag again.
+As a result, the contents of the stack are displayed as debug
+output to the user if they can see debug output for the
+program.
+~
+debug-on
+
+debug-on ( -- )
+
+Sets the program (D)ebug. Handy for getting program output for
+only a small section of the program if coupled with debug-off.
+~
+debug-off
+
+debug-off ( -- )
+
+Removes (D)ebug flag from the program. Handy for getting program
+output for only a small section of the program if coupled with
+debug-on.
 ~
 DROP
 

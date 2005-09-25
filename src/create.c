@@ -354,29 +354,32 @@ do_link(dbref player, const char *thing_name, const char *dest_name)
 		    return;
 		}
 	    }
-	    /* handle costs */
-	    if (OWNER(thing) == OWNER(player)) {
-		if (!payfor(player, tp_link_cost)) {
-		    anotify_fmt(player, CFAIL "It costs %d %s to link this exit.",
-			       tp_link_cost, (tp_link_cost==1)?tp_penny:tp_pennies);
-		    return;
-		}
-	    } else {
-		if (!payfor(player, tp_link_cost + tp_exit_cost)) {
-		    anotify_fmt(player, CFAIL "It costs %d %s to link this exit.",
-			       (tp_link_cost+tp_exit_cost),
-			       (tp_link_cost+tp_exit_cost == 1)?tp_penny:tp_pennies);
-		    return;
-		} else if (tp_restricted_building && !Builder(player)) {
-		    anotify(player, CFAIL NOBBIT_MESG);
-		    return;
-		} else {
-		    /* pay the owner for his loss */
-		    dbref   owner = OWNER(thing);
 
-		    DBFETCH(owner)->sp.player.pennies += tp_exit_cost;
-		    DBDIRTY(owner);
+	    if (tp_link_cost != 0) {
+	      /* handle costs */
+	      if (OWNER(thing) == OWNER(player)) {
+		if (!payfor(player, tp_link_cost)) {
+		  anotify_fmt(player, CFAIL "It costs %d %s to link this exit.",
+			      tp_link_cost, (tp_link_cost==1)?tp_penny:tp_pennies);
+		  return;
 		}
+	      } else {
+		if (!payfor(player, tp_link_cost + tp_exit_cost)) {
+		  anotify_fmt(player, CFAIL "It costs %d %s to link this exit.",
+			      (tp_link_cost+tp_exit_cost),
+			      (tp_link_cost+tp_exit_cost == 1)?tp_penny:tp_pennies);
+		  return;
+		} else if (tp_restricted_building && !Builder(player)) {
+		  anotify(player, CFAIL NOBBIT_MESG);
+		  return;
+		} else {
+		  /* pay the owner for his loss */
+		  dbref   owner = OWNER(thing);
+		  
+		  DBFETCH(owner)->sp.player.pennies += tp_exit_cost;
+		  DBDIRTY(owner);
+		}
+	      }
 	    }
 
 	    /* link has been validated and paid for; do it */
@@ -384,7 +387,9 @@ do_link(dbref player, const char *thing_name, const char *dest_name)
 	    ndest = link_exit(player, thing, (char *) dest_name, good_dest);
 	    if (ndest == 0) {
 		anotify(player, CFAIL "No destinations linked.");
-		DBFETCH(player)->sp.player.pennies += tp_link_cost;	/* Refund! */
+		if (tp_link_cost != 0) {
+		  DBFETCH(player)->sp.player.pennies += tp_link_cost;	/* Refund! */
+		}
 		DBDIRTY(player);
 		break;
 	    }

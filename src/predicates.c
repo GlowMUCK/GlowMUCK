@@ -423,16 +423,23 @@ restricted2(dbref player, dbref thing, object_flag_type flag)
 int 
 payfor(dbref who, int cost)
 {
-    who = OWNER(who);
-    if (Mage(who)) {
-	return 1;
-    } else if (DBFETCH(who)->sp.player.pennies >= cost) {
-	DBFETCH(who)->sp.player.pennies -= cost;
-	DBDIRTY(who);
-	return 1;
-    } else {
-	return 0;
-    }
+
+  if (cost == 0) {
+    return 1;
+  }
+
+  who = OWNER(who);
+  if (Mage(who)) {
+    return 1;
+  }
+
+  if (DBFETCH(who)->sp.player.pennies >= cost) {
+    DBFETCH(who)->sp.player.pennies -= cost;
+    DBDIRTY(who);
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 int 

@@ -72,8 +72,9 @@ prim_addpennies(PRIM_PROTOTYPE)
 
     if (Typeof(ref) == TYPE_PLAYER) {
 	result = DBFETCH(ref)->sp.player.pennies;
-	if ((result + oper1->data.number) < 0)
-	    abort_interp("Result would be negative");
+	/*	if ((result + oper1->data.number) < 0)
+	 *   abort_interp("Result would be negative");
+         */
 	if (mlev < LMAGE) 
 	    if (oper1->data.number > 0)
 		if ((result + oper1->data.number) > tp_max_pennies)

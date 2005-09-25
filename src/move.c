@@ -902,8 +902,9 @@ recycle(dbref player, dbref thing)
     depth++;
     switch (Typeof(thing)) {
 	case TYPE_ROOM:
-	    if (!Mage(OWNER(thing)))
-		DBFETCH(OWNER(thing))->sp.player.pennies += tp_room_cost;
+	  if (!Mage(OWNER(thing)) && tp_room_cost != 0 ) {
+	    DBFETCH(OWNER(thing))->sp.player.pennies += tp_room_cost;
+	  }
 	    DBDIRTY(OWNER(thing));
 	    for (first = DBFETCH(thing)->exits; first != NOTHING; first = rest) {
 		rest = DBFETCH(first)->next;
@@ -914,9 +915,9 @@ recycle(dbref player, dbref thing)
 			  "You feel a wrenching sensation...", player);
 	    break;
 	case TYPE_THING:
-	    if (!Mage(OWNER(thing)))
-		DBFETCH(OWNER(thing))->sp.player.pennies +=
-		    DBFETCH(thing)->sp.thing.value;
+ 	  if (!Mage(OWNER(thing)) && tp_room_cost != 0 ) {
+	    DBFETCH(OWNER(thing))->sp.player.pennies += DBFETCH(thing)->sp.thing.value;
+	  }
 	    DBDIRTY(OWNER(thing));
 	    for (first = DBFETCH(thing)->exits; first != NOTHING;
 		    first = rest) {
@@ -926,8 +927,9 @@ recycle(dbref player, dbref thing)
 	    }
 	    break;
 	case TYPE_EXIT:
-	    if (!Mage(OWNER(thing)))
-		DBFETCH(OWNER(thing))->sp.player.pennies += tp_exit_cost;
+ 	  if (!Mage(OWNER(thing)) && tp_room_cost != 0 ) {
+	    DBFETCH(OWNER(thing))->sp.player.pennies += tp_exit_cost;
+	  }
 	    if (!Mage(OWNER(thing)))
 		if (DBFETCH(thing)->sp.exit.ndest != 0)
 		    DBFETCH(OWNER(thing))->sp.player.pennies += tp_link_cost;
@@ -987,7 +989,9 @@ recycle(dbref player, dbref thing)
 				(DBFETCH(rest)->sp.exit.dest)[i];
 		    }
 		    if (j < DBFETCH(rest)->sp.exit.ndest) {
+		      if (tp_link_cost != 0) {
 			DBFETCH(OWNER(rest))->sp.player.pennies += tp_link_cost;
+		      }
 			DBDIRTY(OWNER(rest));
 			DBFETCH(rest)->sp.exit.ndest = j;
 			DBDIRTY(rest);
