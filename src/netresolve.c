@@ -258,13 +258,16 @@ host_load(void)
     char name[80];
     char *p = name;
     time_t last = (time_t) 0;
+    int tmp;
 
     if(!( f = fopen( "nethost.cache", "rb" ))) return;
 
     host_free();
 
-    while( fscanf( f, "%x %s %d\n", &ip, p, (int *) &last ) == 3 )
-	host_add(ip, name, last);	
+    while( fscanf( f, "%x %s %d\n", &ip, p,  &tmp ) == 3 ) {
+      last = (time_t) tmp;
+      host_add(ip, name, last);
+    }
 
     fclose( f );
 }

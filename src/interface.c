@@ -1,10 +1,13 @@
 /*
  *  interface.c
- *  $Revision: 1.9 $ $Date: 2005/09/25 05:01:26 $
+ *  $Revision: 1.10 $ $Date: 2005/10/10 22:36:29 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.10  2005/10/10 22:36:29  feaelin
+ *  Fixed various issues that would cause gcc 4.x to issue warnings.
+ *
  *  Revision 1.9  2005/09/25 05:01:26  feaelin
  *  Changed init message from version to glow-version.
  *
@@ -1353,7 +1356,7 @@ new_connection(int sock, int port, int ctype)
 {
     int    newsock;
     struct sockaddr_in addr;
-    int    addr_len;
+    socklen_t addr_len;
     int    lma; /* accepts in past minute */
     time_t lt;
     char   hostname[128];
@@ -1361,7 +1364,7 @@ new_connection(int sock, int port, int ctype)
     lt = current_systime;
 
     addr_len = sizeof(addr);
-    newsock = accept(sock, (struct sockaddr *) & addr, (int *) &addr_len);
+    newsock = accept(sock, (struct sockaddr *) & addr, (socklen_t *) &addr_len);
     if (newsock < 0) {
 	return 0;
     } else {
