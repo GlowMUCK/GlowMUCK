@@ -591,7 +591,9 @@ register_mesg
 Message for a failed 'create' at login if registration is turned on.
 ~
 registration
-Only wizards can create players.
+If this is set to 'yes' the 'create' command will be disabled,
+preventing players from creating characters without the help of
+a MUF program or a wizard.
 ~
 restart_mesg
 Message shown to players when the muck is restarted before they are booted.
