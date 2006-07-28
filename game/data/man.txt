@@ -84,7 +84,8 @@ Bitwise Operators:
 P4|PRIM4|PRIMITIVE4|PRIMITIVES4|PRIMS4
 
 Debugging:
-  debug-on debug-off debug-line
+  debug-on       debug-off       debug-line 
+  interactive-on interactive-off
 
 Misc:
   set     mlevel  next       checkargs  location  newroom     pennies
@@ -403,6 +404,21 @@ INT
 int ( x -- i )
 
 Converts variable or object x to integer i.
+~
+INTERACTIVE-ON
+
+interactive-on ( -- )
+
+Sets the currently running program 'Z' for interactive debugging mode. Use
+'help' to see what commands are available in interactive mode.
+~
+INTERACTIVE-OFF
+
+interactive-off ( -- )
+
+Unsets the currently running program's Z flag. This will turn off interactive
+debugging mode. Useful when you don't need to step through every last
+instruction of a program.
 ~
 INTOSTR
 

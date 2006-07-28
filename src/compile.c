@@ -346,6 +346,8 @@ init_defs(void)
     insert_def("debug-on", "prog \"D\" set");
     insert_def("debug-off", "prog \"!D\" set");
     insert_def("debug-line", "prog \"!d\" over \"d\" set set");
+    insert_def("interactive-on", "prog \"ZOMBIE\" set");
+    insert_def("interactive-off", "prog \"!ZOMBIE\" set");
     insert_intdef("bg_mode", BACKGROUND);
     insert_intdef("fg_mode", FOREGROUND);
     insert_intdef("pr_mode", PREEMPT);
