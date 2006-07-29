@@ -1,6 +1,6 @@
 /*
  * local.h
- * $Revision: 1.2 $ $Date: 2006/07/29 17:45:47 $
+ * $Revision: 1.3 $ $Date: 2006/07/29 17:54:10 $
  * 
  * Local Glowmuck compiler directives file
  *
@@ -151,6 +151,9 @@
 #endif
 
 /* Defines how long between heartbeats (in seconds) */
+#ifdef BASE_PULSE
+#undef BASE_PULSE
+#endif
 #define BASE_PULSE 15
 
 /* Define this if you want the {ansi} mpi prim to not return anything. */
@@ -171,7 +174,9 @@
 /* This is intended to support muf-based character request systems that   */
 /* need to send an e-mail but can't use the inserver system which is more */
 /* secure as it normally uses lpexec or a sister function.                */
+#ifdef INSECURE_SYSTEM_MUF_PRIM
 #undef INSECURE_SYSTEM_MUF_PRIM
+#endif
 
 /************************************************************************
  *  Game Options
