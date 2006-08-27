@@ -378,10 +378,12 @@ do_abort_loop(dbref player, dbref program, const char *msg,
     if (pc) {
 	calc_profile_timing(program,fr);
     }
-    if (clinst1)
+    if (clinst1) {
 	CLEAR(clinst1);
-    if (clinst2)
+    }
+    if (clinst2) {
 	CLEAR(clinst2);
+    }
     reload(fr, atop, stop);
     fr->pc = pc;
     if (pc) {
