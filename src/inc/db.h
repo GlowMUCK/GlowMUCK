@@ -410,7 +410,7 @@ struct line {
 				 * basic ME and LOC                */
 #define RES_VAR          4	/* no of reserved variables */
 
-#define STACK_SIZE       1024	/* maximum size of stack */
+#define STACK_SIZE       4096	/* maximum size of stack */
 
 struct shared_string {		/* for sharing strings in programs */
     int     links;		/* number of pointers to this struct */
