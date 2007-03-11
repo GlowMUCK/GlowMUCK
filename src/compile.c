@@ -104,6 +104,7 @@ struct INTERMEDIATE *process_special(const char *);
 struct INTERMEDIATE *primitive_word(const char *);
 struct INTERMEDIATE *string_word(const char *);
 struct INTERMEDIATE *number_word(const char *);
+struct INTERMEDIATE *float_word(const char *);
 struct INTERMEDIATE *object_word(const char *);
 struct INTERMEDIATE *quoted_word(const char *);
 struct INTERMEDIATE *call_word(const char *);
@@ -596,6 +597,8 @@ next_word(const char *token)
 	new_word = string_word(token + 1);
     else if (number(token))
 	new_word = number_word(token);
+    else if (isfloat(token))
+        new_word = float_word(token);
     else if (object(token))
 	new_word = object_word(token);
     else if (quoted(token))
@@ -1273,6 +1276,20 @@ number_word(const char *token)
     return new;
 }
 
+/* return self pushing word (number) */
+struct INTERMEDIATE *
+float_word(const char *token)
+{
+    struct INTERMEDIATE *new;
+
+    new = new_inst();
+    new->no = nowords++;
+    new->in.type = PROG_FLOAT;
+    new->in.line = lineno;
+    new->in.data.float_n = atof(token);
+    return new;
+}
+
 /* do a subroutine call --- push address onto stack, then make a primitive
    CALL.
    */
@@ -1785,6 +1802,9 @@ copy_program(void)
 	    case PROG_LVAR:
 	    case PROG_VAR:
 		code[i].data.number = curr->in.data.number;
+		break;
+	    case PROG_FLOAT:
+	        code[i].data.float_n = curr->in.data.float_n;
 		break;
 	    case PROG_STRING:
 	    case PROG_FUNCTION:

@@ -1,10 +1,13 @@
 /* p_strings.c
- * $Revision: 1.2 $ $Date: 2005/03/10 16:50:44 $
+ * $Revision: 1.3 $ $Date: 2007/03/11 05:47:06 $
  * String related MUF primitives
  */
 
 /*
  * $Log: p_strings.c,v $
+ * Revision 1.3  2007/03/11 05:47:06  feaelin
+ * Bundle of changes to add support for floats in MUF.
+ *
  * Revision 1.2  2005/03/10 16:50:44  feaelin
  * Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
  * was passed, the server would crash.
@@ -211,6 +214,20 @@ prim_atoi(PRIM_PROTOTYPE)
 	result = atoi(oper1->data.string->data);
     CLEAR(oper1);
     PushInt(result);
+}
+
+void 
+prim_atof(PRIM_PROTOTYPE)
+{
+    double dbl_result = 0.0;
+    CHECKOP(1);
+    oper1 = POP();
+    if (oper1->type != PROG_STRING || !oper1->data.string)
+	dbl_result = 0.0;
+    else
+	dbl_result = atof(oper1->data.string->data);
+    CLEAR(oper1);
+    PushFloat(dbl_result);
 }
 
 void 

@@ -31,7 +31,7 @@ Math and Comparison:
   strcmp   stringcmp   strncmp   smatch   stringpfx   dbcmp   number?
 
 Stack Types and Object Types:
-  string?  dbref?  address?  lock?  int? 
+  string?  dbref?  address?  lock?  int?  float?
   player?  thing?  program?  exit?  room?  ok?  flag? ignoring?
 
 Control Structures:
@@ -52,7 +52,7 @@ Time:
   date   gmtoffset   systime   time   timesplit   timefmt   convtime
 
 Data Conversion:
-  atoi   intostr   dbref   int
+  atoi  atof  float  int  intostr  dbref  
 
 Property Management:
   getpropval   getpropstr   addprop   remove_prop   getprop   setprop
@@ -157,6 +157,15 @@ atoi ( s -- i )
 
 Turns string s into integer i.  If s is not a string, then 0 is pushed
 onto the stack.
+
+See also: atof
+~
+ATOF
+
+atoi ( s -- float )
+
+Turns string s into a floating point number.  If s is not a string,
+then 0 is pushed onto the stack.
 ~
 CALL
 
@@ -313,6 +322,22 @@ the "Nucker" flag returns the least significant bit.
 
 See set for a list of supported flags.
 ~
+FLOAT
+
+float ( i -- float )
+
+Converts integer i to a floating point number.
+
+See also: int atof
+~
+FLOAT?
+
+float? ( ? -- bool )
+
+Checks to see if the top item on the stack is a floating point number.
+
+See also: atof float
+~
 GETLINK
 
 getlink ( d -- d' )
@@ -403,7 +428,9 @@ INT
 
 int ( x -- i )
 
-Converts variable or object x to integer i.
+Converts float point number, variable or database reference x to integer i.
+
+See Also: atoi, float
 ~
 INTERACTIVE-ON
 

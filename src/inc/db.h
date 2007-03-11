@@ -397,14 +397,15 @@ struct line {
 #define PROG_OBJECT      3	/* database objects */
 #define PROG_VAR         4	/* variables */
 #define PROG_LVAR        5	/* variables */
+#define PROG_FLOAT       6      /* floating point type */
 /* Pointer types go here, numbered *AFTER* PROG_STRING */
-#define PROG_STRING      6	/* string types */
-#define PROG_FUNCTION    7	/* function names for debugging. */
-#define PROG_LOCK        8	/* boolean expression */
-#define PROG_ADD         9	/* program address - used in calls&jmps */
-#define PROG_IF          10	/* A low level IF statement */
-#define PROG_EXEC        11	/* EXECUTE shortcut */
-#define PROG_JMP         12	/* JMP shortcut */
+#define PROG_STRING      7	/* string types */
+#define PROG_FUNCTION    8	/* function names for debugging. */
+#define PROG_LOCK        9	/* boolean expression */
+#define PROG_ADD         10	/* program address - used in calls&jmps */
+#define PROG_IF          11	/* A low level IF statement */
+#define PROG_EXEC        12	/* EXECUTE shortcut */
+#define PROG_JMP         13	/* JMP shortcut */
 
 #define MAX_VAR         54	/* maximum number of variables including the
 				 * basic ME and LOC                */
@@ -436,6 +437,7 @@ struct inst {			/* instruction */
 	struct shared_string *string;  /* strings */
 	struct boolexp *lock;   /* booleam lock expression */
 	int     number;		/* used for both primitives and integers */
+        double  float_n;          /* used for floats */
 	dbref   objref;		/* object reference */
 	struct inst *call;	/* use in IF and JMPs */
 	struct prog_addr *addr; /* the result of 'funcname */
@@ -703,6 +705,7 @@ extern void db_free(void);
 extern dbref parse_dbref(const char *);	/* parse a dbref */
 
 extern int  number(const char *s);
+extern int  isfloat(const char *s);
 
 extern void putproperties(FILE *f, int obj);
 

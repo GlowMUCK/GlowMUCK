@@ -408,6 +408,16 @@ prim_intp(PRIM_PROTOTYPE)
 }
 
 void
+prim_floatp(PRIM_PROTOTYPE)
+{
+    CHECKOP(1);
+    oper1 = POP();
+    result = (oper1->type == PROG_FLOAT);
+    CLEAR(oper1);
+    PushInt(result);
+}
+
+void
 prim_stringp(PRIM_PROTOTYPE)
 {
     CHECKOP(1);
@@ -536,6 +546,12 @@ prim_checkargs(PRIM_PROTOTYPE)
 	    }
 	} else {
 	    switch (buf[currpos]) {
+	        case 'g':
+		  if (stackpos < 0)
+		    ABORT_CHECKARGS("Stack underflow");
+		  if (arg[stackpos].type != PROG_FLOAT)
+		    ABORT_CHECKARGS("Expected a float");
+		  break;
 		case 'i':
 		    if (stackpos < 0)
 			ABORT_CHECKARGS("Stack underflow");

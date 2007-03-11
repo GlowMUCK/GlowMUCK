@@ -23,6 +23,7 @@ extern void prim_preempt (PRIM_PROTOTYPE);
 extern void prim_foreground (PRIM_PROTOTYPE);
 extern void prim_background (PRIM_PROTOTYPE);
 extern void prim_intp(PRIM_PROTOTYPE);
+extern void prim_floatp(PRIM_PROTOTYPE);
 extern void prim_stringp(PRIM_PROTOTYPE);
 extern void prim_dbrefp(PRIM_PROTOTYPE);
 extern void prim_addressp(PRIM_PROTOTYPE);
@@ -35,15 +36,15 @@ extern void prim_interp(PRIM_PROTOTYPE);
 #define PRIMS_STACK_FUNCS prim_pop, prim_dup, prim_at, prim_bang, prim_var,  \
     prim_localvar, prim_swap, prim_over, prim_pick, prim_put, prim_rot,      \
     prim_rotate, prim_dbtop, prim_depth, prim_version, prim_prog, prim_trig, \
-    prim_caller, prim_intp, prim_stringp, prim_dbrefp, prim_addressp,        \
+    prim_caller, prim_intp, prim_floatp, prim_stringp, prim_dbrefp, prim_addressp, \
     prim_lockp, prim_checkargs, prim_mode, prim_setmode, prim_interp,	     \
     prim_sort, prim_popn, prim_glowver
 
 #define PRIMS_STACK_NAMES "POP", "DUP", "@", "!", "VARIABLE", \
     "LOCALVAR", "SWAP", "OVER", "PICK", "PUT", "ROT",         \
     "ROTATE", "DBTOP", "DEPTH", "VERSION", "PROG", "TRIG",    \
-    "CALLER", "INT?", "STRING?", "DBREF?", "ADDRESS?",        \
+    "CALLER", "INT?", "FLOAT?", "STRING?", "DBREF?", "ADDRESS?", \
     "LOCK?", "CHECKARGS", "MODE", "SETMODE", "INTERP",	      \
     "SORT", "POPN", "GLOWVER"
 
-#define PRIMS_STACK_CNT 30
+#define PRIMS_STACK_CNT 31

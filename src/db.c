@@ -37,6 +37,7 @@ extern short db_conversion_flag;
 extern short db_decompression_flag;
 
 int     number(const char *s);
+int     isfloat(const char *s);
 void    putproperties(FILE * f, int obj);
 void    getproperties(FILE * f, int obj);
 
@@ -799,6 +800,35 @@ number(const char *s)
     for (; *s; s++)
 	if (*s < '0' || *s > '9')
 	    return 0;
+    return 1;
+}
+
+/* returns true for numbers of form [ + | - ] <series of digits>.<more digits> */
+int isfloat(const char *s)
+{
+    if (!s)
+    {
+	return 0;
+    }
+    while (isspace(*s))
+    {
+	s++;
+    }
+    if (*s == '+' || *s == '-')
+    {
+	s++;
+    }
+    for (; *s; s++)
+    {
+        if (*s == '.')
+        {
+   	    continue;
+        }
+        if (*s < '0' || *s > '9')
+        {
+	    return 0;
+        }
+    }
     return 1;
 }
 

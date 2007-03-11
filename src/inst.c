@@ -53,6 +53,9 @@ insttotext(struct inst * theinst, int strmax, dbref program)
 	case PROG_INTEGER:
 	    sprintf(buffer, "%d", theinst->data.number);
 	    break;
+        case PROG_FLOAT:
+	    sprintf(buffer, "%f", theinst->data.float_n);
+            break;
 	case PROG_ADD:
 	    if (theinst->data.addr->data->type == PROG_FUNCTION) {
 		if (theinst->data.addr->progref != program)

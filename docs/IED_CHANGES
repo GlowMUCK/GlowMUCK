@@ -1,6 +1,6 @@
 *******************************************************************************
 IED_CHANGES
-$Revision: 1.10 $ $Date: 2005/09/25 05:02:54 $
+$Revision: 1.11 $ $Date: 2007/03/11 05:47:06 $
 *******************************************************************************
 GlowMuck source code is Copyright 1996-1999 by Andrew Nelson, all rights
 reserved.  This product is supplied 'AS IS' with absolutely no warranties,
@@ -21,7 +21,8 @@ Any changes in this file was written by Iain E. Davis. Pakrat's changes to the
 code are stored in the PAK_FIXES files. Original Fuzzball changes are stored
 in the CHANGESfb5 file.
 *******************************************************************************
-
+2007-Mar-10: Added floating point types to MUF and added the following prims:
+	     float?, float, atof
 2005-Sep-24: Fixed bug where if a player had negative pennies, and the cost
              to create something was set to 0, it would tell them they had
              insufficient funds. Inserted several checks to guarantee that

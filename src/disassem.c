@@ -49,6 +49,10 @@ disassemble(dbref player, dbref program)
 		sprintf(buf, "%d: (line %d) INTEGER: %d", i,
 			curr->line, curr->data.number);
 		break;
+	    case PROG_FLOAT:
+  	        sprintf(buf, "%d: (line %d) FLOAT: %f", i, curr->line,
+                        curr->data.float_n);
+	        break;
 	    case PROG_ADD:
 		sprintf(buf, "%d: (line %d) ADDRESS: %d", i,
 			curr->line, (int)(curr->data.addr->data - codestart));

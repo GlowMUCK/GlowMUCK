@@ -306,6 +306,7 @@ false(struct inst * p)
     return ((p->type == PROG_STRING && (p->data.string == 0 || !(*p->data.string->data)))
 	    || (p->type == PROG_LOCK && p->data.lock == TRUE_BOOLEXP)
 	    || (p->type == PROG_INTEGER && p->data.number == 0)
+	    || (p->type == PROG_FLOAT && p->data.float_n == 0)
 	    || (p->type == PROG_OBJECT && p->data.objref == NOTHING));
 }
 
@@ -563,6 +564,7 @@ interp_loop(dbref player, dbref program, struct frame * fr, int rettyp)
 	}
 	switch (pc->type) {
 	    case PROG_INTEGER:
+   	    case PROG_FLOAT:
 	    case PROG_ADD:
 	    case PROG_OBJECT:
 	    case PROG_VAR:
@@ -882,9 +884,15 @@ void
 push(struct inst *stack, int *top, int type, voidptr res)
 {
     stack[*top].type = type;
-    if (type < PROG_STRING)
+    if (type < PROG_STRING) 
+    {
+      if (type == PROG_FLOAT)
+      {
+	stack[*top].data.float_n = *(double *) res;
+      } else {
 	stack[*top].data.number = *(int *) res;
-    else
+      }
+    } else
 	stack[*top].data.string = (struct shared_string *) res;
     (*top)++;
 }

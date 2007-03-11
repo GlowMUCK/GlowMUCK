@@ -300,6 +300,7 @@ static void
 push_arg(dbref player, struct frame *fr, const char *arg)
 {
     int num, lflag = 0;
+    double nflt = 0.0;
 
     if (fr->argument.top >= STACK_SIZE) {
 	anotify_nolisten(player, CFAIL "That would overflow the stack.", 1);
@@ -310,6 +311,11 @@ push_arg(dbref player, struct frame *fr, const char *arg)
 	num = atoi(arg);
 	push(fr->argument.st, &fr->argument.top, PROG_INTEGER, MIPSCAST &num);
 	anotify_nolisten(player, CSUCC "Integer pushed.", 1);
+    } else if (isfloat(arg)) {
+      /* push a float */
+      nflt = atof(arg);
+      push(fr->argument.st, &fr->argument.top, PROG_FLOAT, MIPSCAST &nflt);
+      anotify_nolisten(player, CSUCC "Floating point number pushed.", 1);
     } else if (*arg == '#') {
 	/* push a dbref */
 	if (!number(arg+1)) {
