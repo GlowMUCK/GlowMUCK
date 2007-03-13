@@ -1,10 +1,13 @@
 #!/bin/make -f
-# $Revision: 1.4 $ $Date: 2005/03/10 16:50:44 $
+# $Revision: 1.5 $ $Date: 2007/03/13 23:40:33 $
 # #######################################################################
 #                  Makefile for TinyMUCK 2.2fb5.x
 # #######################################################################
 
 # $Log: Makefile.in,v $
+# Revision 1.5  2007/03/13 23:40:33  feaelin
+# Dependency compiling should oerate more cleanly now.
+#
 # Revision 1.4  2005/03/10 16:50:44  feaelin
 # Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
 # was passed, the server would crash.
@@ -68,7 +71,7 @@ RM= -rm -f
 # Misc stuff for odd targets.
 #
 SRC_PREFIX=
-MKDEPEND= makedepend
+MKDEPEND= ${CC} -MM
 MAKE= make
 LINT= lint
 MKTAGS= ctags
@@ -85,27 +88,27 @@ MISCSRC= Makefile
 
 CSRC= boolexp.c case.c cast.c color.c compile.c compress.c create.c db.c \
 	debugger.c disassem.c diskprop.c edit.c events.c game.c hashtab.c \
-	heartbeat.c \
-	help.c inst.c interp.c log.c look.c match.c mfuns.c mfuns2.c \
-	msgparse.c move.c mud.c crt_malloc.c netresolve.c oldcompress.c \
-	path.c player.c predicates.c p_connects.c p_db.c p_math.c p_misc.c \
-	p_props.c p_stack.c p_strings.c property.c propdirs.c props.c reg.c \
-	rob.c rwho.c sanity.c set.c signal.c smatch.c speech.c strftime.c \
-	stringutil.c timequeue.c timestamp.c tune.c unparse.c utils.c wiz.c
+	heartbeat.c help.c inst.c interp.c log.c look.c match.c mfuns.c \
+	mfuns2.c msgparse.c move.c mud.c crt_malloc.c netresolve.c \
+	oldcompress.c path.c player.c predicates.c p_connects.c p_db.c \
+	p_math.c p_misc.c p_props.c p_stack.c p_strings.c property.c \
+	propdirs.c props.c reg.c rob.c rwho.c sanity.c set.c signal.c \
+	smatch.c speech.c strftime.c stringutil.c timequeue.c timestamp.c \
+	tune.c unparse.c utils.c wiz.c
 
 MSRC= util/olddecomp.c util/reconst.c interface.c
 
 SRC= ${MISCSRC} ${CSRC} ${MSRC}
 
-COBJ= boolexp.o case.o cast.o color.o compile.o compress.o create.o db.o \
+COBJ=  boolexp.o case.o cast.o color.o compile.o compress.o create.o db.o \
 	debugger.o disassem.o diskprop.o edit.o events.o game.o hashtab.o \
-	heartbeat.o \
-	help.o inst.o interp.o log.o look.o match.o mfuns.o mfuns2.o \
-	msgparse.o move.o mud.o crt_malloc.o netresolve.o oldcompress.o \
-	path.o player.o predicates.o p_connects.o p_db.o p_math.o p_misc.o \
-	p_props.o p_stack.o p_strings.o property.o propdirs.o props.o reg.o \
-	rob.o rwho.o sanity.o signal.o set.o smatch.o speech.o strftime.o \
-	stringutil.o timequeue.o timestamp.o tune.o unparse.o utils.o wiz.o
+	heartbeat.o help.o inst.o interp.o log.o look.o match.o mfuns.o \
+	mfuns2.o msgparse.o move.o mud.o crt_malloc.o netresolve.o \
+	oldcompress.o path.o player.o predicates.o p_connects.o p_db.o \
+	p_math.o p_misc.o p_props.o p_stack.o p_strings.o property.o \
+	propdirs.o props.o reg.o rob.o rwho.o sanity.o set.o signal.o \
+	smatch.o speech.o strftime.o stringutil.o timequeue.o timestamp.o \
+	tune.o unparse.o utils.o wiz.o
 
 LOBJ= copyright.o
 MOBJ= olddecomp.o reconst.o interface.o resolver.o topwords.o
@@ -168,8 +171,7 @@ names:
 	@for i in ${SRC}; do echo ${SRC_PREFIX}$$i; done
 
 depend:
-	${MKDEPEND} -- ${CFLAGS} -- ${CSRC} ${MSRC}
-	chmod -w Makefile
+	${MKDEPEND} ${CFLAGS} ${CSRC} ${MSRC} >> dependencies
 
 
 ########################################################
@@ -180,7 +182,7 @@ test:	glowmuck
 	cp glowmuck ${HOME}/glow/game/testmuck
 
 clean:
-	${RM} ${OBJ} core version.o ${SOBJ} resolver.o
+	${RM} ${OBJ} core version.o ${SOBJ} resolver.o dependencies
 
 cleaner: clean
 	${RM} Makefile config.status ${INCLUDE}/autoconf.h ${TARGETS}
@@ -203,3 +205,4 @@ install: all
 # #######################################################################
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
+-include dependencies
