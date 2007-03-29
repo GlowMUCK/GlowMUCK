@@ -117,3 +117,7 @@
 /* if tm_gmtoff is defined in sys/time.h, define this */
 /* #undef HAVE_SYS_TM_GMTOFF */
 
+/* In some cases, this isn't defined */
+#ifndef socklen_t
+typedef int socklen_t;
+#endif

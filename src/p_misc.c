@@ -7,7 +7,9 @@
 #include "local.h"
 
 #include <sys/types.h>
-#include <sys/wait.h>
+#ifdef HAVE_SYS_WAIT_H
+# include <sys/wait.h>
+#endif
 #include <stdio.h>
 #include <time.h>
 
