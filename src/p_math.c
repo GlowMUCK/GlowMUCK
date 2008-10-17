@@ -218,6 +218,10 @@ prim_mod(PRIM_PROTOTYPE)
     {
         abort_interp("Modulus cannot be performed on floating point numbers.");
     }
+    if (oper1->data.number == 0)
+    {
+      abort_interp("Divide by zero error when performing modulus");
+    }
     result = oper2->data.number % oper1->data.number;
     tmp = oper2->type;
     CLEAR(oper1);
