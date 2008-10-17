@@ -158,6 +158,11 @@ prim_divide(PRIM_PROTOTYPE)
     {
 	abort_interp("Invalid argument type");
     }
+    if ((oper1->type == PROG_FLOAT && oper1->data.float_n == 0.0) ||
+	(oper1->type == PROG_INTEGER && oper1->data.number == 0))
+    {
+      abort_interp("Division by zero error");
+    }
     if (oper2->type == PROG_FLOAT && oper1->type == PROG_FLOAT)
     {
       if (oper1->data.float_n)
