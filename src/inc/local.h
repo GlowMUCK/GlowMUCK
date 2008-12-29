@@ -1,6 +1,6 @@
 /*
  * local.h
- * $Revision: 1.3 $ $Date: 2006/07/29 17:54:10 $
+ * $Revision: 1.4 $ $Date: 2008/12/29 15:29:13 $
  * 
  * Local Glowmuck compiler directives file
  *
@@ -64,10 +64,15 @@
 #undef DETACH
 #endif
 
-/* Use to compress string data (recommended)
+/* Use to compress string data */
+/* With today's technology this seems unnecessary. Most glowmuck servers will
+ * have plenty of space for their database files. Therefore, I recommend
+ * turning this option off. (IDE 2008-December-29)
+ * 
  */
-#ifndef COMPRESS
-#define COMPRESS
+
+#ifdef COMPRESS
+#undef COMPRESS
 #endif
 
 /*  To use a simple disk basing scheme where properties aren't loaded
@@ -217,7 +222,7 @@
 #ifdef PCREATE_FLAGS
 #undef PCREATE_FLAGS
 #endif
-#define PCREATE_FLAGS (JUMP_OK)	/* default flag bits for created players */
+#define PCREATE_FLAGS (0)	/* default flag bits for created players */
 
 #ifdef PCREATE_FLAG2
 #undef PCREATE_FLAG2
