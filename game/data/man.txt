@@ -673,7 +673,7 @@ PRONOUN_SUB
 
 pronoun_sub ( d s -- s' )
 
-Takes database object d and substitutes string s according to o-message
+Takes database item 'd' and substitutes string s according to o-message
 rules.  'd' does not have to be a player for the substitutions to work.
 
 Substitutions:
@@ -685,8 +685,8 @@ Substitutions:
  %n/%N for the player's name.
 
 if it comes across a %X substitution, where X is any character not listed
-in the above substitutions table, it will search down the environment tree
-from d to try to find the appropriate %X property for use in substitution.
+in the above substitutions table, it will search up the environment tree
+from 'd' to try to find the appropriate %X property for use in substitution.
 ~
 RANDOM
 
