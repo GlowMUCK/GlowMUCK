@@ -378,7 +378,7 @@ Max value of an object.
 See @create.
 ~
 max_output
-Max amount of output text before <Flushed output> is forced.
+Max amount of output text in bytes before <Flushed output> is forced.
 ~
 max_pennies
 Max number of pennies a player can own before economic restrictions.
