@@ -1075,7 +1075,7 @@ do_examine(dbref player, const char *name, const char *dir, int when)
 
 	    /* print dropto if present */
 	    if (DBFETCH(thing)->sp.room.dropto != NOTHING) {
-		sprintf(buf, CAQUA "Dropped objects go to: %s",
+		sprintf(buf, CAQUA "Dropped things go to: %s",
 		     ansi_unparse_object(player, DBFETCH(thing)->sp.room.dropto));
 		anotify(player, buf);
 	    }
@@ -1868,7 +1868,7 @@ do_find(dbref player, const char *name, const char *flags)
 	    }
 	}
 	anotify(player, CINFO "***End of List***");
-	anotify_fmt(player, CINFO "%d object%s found.", total, (total!=1) ? "s" : "");
+	anotify_fmt(player, CINFO "%d database item%s found.", total, (total!=1) ? "s" : "");
     }
 }
 
@@ -1906,7 +1906,7 @@ do_owned(dbref player, const char *name, const char *flags)
 	}
     }
     anotify(player, CINFO "***End of List***");
-    anotify_fmt(player, CINFO "%d object%s found.", total, (total!=1) ? "s" : "");
+    anotify_fmt(player, CINFO "%d database item%s found.", total, (total!=1) ? "s" : "");
 }
 
 void 
@@ -2019,7 +2019,7 @@ do_entrances(dbref player, const char *name, const char *flags)
 	}
     }
     anotify(player, CINFO "***End of List***");
-    anotify_fmt(player, CINFO "%d object%s found.", total, (total!=1) ? "s" : "");
+    anotify_fmt(player, CINFO "%d database item%s found.", total, (total!=1) ? "s" : "");
 }
 
 void 
@@ -2085,7 +2085,7 @@ do_contents(dbref player, const char *name, const char *flags)
 	}
     }
     anotify(player, CINFO "***End of List***");
-    anotify_fmt(player, CINFO "%d object%s found.", total, (total!=1) ? "s" : "");
+    anotify_fmt(player, CINFO "%d database item%s found.", total, (total!=1) ? "s" : "");
 }
 
 static int
@@ -2197,7 +2197,7 @@ do_sweep(dbref player, const char *name)
 			strcat(buf, " listener");
 			tellflag = 1;
 		    }
-		    strcat(buf, " object owned by ");
+		    strcat(buf, " database item owned by ");
 		    strcat(buf, ansi_unparse_object(player, OWNER(ref)));
 		    strcat(buf, CNORMAL ".");
 		    if (tellflag) anotify(player, buf);
