@@ -382,6 +382,9 @@ registered name, etc.) in the @heartbeat property directory, that
 program will be automatically ran every 15 seconds. To function
 'heartbeat' must be @tune'd to 'yes' and heartbeat_user must be
 @tune'd to a valid player object for program permissions.
+Heartbeat programs must be owned by the heartbeat_user to operate.
+A program called by heartbeat will have "Heartbeat" as the initial
+stack item.
 ~
 IF
 
