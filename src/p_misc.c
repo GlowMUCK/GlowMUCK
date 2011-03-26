@@ -214,7 +214,7 @@ prim_queue(PRIM_PROTOTYPE)
 
     result = add_muf_delayq_event(oper3->data.number, player, temproom,
 		    NOTHING, oper2->data.objref, DoNullInd(oper1->data.string),
-		     "Queued Event.", 0);
+		     "Queued event.", 0);
 
     CLEAR(oper1);
     CLEAR(oper2);

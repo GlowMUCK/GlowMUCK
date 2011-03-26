@@ -571,7 +571,7 @@ do_compile(dbref player_in, dbref program_in)
     time(&current_systime);
     if ((FLAGS(program) & ABODE) && TMage(OWNER(program)))
 	add_muf_queue_event(OWNER(program), NOTHING, NOTHING, program,
-			    "Startup", "Queued Event.", 0);
+			    "Startup", "Queued event.", 0);
 }
 
 struct INTERMEDIATE *

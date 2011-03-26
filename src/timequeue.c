@@ -1,10 +1,13 @@
 /* timequeue.c
- * $Date: 2011/03/26 05:03:03 $ $Revision: 1.3 $
+ * $Date: 2011/03/26 21:38:24 $ $Revision: 1.4 $
  * 
  */
 /* Timequeue event code by Foxen */
 /*
  * $Log: timequeue.c,v $
+ * Revision 1.4  2011/03/26 21:38:24  feaelin
+ * Went the wrong way on the Queued event. problem. Switching the other way.
+ *
  * Revision 1.3  2011/03/26 05:03:03  feaelin
  * Fixed inconsistency in the labeling of Queued Event.'s
  *
@@ -916,7 +919,7 @@ propqueue(dbref player, dbref where, dbref trigger, dbref what, dbref xclude,
 		    }
 		} else if (the_prog != NOTHING) {
 		    strcpy(match_args, toparg? toparg : "");
-		    strcpy(match_cmdname, "Queued Event.");
+		    strcpy(match_cmdname, "Queued event.");
 		    interp(player, where, the_prog, trigger,
 			   BACKGROUND, STD_HARDUID, 0);
 		}
