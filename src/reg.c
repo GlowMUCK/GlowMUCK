@@ -63,7 +63,7 @@ int loginState( int, int );
 int siteState( int, int );
 int siteStatekey( int, int, const char * );
 int siteMatch( int site, int template );
-const char *strcasestr( const char *, const char * );
+const char *glow_strcasestr( const char *, const char * );
 int reg_trivial_regex_match( char *, char * );
 
 #ifdef CHECK_TRIX
@@ -247,7 +247,7 @@ reg_wildcard_match( char *trix, const char *str, int anchored_match ) {
 	    if   (anchored_match) {
 		match = !strncasecmp( str, substring, len ) ? str : NULL;
 	    } else {
-		match =  strcasestr(  str, substring      );
+		match =  glow_strcasestr(  str, substring      );
 	    }
 	    if (! match)  return FALSE;
 
@@ -583,7 +583,7 @@ const char *reg_site_welcome( int site ) {
     return NULL;
 }
 
-/* strcasestr -- Caseless substring match */
+/* glow_strcasestr -- Caseless substring match */
 /* strcpy_tolower -- strcpy that folds to lower case */
 
 char *
@@ -594,7 +594,7 @@ strcpy_tolower( char *dst, const char *src ) {
 
 #define MAX_STRCASESTR_ARG (4096)
 const char *
-strcasestr( const char *s1, const char *s2 ) {
+glow_strcasestr( const char *s1, const char *s2 ) {
     static char t1[ MAX_STRCASESTR_ARG ];
     static char t2[ MAX_STRCASESTR_ARG ];
     if (strlen(s1) > MAX_STRCASESTR_ARG-1
