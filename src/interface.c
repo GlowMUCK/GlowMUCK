@@ -1,10 +1,14 @@
 /*
  *  interface.c
- *  $Revision: 1.10 $ $Date: 2005/10/10 22:36:29 $
+ *  $Revision: 1.11 $ $Date: 2011/04/17 18:44:20 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.11  2011/04/17 18:44:20  feaelin
+ *  * Added rudimentary support for MSSP.
+ *    See http://tintin.sourceforge.net/mssp/
+ *
  *  Revision 1.10  2005/10/10 22:36:29  feaelin
  *  Fixed various issues that would cause gcc 4.x to issue warnings.
  *
@@ -123,6 +127,7 @@ struct descriptor_data *new_connection(int sock, int port, int ctype);
 void    parse_connect(const char *msg, char *command, char *user, char *pass);
 void    set_userstring(char **userstring, const char *command);
 int     do_command(struct descriptor_data * d, char *command);
+void    do_mssp_response(struct descriptor_data * d);
 char   *strsave(const char *s);
 int     make_socket(int);
 int     queue_string(struct descriptor_data *, const char *);
@@ -2273,134 +2278,195 @@ int
 do_command(struct descriptor_data * d, char *command)
 {
     if (d->connected)
-	ts_lastuseobject(d->player);
-
+    {
+        ts_lastuseobject(d->player);
+    }
+    
     (d->commands)++;
-    if (!strcmp(command, QUIT_COMMAND)) {
-	return 0;
-    } else if( !strncmp(command, "!WHO", sizeof("!WHO") - 1)) {
-	if(!d->connected) log_status("!WHO: %2d %s(%s) %s '%s' %d cmds\n",
-	    d->descriptor, d->hostname, d->username,
-	    host_as_hex(d->hostaddr), command, d->commands);
-	if ((!d->connected) && (reg_site_is_barred(d->hostaddr) == TRUE)) {
-		queue_string(d, "Lots of people are on now.\r\n");
-	} else if (tp_secure_who && (!d->connected || !TMage(d->player))) {
-		queue_string(d, "Connect and find out!\r\n");
-	} else {
-		dump_users(d, command + sizeof("!WHO") - 1);
-	}
-    } else if (!strncmp(command, WHO_COMMAND, sizeof(WHO_COMMAND) - 1)) {
-	char buf[BUFFER_LEN];
+    if (!strncmp(command, "MSSP-REQUEST", sizeof("MSSP-REQUEST") - 1))
+    {
+        do_mssp_response(d);
+    }
+    else if (!strcmp(command, QUIT_COMMAND))
+    {
+        return 0;
+    } 
+    else if (!strncmp(command, "!WHO", sizeof("!WHO") - 1))
+    {
+        if(!d->connected)
+        {
+            log_status("!WHO: %2d %s(%s) %s '%s' %d cmds\n", d->descriptor,
+                       d->hostname, d->username, host_as_hex(d->hostaddr),
+                       command, d->commands);
+        }
+        if ((!d->connected) && (reg_site_is_barred(d->hostaddr) == TRUE))
+        {
+            queue_string(d, "Lots of people are on now.\r\n");
+        }
+        else if (tp_secure_who && (!d->connected || !TMage(d->player)))
+        {
+            queue_string(d, "Connect and find out!\r\n");
+        }
+        else
+        {
+            dump_users(d, command + sizeof("!WHO") - 1);
+        }
+    }
+    else if (!strncmp(command, WHO_COMMAND, sizeof(WHO_COMMAND) - 1))
+    {
+        char buf[BUFFER_LEN];
 
-	if(!d->connected) log_status(" WHO: %2d %s(%s) %s '%s' %d cmds\n",
-	    d->descriptor, d->hostname, d->username,
-	    host_as_hex(d->hostaddr), command, d->commands);
+        if (!d->connected)
+        {
+            log_status(" WHO: %2d %s(%s) %s '%s' %d cmds\n", d->descriptor,
+                       d->hostname, d->username, host_as_hex(d->hostaddr),
+                       command, d->commands);
+        }
+        
+        if (d->output_prefix)
+        {
+            queue_string(d, d->output_prefix);
+            queue_write(d, "\r\n", 2);
+        }
 
-	if (d->output_prefix) {
-	    queue_string(d, d->output_prefix);
-	    queue_write(d, "\r\n", 2);
-	}
-	strcpy(buf, "@");
-	strcat(buf, WHO_COMMAND);
-	strcat(buf, " ");
-	strcat(buf, command + sizeof(WHO_COMMAND) - 1);
-	if (!d->connected || (FLAGS(d->player) & INTERACTIVE)) {
-	    if (tp_secure_who || (reg_site_is_barred(d->hostaddr) == TRUE)) {
-		queue_string(d,"Lots of people are on now.\r\n");
-	    } else {
-		dump_users(d, command + sizeof(WHO_COMMAND) - 1);
-	    }
-	} else {
-	    if (can_move(d->player, buf, LM1 + 1)) {
-		do_move(d->player, buf, LM1 + 1);
-	    } else {
-		dump_users(d, command + sizeof(WHO_COMMAND) - 1);
-	    }
-	}
-	if (d->output_suffix) {
-	    queue_string(d, d->output_suffix);
-	    queue_write(d, "\r\n", 2);
-	}
-    } else if (!strncmp(command, PREFIX_COMMAND, sizeof(PREFIX_COMMAND) - 1)) {
-	set_userstring(&d->output_prefix, command + sizeof(PREFIX_COMMAND) - 1);
-    } else if (!strncmp(command, SUFFIX_COMMAND, sizeof(SUFFIX_COMMAND) - 1)) {
-	set_userstring(&d->output_suffix, command + sizeof(SUFFIX_COMMAND) - 1);
-    } else if (
-	d->connected &&	OkObj(d->player) &&
-	(!strncmp(command, MORE_COMMAND, sizeof(MORE_COMMAND) - 1))
-    ) {
-	do_more(d->player, command + sizeof(MORE_COMMAND) - 1);
+        strcpy(buf, "@");
+        strcat(buf, WHO_COMMAND);
+        strcat(buf, " ");
+        strcat(buf, command + sizeof(WHO_COMMAND) - 1);
+        if (!d->connected || (FLAGS(d->player) & INTERACTIVE))
+        {
+            if (tp_secure_who || (reg_site_is_barred(d->hostaddr) == TRUE))
+            {
+                queue_string(d,"Lots of people are on now.\r\n");
+            }
+            else
+            {
+                dump_users(d, command + sizeof(WHO_COMMAND) - 1);
+            }
+        }
+        else
+        {
+            if (can_move(d->player, buf, LM1 + 1))
+            {
+                do_move(d->player, buf, LM1 + 1);
+            }
+            else
+            {
+                dump_users(d, command + sizeof(WHO_COMMAND) - 1);
+            }
+        }
+        if (d->output_suffix)
+        {
+            queue_string(d, d->output_suffix);
+            queue_write(d, "\r\n", 2);
+        }
+    }
+    else if (!strncmp(command, PREFIX_COMMAND, sizeof(PREFIX_COMMAND) - 1))
+    {
+        set_userstring(&d->output_prefix, command + sizeof(PREFIX_COMMAND) - 1);
+    }
+    else if (!strncmp(command, SUFFIX_COMMAND, sizeof(SUFFIX_COMMAND) - 1))
+    {
+        set_userstring(&d->output_suffix, command + sizeof(SUFFIX_COMMAND) - 1);
+    }
+    else if (d->connected && OkObj(d->player) &&
+             (!strncmp(command, MORE_COMMAND, sizeof(MORE_COMMAND) - 1)))
+    {
+        do_more(d->player, command + sizeof(MORE_COMMAND) - 1);
 #ifndef NO_CONNECT_HOOK
-    } else if (
-	d->connected &&	OkObj(d->player) &&
-	(!strncmp(command, CONNECT_COMMAND, sizeof(CONNECT_COMMAND) - 1))
-    ) {
-	char *password;
-	dbref player;
+    }
+    else if (d->connected && OkObj(d->player) &&
+             (!strncmp(command, CONNECT_COMMAND, sizeof(CONNECT_COMMAND) - 1)))
+    {
+        char *password;
+        dbref player;
 
-	command += sizeof(CONNECT_COMMAND);
-	while(*command == ' ')
-	    command++;
-	password = command;
-	while(*password > ' ')
-	    password++;
-	if(*password == ' ')
-	    *(password++) = '\0';
+        command += sizeof(CONNECT_COMMAND);
+        while(*command == ' ')
+            command++;
+        password = command;
+        while(*password > ' ')
+            password++;
+        if (*password == ' ')
+            *(password++) = '\0';
 
-	player = lookup_player(command);
+        player = lookup_player(command);
 	
-	if((!OkObj(player)) || (!*password) ||
-	    (!DBFETCH(player)->sp.player.password) ||
-	    (!*DBFETCH(player)->sp.player.password) ||
-	    strcmp(password, DBFETCH(player)->sp.player.password)
-	) {
-	    queue_string(d, "Login incorrect.\r\n");
-	} else {
-	    if(!dset_user(d, player))
-		queue_string(d, "Failed.\r\n");
-	}
+        if((!OkObj(player)) || (!*password) ||
+           (!DBFETCH(player)->sp.player.password) ||
+           (!*DBFETCH(player)->sp.player.password) ||
+           strcmp(password, DBFETCH(player)->sp.player.password))
+        {
+            queue_string(d, "Login incorrect.\r\n");
+        }
+        else
+        {
+            if (!dset_user(d, player))
+            {
+                queue_string(d, "Failed.\r\n");
+            }
+        }
 #endif /* !NO_CONNECT_HOOK */
-    } else if (tp_pueblo_support && !strncmp(command, PUEBLO_COMMAND, sizeof(PUEBLO_COMMAND) - 1)) {
-	d->type = CT_PUEBLO;
-	if(d->connected && OkObj(d->player))
-	    FLAG2(d->player) |= F2PUEBLO;
-	queue_string(d, tp_pueblo_message);
-	queue_string(d, "\r\n");
-    } else {
-	if (d->connected) {
-	    if (d->output_prefix) {
-		queue_string(d, d->output_prefix);
-		queue_write(d, "\r\n", 2);
-	    }
-	    process_command(d->player, command, 0);
-	    if (d->output_suffix) {
-		queue_string(d, d->output_suffix);
-		queue_write(d, "\r\n", 2);
-	    }
-	} else {
-	    if(tp_unix_login && (d->type == CT_MUCK)) {
-		if(strchr(command, ' ')) {
-
-		    d->player = 0;
-		    check_connect(d, command);
-
-		} else if(!d->player) { /* It's a name! */
-
-		    d->player = lookup_player(command);
-		    queue_string(d, "Password: " TELNET_ECHO_OFF);
-
-		} else { /* It's a password! */
-		    char buf[BUFFER_LEN];
-
-		    sprintf(buf, "connect %.64s %.64s",
-			OkObj(d->player) ? NAME(d->player) : "<unknown>",
-			command
-		    );
-		    d->player = 0;
-		    check_connect(d, buf);
-		}
-	    } else check_connect(d, command);
-	}
+    }
+    else if (tp_pueblo_support &&
+             !strncmp(command, PUEBLO_COMMAND, sizeof(PUEBLO_COMMAND) - 1))
+    {
+        d->type = CT_PUEBLO;
+        if (d->connected && OkObj(d->player))
+        {
+            FLAG2(d->player) |= F2PUEBLO;
+        }
+        
+        queue_string(d, tp_pueblo_message);
+        queue_string(d, "\r\n");
+    }
+    else
+    {
+        if (d->connected)
+        {
+            if (d->output_prefix)
+            {
+                queue_string(d, d->output_prefix);
+                queue_write(d, "\r\n", 2);
+            }
+            process_command(d->player, command, 0);
+            if (d->output_suffix)
+            {
+                queue_string(d, d->output_suffix);
+                queue_write(d, "\r\n", 2);
+            }
+        }
+        else
+        {
+            if(tp_unix_login && (d->type == CT_MUCK))
+            {
+                if(strchr(command, ' '))
+                {
+                    d->player = 0;
+                    check_connect(d, command);
+                }
+                else if(!d->player)
+                { /* It's a name! */
+                    d->player = lookup_player(command);
+                    queue_string(d, "Password: " TELNET_ECHO_OFF);
+                }
+                else
+                { /* It's a password! */
+                    char buf[BUFFER_LEN];
+                    
+                    sprintf(buf, "connect %.64s %.64s",
+                            OkObj(d->player) ? NAME(d->player) : "<unknown>",
+                            command);
+                    d->player = 0;
+                    check_connect(d, buf);
+                }
+            }
+            else
+            {
+                check_connect(d, command); 
+            }
+            
+        }
     }
     return 1;
 }
@@ -2421,6 +2487,77 @@ interact_warn(dbref player)
 	anotify(player, buf);
     }
 }
+
+/* Sends response to MSSP-REQUEST */
+/* http://tintin.sourceforge.net/mssp/ */
+void
+do_mssp_response(struct descriptor_data* d)
+{
+    /* TODO: CRAWL DELAY (requires tune), HOSTNAME (hm), PORT (hm),
+             CONTACT (requires tune), ICON (tune), IP (hm), 
+             LANGUAGE (tune), LOCATION (tune),
+             MINIMUM AGE (tune)
+             WEBSITE (tune)
+             FAMILY (tune)
+             GENRE (tune)
+             GAMEPLAY (tune)
+             STATUS (tune)
+             GAMESYSTEM (tune)
+             SUBGENRE (tune)
+             AREAS (tune)
+             HELPFILES (hm)
+             MOBILES (hm)
+             OBJECTS (hm)
+             ROOMS (hm)
+             CLASSES (tune)
+             LEVELS (tune)
+             RACES (tune)
+             SKILLS (tune)
+             PAY TO PLAY (tune)
+             PAY TO PERKS  (tune)
+             HIRING_BUILDERS (tune)
+             HIRING_CODERS (tune)
+     */
+    char buf[BUFFER_LEN];
+    int players = 0;
+    struct descriptor_data* ds;
+
+    ds = descriptor_list;
+    players = 0;
+    while (ds)
+    {
+        if(ds->connected)
+        {
+            players++;
+        }
+        ds = ds->next;
+    }
+    
+    sprintf(buf, "\r\nMSSP-REPLY_START\r\n"
+            "NAME\t%s\r\n"
+            "PLAYERS\t%d\r\n"
+            "UPTIME\t%d\r\n"
+            "CODEBASE\tTinymuck 2.2\r\n"
+            "CODEBASE\tFuzzball 5.68\r\n"
+            "CODEBASE\t%s\r\n"
+            "ANSI\t1\r\n"
+            "PUEBLO\t1\r\n"
+            "XTERM 256 COLORS\t1\r\n"
+            "",
+            tp_muckname, /* NAME (muckname) */
+            players,     /* Quantity  of players currently connected */
+            get_property_value((dbref) 0, "~sys/startuptime"), /* startup */
+            /* TM 2.2 */
+            /* FB 5.68 */
+            GLOWVER /* Glowmuck Version */
+            /* ANSI */
+            /* PUEBLO */
+            /* XTERM256 */
+            );
+
+    queue_string(d, buf);
+}
+
 
 #ifdef HTTPD
 void
