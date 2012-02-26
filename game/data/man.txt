@@ -1366,9 +1366,10 @@ CONVTIME
 
 convtime (s -- i)
 
-Converts a time string in the format of "HH:MM:SS Mo/Dy/Yr" to a system time
-value integer.  Parsing rules are strictly enforced and will cause a
-programmer error if not observed.  The time values must be valid.
+Converts a time string in the format of "HH:MM:SS Mo/Dy/Yr" or 
+"HH:MM:SS Mo/Dy/YYYY" to a system time value integer.  Parsing rules are
+strictly enforced and will cause a programmer error if not observed.  The time
+values must be valid.
 ~
 SLEEP
 

@@ -71,17 +71,17 @@ prim_convtime(PRIM_PROTOTYPE)
 	    hr < 0 || hr > 23 ||
 	    mn < 0 || mn > 59 ||
 	    sc < 0 || sc > 59 ||
-	    yr < 0 || yr > 99 ||
+	    yr < 0 || /* yr > 99 || */ /* IED 2012-02-26: Allow years past 99 */
 	    mo < 1 || mo > 12 ||
 	    dy < 1 || dy > 31
-	) abort_interp("Invalid HH:MM:SS MO/DY/YR format string (1)");
+	) abort_interp("Invalid HH:MM:SS MO/DY/YY or HH:MM:SS MO/DY/YYYY format string (1)");
 
 	otm.tm_mon = mo - 1;
 	otm.tm_mday = dy;
 	otm.tm_hour = hr;
 	otm.tm_min = mn;
 	otm.tm_sec = sc;
-	otm.tm_year = (yr >= 70) ? yr : (yr + 100);
+	otm.tm_year = yr - 1900 /* IED 2012-02-26 */;
 #ifdef SUNOS
 	result = timelocal(&otm);
 #else
