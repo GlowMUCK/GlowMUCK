@@ -81,10 +81,12 @@ prim_convtime(PRIM_PROTOTYPE)
 	otm.tm_hour = hr;
 	otm.tm_min = mn;
 	otm.tm_sec = sc;
+	
+	/* IED 2012-02-26 */
 	if (yr > 99) {
-	  otm.tm_year = yr - 1900 /* IED 2012-02-26 */;
+	  otm.tm_year = yr - 1900;
 	} else {
-	  otm.tm_year = yr
+	  otm.tm_year = yr;
 	}
 #ifdef SUNOS
 	result = timelocal(&otm);
