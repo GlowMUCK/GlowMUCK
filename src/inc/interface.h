@@ -33,7 +33,8 @@ struct descriptor_data {
     time_t  last_fail;
     time_t  connected_at;
     int hostaddr;
-    int	port;
+    int	port;       /* Actual port used for communication */
+    int listener_port; /* The port the client initially connected to */
     const char *hostname;
     const char *username;
     int quota;

@@ -540,7 +540,7 @@ siteStatekey( int site, int obj, const char *startkey ) {
     return REG_DEFAULT;
 }
 
-const char *reg_site_welcome( int site ) {
+const char *reg_site_welcome( int site, int port ) {
     char buf2[BUFFER_LEN];
     char key[BUFFER_LEN], buf[BUFFER_LEN];
     PropPtr p, q;
@@ -559,6 +559,17 @@ const char *reg_site_welcome( int site ) {
 		strcat( key, "/" );
 		strcat( key, buf );
 		m = get_property_class(REG_OBJ, key);
+#ifdef COMPRESS
+		if( m && *m ) m = uncompress(m);
+#endif
+		return m;
+	    }
+	} else if (2==sscanf( buf, "%d %d", &sl,&s0 )) {
+	    if ( port == s0) {
+	        strcpy( key, REG_WELC );
+	        strcat( key, "/" );
+	        strcat( key, buf );
+	        m = get_property_class(REG_OBJ, key);
 #ifdef COMPRESS
 		if( m && *m ) m = uncompress(m);
 #endif

@@ -1,10 +1,13 @@
 /*
  *  interface.c
- *  $Revision: 1.11 $ $Date: 2011/04/17 18:44:20 $
+ *  $Revision: 1.12 $ $Date: 2012/03/20 16:58:04 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.12  2012/03/20 16:58:04  feaelin
+ *  Added ability to set per-incoming-port welcome screens. '@set #0=@/welcome/0 9999:regular' will display welcome/regular.txt if someone connects via port 999.
+ *
  *  Revision 1.11  2011/04/17 18:44:20  feaelin
  *  * Added rudimentary support for MSSP.
  *    See http://tintin.sourceforge.net/mssp/
@@ -114,7 +117,7 @@ extern int rwhocli_userlogout(const char *uid);
 void    process_commands(void);
 void    shovechars(int portc, int* portv, int wwwport);
 void    shutdownsock(struct descriptor_data * d);
-struct descriptor_data *initializesock(int s, const char *hostname, int port, int hostaddr, int ctype);
+struct descriptor_data *initializesock(int s, const char *hostname, int port, int hostaddr, int ctype, int listener_port);
 void    make_nonblocking(int s);
 void    freeqs(struct descriptor_data * d);
 void    welcome_user(struct descriptor_data * d);
@@ -1435,7 +1438,7 @@ new_connection(int sock, int port, int ctype)
 	  );
 	return initializesock( newsock,
 	    hostname, ntohs(addr.sin_port),
-	    ntohl(addr.sin_addr.s_addr), ctype
+            ntohl(addr.sin_addr.s_addr), ctype, port
 	);
     }
 }
@@ -1707,7 +1710,7 @@ shutdownsock(struct descriptor_data * d)
 }
 
 struct descriptor_data *
-initializesock(int s, const char *hostname, int port, int hostaddr, int ctype)
+initializesock(int s, const char *hostname, int port, int hostaddr, int ctype, int listener_port)
 {
     struct descriptor_data *d;
     char buf[128];
@@ -1738,6 +1741,7 @@ initializesock(int s, const char *hostname, int port, int hostaddr, int ctype)
     d->last_time = d->connected_at;
     d->last_fail = 0;
     d->port = port;
+    d->listener_port = listener_port;
     d->hostname = alloc_string(hostname);
     sprintf(buf, "%d", port);
     d->username = alloc_string(buf);
@@ -4884,7 +4888,7 @@ welcome_user(struct descriptor_data * d)
     if (d->type == CT_MUCK) {
 	if (tp_pueblo_support)
 	    queue_string(d, "\r\nThis world is Pueblo 1.0 Enhanced.\r\n\r\n");
-	fname = reg_site_welcome(d->hostaddr);
+	fname = reg_site_welcome(d->hostaddr, d->listener_port);
 	if (fname && (*fname == '.')) {
 	    strcpy(buf, WELC_FILE);
 	} else if (fname && (*fname == '#')) {
