@@ -1,6 +1,6 @@
 /*
  * local.h
- * $Revision: 1.4 $ $Date: 2008/12/29 15:29:13 $
+ * $Revision: 1.5 $ $Date: 2012/04/14 22:24:14 $
  * 
  * Local Glowmuck compiler directives file
  *
@@ -194,6 +194,24 @@
 #undef MARK
 #endif
 #define MARK "[!] "
+
+/* Specify a character to serve as the dash token. The dash token can be used
+   to execute programs without a space, just like " --> say.
+   For instance, if the dash token is ` and the dash command 'backtick' then
+   `foobarbaz is expanded to backtick foobarbaz, and if there is an action/exit
+   named 'backtick' it will be executed with 'foobarbaz' on the stack.
+*/
+
+#ifdef DASH_TOKEN
+#undef DASH_TOKEN
+#endif
+#define DASH_TOKEN '`'
+
+#ifdef DASH_COMMAND
+#undef DASH_COMMAND
+#endif
+#define DASH_COMMAND "backtick"
+
 
 /* Make the `examine' command display full names for types and flags */
 #ifndef VERBOSE_EXAMINE
