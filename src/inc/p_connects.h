@@ -18,20 +18,21 @@ extern void prim_descriptors(PRIM_PROTOTYPE);
 extern void prim_descr_setuser(PRIM_PROTOTYPE);
 extern void prim_descr_setecho(PRIM_PROTOTYPE);
 extern void prim_ignoringp(PRIM_PROTOTYPE);
+extern void prim_con_listener_port(PRIM_PROTOTYPE);
 
 #define PRIMS_CONNECTS_FUNCS prim_awakep, prim_online, prim_concount,      \
     prim_condbref, prim_conidle, prim_contime, prim_conhost, prim_conuser, \
     prim_conboot, prim_connotify, prim_condescr, prim_descrcon,            \
     prim_nextdescr, prim_descriptors, prim_descr_setuser,		   \
     prim_descr_setecho, prim_conipnum, prim_conport, prim_conidler,	   \
-    prim_ignoringp
+    prim_ignoringp, prim_con_listener_port
 
 #define PRIMS_CONNECTS_NAMES "AWAKE?", "ONLINE", "CONCOUNT",  \
     "CONDBREF", "CONIDLE", "CONTIME", "CONHOST", "CONUSER",   \
     "CONBOOT", "CONNOTIFY", "CONDESCR", "DESCRCON",           \
     "NEXTDESCR", "DESCRIPTORS", "DESCR_SETUSER",	      \
     "DESCR_SETECHO", "CONIPNUM", "CONPORT", "CONIDLER",	      \
-    "IGNORING?"
+    "IGNORING?", "CON_LISTENER_PORT"
 
-#define PRIMS_CONNECTS_CNT 20
+#define PRIMS_CONNECTS_CNT 21
 

@@ -124,6 +124,7 @@ extern char *phost(int c);
 extern char *puser(int c);
 extern char *pipnum(int c);
 extern char *pport(int c);
+extern int lport(int);
 extern int pfirstdescr(dbref who);
 extern void pboot(int c);
 extern void pnotify(int c, char *outstr);

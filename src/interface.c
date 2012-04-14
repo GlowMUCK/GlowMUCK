@@ -1,10 +1,14 @@
 /*
  *  interface.c
- *  $Revision: 1.12 $ $Date: 2012/03/20 16:58:04 $
+ *  $Revision: 1.13 $ $Date: 2012/04/14 18:20:53 $
  */
 
 /*
  *  $Log: interface.c,v $
+ *  Revision 1.13  2012/04/14 18:20:53  feaelin
+ *  Added port listener primitive. Reports the port that the player originally
+ *  connected to.
+ *
  *  Revision 1.12  2012/03/20 16:58:04  feaelin
  *  Added ability to set per-incoming-port welcome screens. '@set #0=@/welcome/0 9999:regular' will display welcome/regular.txt if someone connects via port 999.
  *
@@ -4676,6 +4680,20 @@ pport(int count)
     }
 
     return (char *) NULL;
+}
+
+int
+lport(int count)
+{
+    struct descriptor_data *d;
+
+    d = descrdata_by_count(count);
+
+    if (d) {
+       return d->listener_port;
+    }
+
+    return 0;
 }
 
 /*** Foxen ***/

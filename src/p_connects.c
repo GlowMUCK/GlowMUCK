@@ -230,6 +230,25 @@ prim_conipnum(PRIM_PROTOTYPE)
     PushString(pname);
 }
 
+void
+prim_con_listener_port(PRIM_PROTOTYPE)
+{
+  /* int -- int */
+    CHECKOP(1);
+    oper1 = POP();
+    if (mlev < LMAGE)
+       abort_interp("Mage prim");
+    if (oper1->type != PROG_INTEGER)
+       abort_interp("Argument not an integer (1)");
+    result = oper1->data.number;
+    if ((result < 1) || (result > pcount()))
+       abort_interp("Invalid connection number (1)");
+    CHECKOFLOW(1);
+    CLEAR(oper1);
+    result = lport(result);
+    PushInt(result);
+}
+
 void 
 prim_conport(PRIM_PROTOTYPE)
 {
