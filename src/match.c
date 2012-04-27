@@ -220,8 +220,9 @@ match_here(struct match_data * md)
 void 
 match_home(struct match_data * md)
 {
-    if (!string_compare(md->match_name, "home"))
+  if (!(string_compare(md->match_name, tp_home_command) && string_compare(md->match_name, "home"))) {
 	md->exact_match = HOME;
+  }
 }
 
 

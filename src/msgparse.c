@@ -407,7 +407,7 @@ mesg_dbref_raw(dbref player, dbref what, dbref perms, const char *buf)
 	    obj = player;
 	} else if (!string_compare(buf, "here")) {
 	    obj = getloc(player);
-	} else if (!string_compare(buf, "home")) {
+	} else if (!(string_compare(buf, tp_home_command) && string_compare(buf, "home"))) {
 	    obj = HOME;
 	} else {
 	    init_match(player, buf, NOTYPE, &md);

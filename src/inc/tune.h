@@ -1,10 +1,13 @@
 /*
  * tune.h
- * $Revision: 1.3 $ $Date: 2005/03/08 18:57:36 $
+ * $Revision: 1.4 $ $Date: 2012/04/27 23:48:50 $
  */
 
 /*
  * $Log: tune.h,v $
+ * Revision 1.4  2012/04/27 23:48:50  feaelin
+ * The home command can now be configured to something other than 'home'.
+ *
  * Revision 1.3  2005/03/08 18:57:36  feaelin
  * Added the heartbeat modifications. You can add programs to the @heartbeat
  * propdir and the programs will be executed every 15 seconds.
@@ -48,6 +51,7 @@ extern const char *tp_playermax_bootmesg;
 extern const char *tp_path_dir;
 extern const char *tp_html_parent_link;
 extern const char *tp_pueblo_message;
+extern const char *tp_home_command;
 
 /* times */
 

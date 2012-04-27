@@ -471,7 +471,7 @@ ok_name(const char *name)
 	    && !index(name, '\n')
 	    && !word_start(name, NOT_TOKEN)
 	    && string_compare(name, "me")
-	    && string_compare(name, "home")
+            && string_compare(name, tp_home_command)
 	    && string_compare(name, "here"));
 }
 

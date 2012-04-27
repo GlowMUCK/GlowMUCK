@@ -38,6 +38,8 @@ const char *tp_path_dir			= PROP_PATHDIR;
 const char *tp_html_parent_link		= "/";
 const char *tp_pueblo_message		= "<xch_mudtext>";
 
+const char *tp_home_command             = "home";
+
 struct tune_str_entry {
     const char *name;
     const char **str;
@@ -71,6 +73,7 @@ struct tune_str_entry tune_str_list[] =
     {"path_dir",		&tp_path_dir,		LARCH,	LMUF, 1},
     {"html_parent_link",	&tp_html_parent_link,	LMAGE,	LMUF, 1},
     {"pueblo_message",		&tp_pueblo_message,	LMAGE,	LMUF, 1},
+    {"home_command",            &tp_home_command,       LBOY,  LMUF, 1},
     {NULL, NULL, 0, 0}
 };
 

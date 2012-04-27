@@ -247,6 +247,11 @@ Mucker level of muf programs that can read and write properties starting
 with the '@' character.  See help for 'newlevels' for mucker level meanings.
 Default is Archwizard or W3, muffer level 6.
 ~
+home_command
+The command used to 'go home'.
+Default is 'home'.
+See also: home_room.
+~
 home_room
 The room players start in when they enter the mud (combat) area.
 ~

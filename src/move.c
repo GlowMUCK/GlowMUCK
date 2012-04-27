@@ -326,7 +326,7 @@ can_move(dbref player, const char *direction, int lev)
 {
     struct match_data md;
 
-    if (!string_compare(direction, "home"))
+    if (!string_compare(direction, tp_home_command))
 	return 1;
 
     /* otherwise match on exits */
@@ -482,7 +482,7 @@ do_move(dbref player, const char *direction, int lev)
     char    buf[BUFFER_LEN];
     struct match_data md;
 
-    if (!string_compare(direction, "home")) {
+    if (!string_compare(direction, tp_home_command)) {
 	/* send him home */
 	if ((loc = DBFETCH(player)->location) != NOTHING) {
 	    /* tell everybody else */
