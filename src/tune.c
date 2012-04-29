@@ -389,6 +389,7 @@ int tp_restricted_www		= 0;
 int tp_transparent_paths	= 1;
 int tp_exit_guest_flag          = 0;
 int tp_heartbeat                = 0;
+int tp_division_by_zero_error = 0;
 
 struct tune_bool_entry {
     const char *name;
@@ -497,6 +498,7 @@ struct tune_bool_entry tune_bool_list[] =
     {"transparent_paths",	&tp_transparent_paths,	LARCH,	LMUF},
     {"exit_guest_flag",         &tp_exit_guest_flag,    LMAGE,  LMUF},
     {"heartbeat",               &tp_heartbeat,          LBOY,   LMUF},
+		{"division_by_zero_error", &tp_division_by_zero_error, LBOY, LMUF},
     {NULL, NULL, 0}
 };
 

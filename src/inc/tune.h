@@ -1,10 +1,13 @@
 /*
  * tune.h
- * $Revision: 1.4 $ $Date: 2012/04/27 23:48:50 $
+ * $Revision: 1.5 $ $Date: 2012/04/29 15:58:58 $
  */
 
 /*
  * $Log: tune.h,v $
+ * Revision 1.5  2012/04/29 15:58:58  feaelin
+ * Added a tune to control whether division/modulus by zero generates an error.
+ *
  * Revision 1.4  2012/04/27 23:48:50  feaelin
  * The home command can now be configured to something other than 'home'.
  *
@@ -247,4 +250,4 @@ extern int tp_restricted_www;
 extern int tp_transparent_paths;
 extern int tp_exit_guest_flag;
 extern int tp_heartbeat;
-
+extern int tp_division_by_zero_error;

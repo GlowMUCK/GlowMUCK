@@ -128,6 +128,10 @@ See @delta.
 diskbase_propvals
 Allow diskbasing of property values.
 ~
+division_by_zero_error
+If yes, division by zero or modulus by zero will abort MUF programs with an
+error. If no, those operations will simplly return a zero value.
+~
 do_mpi_parsing
 Parse MPI strings in messages.
 Get MPI help with the mpi command.

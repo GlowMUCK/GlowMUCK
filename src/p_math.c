@@ -47,7 +47,7 @@ prim_add(PRIM_PROTOTYPE)
     oper2 = POP();
     if (!arith_type(oper2, oper1))
     {
-	abort_interp("Invalid argument type");
+			abort_interp("Invalid argument type");
     }
     if (oper2->type == PROG_FLOAT && oper1->type == PROG_FLOAT) 
     {
@@ -150,62 +150,91 @@ prim_multiply(PRIM_PROTOTYPE)
 void 
 prim_divide(PRIM_PROTOTYPE)
 {
-    double dbl_result = 0.0;
-    CHECKOP(2);
-    oper1 = POP();
-    oper2 = POP();
-    if (!arith_type(oper2, oper1)) 
-    {
-	abort_interp("Invalid argument type");
-    }
-    if ((oper1->type == PROG_FLOAT && oper1->data.float_n == 0.0) ||
-	(oper1->type == PROG_INTEGER && oper1->data.number == 0))
-    {
-      abort_interp("Division by zero error");
-    }
-    if (oper2->type == PROG_FLOAT && oper1->type == PROG_FLOAT)
-    {
-      if (oper1->data.float_n)
-      {
-	dbl_result = oper2->data.float_n / oper1->data.float_n;
-      } else {
-	dbl_result = 0.0;
-      }
-      tmp = PROG_FLOAT;
-    } else if (oper2->type == PROG_FLOAT && oper1->type == PROG_INTEGER) 
-    {
-      if (oper1->data.number)
-      {
-	dbl_result = oper2->data.float_n / oper1->data.number;
-      } else {
-	dbl_result = 0.0;
-      }
-      tmp = PROG_FLOAT;
-    } else if (oper2->type == PROG_INTEGER && oper1->type == PROG_FLOAT)
-    {
-      if (oper1->data.float_n)
-      {
-	dbl_result = oper2->data.number / oper1->data.float_n;
-      } else {
-	dbl_result = 0.0;
-      }
-      tmp = PROG_FLOAT;
-    } else {
-      if (oper1->data.number)
-      {
-        result = oper2->data.number / oper1->data.number;
-      } else {
-	result = 0;
-      }
-      tmp = oper2->type;
-    }
-    CLEAR(oper1);
-    CLEAR(oper2);
-    if (tmp == PROG_FLOAT) {
-      push(arg, top, tmp, MIPSCAST &dbl_result);
-    } else {
-      push(arg, top, tmp, MIPSCAST &result);
-    }
+		double dbl_result = 0.0;
+
+		CHECKOP(2);
+
+		oper1 = POP();
+		oper2 = POP();
+
+		if (!arith_type(oper2, oper1)) 
+		{
+				abort_interp("Invalid argument type");
+		}
+
+		if ((oper1->type == PROG_FLOAT && oper1->data.float_n == 0.0) ||
+				(oper1->type == PROG_INTEGER && oper1->data.number == 0))
+		{
+				if (tp_division_by_zero_error)
+				{
+						abort_interp("Division by zero error");
+				}
+				else
+				{
+						if (oper2->type == PROG_FLOAT || oper1->type == PROG_FLOAT)
+						{
+								dbl_result = 0.0;
+								tmp = PROG_FLOAT;
+						}
+						else
+						{
+								result = 0;
+								tmp = PROG_INTEGER;
+						}
+				}
+		}
+		else
+		{
+				if (oper2->type == PROG_FLOAT && oper1->type == PROG_FLOAT)
+				{
+						if (oper1->data.float_n)
+						{
+								dbl_result = oper2->data.float_n / oper1->data.float_n;
+						} else {
+								dbl_result = 0.0;
+						}
+						tmp = PROG_FLOAT;
+				} 
+				else if (oper2->type == PROG_FLOAT && oper1->type == PROG_INTEGER) 
+				{
+						if (oper1->data.number)
+						{
+								dbl_result = oper2->data.float_n / oper1->data.number;
+						} else {
+								dbl_result = 0.0;
+						}
+						tmp = PROG_FLOAT;
+				}
+				else if (oper2->type == PROG_INTEGER && oper1->type == PROG_FLOAT)
+				{
+						if (oper1->data.float_n)
+						{
+								dbl_result = oper2->data.number / oper1->data.float_n;
+						} else {
+								dbl_result = 0.0;
+						}
+						tmp = PROG_FLOAT;
+				} 
+				else
+				{
+						if (oper1->data.number)
+						{
+								result = oper2->data.number / oper1->data.number;
+						} else {
+								result = 0;
+						}
+						tmp = oper2->type;
+				}
+		} // Divide by zero check, else closing brace
+
+		CLEAR(oper1);
+		CLEAR(oper2);
+
+		if (tmp == PROG_FLOAT) {
+				push(arg, top, tmp, MIPSCAST &dbl_result);
+		} else {
+				push(arg, top, tmp, MIPSCAST &result);
+		}
 }
 
 
@@ -215,20 +244,35 @@ prim_mod(PRIM_PROTOTYPE)
     CHECKOP(2);
     oper1 = POP();
     oper2 = POP();
+
     if (!arith_type(oper2, oper1))
     {
-	abort_interp("Invalid argument type");
+				abort_interp("Invalid argument type");
     }
+
     if (oper1->type == PROG_FLOAT || oper2->type == PROG_FLOAT)
     {
         abort_interp("Modulus cannot be performed on floating point numbers.");
     }
+
     if (oper1->data.number == 0)
     {
-      abort_interp("Divide by zero error when performing modulus");
+				if (tp_division_by_zero_error)
+				{
+						abort_interp("Divide by zero error when performing modulus");
+				}
+				else
+				{
+						result = 0;
+				}
     }
-    result = oper2->data.number % oper1->data.number;
+		else
+		{
+				result = oper2->data.number % oper1->data.number;
+		}
+
     tmp = oper2->type;
+
     CLEAR(oper1);
     CLEAR(oper2);
     push(arg, top, tmp, MIPSCAST & result);
