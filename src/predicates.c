@@ -233,77 +233,100 @@ why_controls(dbref who, dbref what, int mlev)
 
     /* Invalid objects control nothing */
     if (!OkObj(who))
-	return -1;
+		return -1;
 
     /* No one controls invalid objects */
     if (!OkObj(what))
-	return -1;
+		return -1;
 
-    if(mlev <= 0 || mlev > LMAN)
-	mlev = QLevel(who);
-    else perms = 1; /* We are checking permissions for muf */
+    if (mlev <= 0 || mlev > LMAN)
+		mlev = QLevel(who);
+    else
+		perms = 1; /* We are checking permissions for muf */
 
     /* No one controls garbage */
     if (Typeof(what) == TYPE_GARBAGE)
-	return -2;
+		return -2;
 
     /* All controls checks are based on owning player, not zombies */
     who = OWNER(who);
 
     /* owners control their own stuff */
     if (who == OWNER(what))
-	return 1;
+		return 1;
 
     /* Player #1 is always in control */
     if(mlev >= LMAN)
-	return 2;
+		return 2;
 
     /* W3 and up can change most anything unless it's more powerful */
     if ((mlev >= LARCH) && (mlev >= WLevel(OWNER(what))))
-	return 3;
+		return 3;
     
     if (mlev >= LMAGE) {
-	/* Mages+ control everything else whose owners aren't tinkerproof
-	   If a wizard sets themself 'GUEST', all wizards can tinker with
-	   things they control unless the object's Mucker level is higher
-	   than the wizard's mucker level.
-	*/
-	if ( ( (FLAG2( what ) & F2TINKERPROOF) ||
-	       (FLAG2(OWNER(what)) & F2GUEST)
-	     ) && (Typeof(what) != TYPE_PLAYER)
-	) {
-	    return ( mlev >= WLevel(what) ) ? 5 : -4 ;
-	} else if ( !(FLAG2( OWNER(what) ) & F2TINKERPROOF) ) {
-	    return ( mlev >= WLevel(OWNER(what)) ) ? 3 : -4;
-	} else {
-	    /* Mages+ control any object whose owner is set 'G' */
-	    /* Fortunately, wizards can't be guests */
-	    return ( Guest(OWNER(what)) ) ? 6 : -5 ;
+		/* Mages+ control everything else whose owners aren't tinkerproof
+		   If a wizard sets themself 'GUEST', all wizards can tinker with
+		   things they control unless the object's Mucker level is higher
+		   than the wizard's mucker level.
+		*/
+		if (((FLAG2(what) & F2TINKERPROOF) || (FLAG2(OWNER(what)) & F2GUEST))
+			 && (Typeof(what) != TYPE_PLAYER)
+		   )
+		{
+			return ( mlev >= WLevel(what) ) ? 5 : -4 ;
+		}
+		else if ( !(FLAG2( OWNER(what) ) & F2TINKERPROOF) )
+		{
+			return ( mlev >= WLevel(OWNER(what)) ) ? 3 : -4;
+		} 
+		else
+		{
+			/* Mages+ control any object whose owner is set 'G' */
+			/* Fortunately, wizards can't be guests */
+			return (Guest(OWNER(what))) ? 6 : -5 ;
+		}
+    }
+	else if (tp_realms_control && (!(FLAGS(who) & QUELL)) && !perms)
+	{
+		/* Realm Owner controls every non-wizard owned thing, room, and exit
+		   under his environment, but not in muf. 
+		*/
+		for (index=what; index != NOTHING; index = getloc(index)) {
+			if ((OWNER(index) == who) && (Typeof(index) == TYPE_ROOM)
+				&& TMage(index)
+				) {
+				realms = 1; /* Player is mortal but could control object */
+				break;
+			}
+		}
+
+		if (realms)
+		{
+			if( TMage( OWNER(what) ) )
+			{
+				return -6;
+			}
+			else if ((FLAG2(OWNER(what)) & F2TINKERPROOF))
+			{
+				return -5;
+			}
+			else
+			{
+				return ((Typeof(what) == TYPE_THING) ||
+						(Typeof(what) == TYPE_ROOM) ||
+						(Typeof(what) == TYPE_EXIT)
+						) ? 4 : -7 ;
+			}
+		} 
+		else
+		{
+			return 0;
+		}
+    }
+	else
+	{
+		return 0;
 	}
-    } else if( tp_realms_control && (!(FLAGS(who) & QUELL)) && !perms ) {
-	/* Realm Owner controls every non-wizard owned thing, room, and exit
-	   under his environment, but not in muf. */
-	for (index=what; index != NOTHING; index = getloc(index)) {
-	    if ((OWNER(index) == who) && (Typeof(index) == TYPE_ROOM)
-		    && TMage(index)
-	    ) {
-		realms = 1; /* Player is mortal but could control object */
-		break;
-	    }
-	}
-	if(realms) {
-	    if( TMage( OWNER(what) ) ) {
-		return -6;
-	    } else if( (FLAG2( OWNER(what) ) & F2TINKERPROOF) ) {
-		return -5;
-	    } else {
-		return ((Typeof(what) == TYPE_THING) ||
-			(Typeof(what) == TYPE_ROOM) ||
-			(Typeof(what) == TYPE_EXIT)
-		) ? 4 : -7 ;
-	    }
-	} else return 0;
-    } else return 0;
 }
 
 int 

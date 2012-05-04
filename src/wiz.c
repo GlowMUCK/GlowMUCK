@@ -560,18 +560,18 @@ do_force(dbref player, const char *what, char *command)
     int zombie = 0;
 
     if (force_level) {
-	anotify(player, CFAIL "You can't @force an @force.");
-	return;
+		anotify(player, CFAIL "You can't @force an @force.");
+		return;
     }
 
     if(Guest(player)) {
-	anotify(player, CFAIL NOGUEST_MESG);
-	return;
+		anotify(player, CFAIL NOGUEST_MESG);
+		return;
     }
 
     if (!tp_zombies && (!Mage(player) || Typeof(player) != TYPE_PLAYER)) {
-	anotify(player, CFAIL NOPERM_MESG);
-	return;
+		anotify(player, CFAIL NOPERM_MESG);
+		return;
     }
 
     /* get victim */
@@ -584,69 +584,82 @@ do_force(dbref player, const char *what, char *command)
     match_registered(&md);
     match_player(&md);
 
-    if ((victim = noisy_match_result(&md)) == NOTHING) {
-	return;
+    if ((victim = noisy_match_result(&md)) == NOTHING)
+	{
+		return;
     }
 
     if (Typeof(victim) != TYPE_PLAYER && Typeof(victim) != TYPE_THING) {
-	anotify(player, CFAIL NOPERM_MESG);
-	return;
+		anotify(player, CFAIL NOPERM_MESG);
+		return;
     }
 
-    if (Man(victim)) {
-	anotify(player, CFAIL "You cannot force " NAMEMAN ".");
-	return;
+    if (Man(victim))
+	{
+		anotify(player, CFAIL "You cannot force " NAMEMAN ".");
+		return;
     }
 
-    if (!controls(player, victim)) {
-	anotify(player, CFAIL NOPERM_MESG);
-	return;
+    if (!controls(player, victim))
+	{
+		anotify(player, CFAIL NOPERM_MESG);
+		return;
     }
 
-    if (!Mage(player) && !(FLAGS(victim) & XFORCIBLE)) {
-	anotify(player, CFAIL NOPERM_MESG);
-	return;
+    if (!Mage(player) && !(FLAGS(victim) & XFORCIBLE))
+	{
+		anotify(player, CFAIL NOPERM_MESG);
+		return;
     }
-    if (!Mage(player) && !test_lock_false_default(player,victim,"@/flk")) {
-	anotify(player, CFAIL NOPERM_MESG);
-	return;
+    if (!Mage(player) && !test_lock_false_default(player, victim, "@/flk"))
+	{
+		anotify(player, CFAIL NOPERM_MESG);
+		return;
     }
 
     loc = getloc(victim);
     if (!Mage(player) && Typeof(victim) == TYPE_THING && loc != NOTHING &&
-	    (FLAGS(loc) & ZOMBIE) && Typeof(loc) == TYPE_ROOM) {
-	anotify(player, CFAIL "It is in a no-puppet zone.");
-	return;
+	    (FLAGS(loc) & ZOMBIE) && Typeof(loc) == TYPE_ROOM)
+	{
+		anotify(player, CFAIL "It is in a no-puppet zone.");
+		return;
     }
 
-    if (!Mage(OWNER(player)) && Typeof(victim) == TYPE_THING) {
-	const char *ptr = NAME(victim);
-	char objname[BUFFER_LEN], *ptr2;
-	if ((FLAGS(player) & ZOMBIE)) {
-	    anotify(player, CFAIL NOPERM_MESG);
-	    return;
-	}
-	if (FLAGS(victim) & DARK) {
-	    anotify(player, CFAIL NOPERM_MESG);
-	    return;
-	}
-	for (ptr2 = objname; *ptr && !isspace(*ptr);)
-	    *(ptr2++) = *(ptr++);
-	*ptr2 = '\0';
-	if (lookup_player(objname) != NOTHING) {
-	    anotify(player, CFAIL "Puppets cannot have a player's name.");
-	    return;
-	}
-	zombie = 1;
+    if (!Mage(OWNER(player)) && Typeof(victim) == TYPE_THING)
+	{
+		const char *ptr = NAME(victim);
+		char objname[BUFFER_LEN], *ptr2;
+		if ((FLAGS(player) & ZOMBIE))
+		{
+			anotify(player, CFAIL NOPERM_MESG);
+			return;
+		}
+		if (FLAGS(victim) & DARK)
+		{
+			anotify(player, CFAIL NOPERM_MESG);
+			return;
+		}
+		for (ptr2 = objname; *ptr && !isspace(*ptr);)
+			*(ptr2++) = *(ptr++);
+		*ptr2 = '\0';
+		if (lookup_player(objname) != NOTHING)
+		{
+			anotify(player, CFAIL "Puppets cannot have a player's name.");
+			return;
+		}
+		zombie = 1;
     }
 
-    if (Typeof(victim) == TYPE_PLAYER && MLevel(player) <= MLevel(victim)) {
-      anotify(player, CFAIL NOPERM_MESG);
+    if (Typeof(victim) == TYPE_PLAYER && MLevel(player) <= MLevel(victim))
+	{
+		anotify(player, CFAIL NOPERM_MESG);
     }
 
-    if( !zombie )
-	log_status("FORC: %s by %s(%d): %s\n", unparse_object(MAN, victim),
-	       NAME(player), player, command);
+    if (!zombie)
+	{
+		log_status("FORC: %s by %s(%d): %s\n", unparse_object(MAN, victim),
+				   NAME(player), player, command);
+	}
 
     /* force victim to do command */
     force_level++;
