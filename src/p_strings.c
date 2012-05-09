@@ -1,10 +1,13 @@
 /* p_strings.c
- * $Revision: 1.3 $ $Date: 2007/03/11 05:47:06 $
+ * $Revision: 1.4 $ $Date: 2012/05/09 18:27:21 $
  * String related MUF primitives
  */
 
 /*
  * $Log: p_strings.c,v $
+ * Revision 1.4  2012/05/09 18:27:21  feaelin
+ * Added the blank? and empty? primitives.
+ *
  * Revision 1.3  2007/03/11 05:47:06  feaelin
  * Bundle of changes to add support for floats in MUF.
  *
@@ -904,3 +907,61 @@ prim_strdecrypt(PRIM_PROTOTYPE)
     PushString(ptr);
 }
 
+
+void
+prim_empty(PRIM_PROTOTYPE)
+{
+	CHECKOP(1);
+	oper1 = POP();
+
+	result = 1;
+
+	if (oper1->type != PROG_STRING)
+	{
+		abort_interp("Non-string argument.");
+	}
+
+	if (oper1->data.string)
+	{
+		result = 0;
+	}
+	
+	CLEAR(oper1);
+	PushInt(result);
+}
+
+
+void
+prim_blank(PRIM_PROTOTYPE)
+{
+	int i = 0;
+
+	CHECKOP(1);
+	oper1 = POP();
+
+	result = 1;
+	
+	if (oper1->type != PROG_STRING)
+	{
+		abort_interp("Non-string argument.");
+	}
+
+	if (oper1->data.string)
+	{
+		strcpy(buf, oper1->data.string->data);
+		tmp = strlen(buf);
+		
+		for (i = 0; i < tmp; i++)
+		{
+			/* I'm including extended on the off-chance that we'll support it... */
+			if ((buf[i] > 32 && buf[i] < 127) || (buf[i] > 127 && buf[i] < 255))
+			{
+				result = 0;
+				break;
+			}
+		}
+	}
+
+	CLEAR(oper1);
+	PushInt(result);
+}

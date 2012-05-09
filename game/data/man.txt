@@ -1,7 +1,7 @@
                TinyMUCK 2.2fb5.xx / GlowMuck 3.x.x MUF Manual
 
-To get manual information on a topic, type MAN <topic>, the following 
-topics are available:
+To get manual information on a topic, type MAN <topic>, the following topics are
+available:
 
 PRIM1           - Variables, Multitasking, Math, Types, Control Structures
 PRIM2           - Stack Ops, @desc/@succ, Time, Type Conversion, Properties
@@ -70,9 +70,11 @@ Connection Managment:
   descrcon   conboot   conipnum   conport     descr_setuser descr_setecho
 
 String Handling:
-  toupper    tolower  instring    rinstring  instr   rinstr   striplead
-  striptail  strip    unparseobj  strlen     strcat  strcut   subst
-  explode  pronoun_sub  ansi_offset  ansi_strip  ansi_strcut  ansi_strlen
+  ansi_offset    empty?         rinstr         strip          subst     
+  ansi_strcut    explode        rinstring      striplead      tolower   
+  ansi_strip     instr          strcat         striptail      toupper   
+  ansi_strlen    instring       strcut         strlen         unparseobj
+  blank?         pronoun_sub
 
 Lock Handling:
   locked?   getlockstr   setlockstr   parselock   unparselock
@@ -167,6 +169,26 @@ atoi ( s -- float )
 Turns string s into a floating point number.  If s is not a string,
 then 0 is pushed onto the stack.
 ~
+~
+BLANK?
+
+blank? ( string -- integer ) ( 3.2.1 )
+
+If the string is empty or contains only whitespace characters a 1 is pushed
+on to the stack. Otherwise 0 is pushed onto the stack. This primitive is
+not ansi aware, so strings like "^GREEN"^ will not push a 1 on the stack.
+Try: ansi_strip blank? if you need to know if the string contains only
+whitespace and ansi color codes.
+
+Introduced in glow version 3.2.1. If you want your programs to be
+back-compatible use:
+
+$ifndef __glowver>=GlowMuck3.2.1
+...
+$endif
+
+Where ... is your definition of an equivalent word.
+~
 CALL
 
 call ( d -- ?? )
@@ -253,6 +275,21 @@ DUP
 dup ( x -- x x )
 
 Duplicates the item at the top of the stack.
+~
+EMPTY?|EMPTY
+
+empty? ( string -- integer ) ( 3.2.1 )
+
+If the string is entirely empty of any characters--a null string--then a 1 is
+pushed onto the stack. Otherwise a 0 is pushed on to the stack. For instance: ""
+empty? pushes a 1 on to the stack, but, " " empty? pushes a 0 on to the stack.
+
+Introduced in glow version 3.2.1. If you want your programs to be
+back-compatible use:
+
+$ifndef __glowver>=GlowMuck3.2.1
+: empty? "" strcmp not ;
+$endif
 ~
 EXECUTE
 

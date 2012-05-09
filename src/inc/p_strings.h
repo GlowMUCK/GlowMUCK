@@ -29,23 +29,27 @@ extern void prim_striptail(PRIM_PROTOTYPE);
 extern void prim_stringpfx(PRIM_PROTOTYPE);
 extern void prim_strencrypt(PRIM_PROTOTYPE);
 extern void prim_strdecrypt(PRIM_PROTOTYPE);
+extern void prim_empty(PRIM_PROTOTYPE);
+extern void prim_blank(PRIM_PROTOTYPE);
 
-#define PRIMS_STRINGS_FUNCS prim_numberp, prim_stringcmp, prim_strcmp,        \
-    prim_strncmp, prim_strcut, prim_strlen, prim_strcat, prim_atoi,           \
-    prim_ansi_offset, prim_ansi_strip, prim_ansi_notify_exclude,              \
-    prim_ansi_notify, prim_notify, prim_notify_descriptor,                    \
-    prim_notify_exclude, prim_intostr, prim_atof, \
-    prim_explode, prim_subst, prim_instr, prim_rinstr, prim_pronoun_sub,      \
-    prim_toupper, prim_tolower, prim_unparseobj, prim_smatch, prim_striplead, \
-    prim_striptail, prim_stringpfx, prim_strencrypt, prim_strdecrypt
+#define PRIMS_STRINGS_FUNCS prim_numberp, prim_stringcmp, prim_strcmp,	\
+        prim_strncmp, prim_strcut, prim_strlen, prim_strcat, prim_atoi,	\
+		prim_ansi_offset, prim_ansi_strip, prim_ansi_notify_exclude,	\
+		prim_ansi_notify, prim_notify, prim_notify_descriptor,			\
+		prim_notify_exclude, prim_intostr, prim_atof, prim_explode,		\
+		prim_subst, prim_instr, prim_rinstr, prim_pronoun_sub, prim_toupper, \
+		prim_tolower, prim_unparseobj, prim_smatch, prim_striplead,		\
+		prim_striptail, prim_stringpfx, prim_strencrypt, prim_strdecrypt, \
+		prim_empty, prim_blank
 
-#define PRIMS_STRINGS_NAMES "NUMBER?", "STRINGCMP", "STRCMP",  \
-    "STRNCMP", "STRCUT", "STRLEN", "STRCAT", "ATOI",           \
-    "ANSI_OFFSET", "ANSI_STRIP", "ANSI_NOTIFY_EXCLUDE",        \
-    "ANSI_NOTIFY", "NOTIFY", "NOTIFY_DESCRIPTOR", "NOTIFY_EXCLUDE", \
-    "INTOSTR", "ATOF", \
-    "EXPLODE", "SUBST", "INSTR", "RINSTR", "PRONOUN_SUB",      \
-    "TOUPPER", "TOLOWER", "UNPARSEOBJ", "SMATCH", "STRIPLEAD", \
-    "STRIPTAIL", "STRINGPFX", "STRENCRYPT", "STRDECRYPT"
+#define PRIMS_STRINGS_NAMES "NUMBER?", "STRINGCMP", "STRCMP", \
+		"STRNCMP", "STRCUT", "STRLEN", "STRCAT", "ATOI",	  \
+		"ANSI_OFFSET", "ANSI_STRIP", "ANSI_NOTIFY_EXCLUDE",	  \
+		"ANSI_NOTIFY", "NOTIFY", "NOTIFY_DESCRIPTOR",		  \
+		"NOTIFY_EXCLUDE", "INTOSTR", "ATOF", "EXPLODE",		  \
+		"SUBST", "INSTR", "RINSTR", "PRONOUN_SUB", "TOUPPER", \
+		"TOLOWER", "UNPARSEOBJ", "SMATCH", "STRIPLEAD",		  \
+		"STRIPTAIL", "STRINGPFX", "STRENCRYPT", "STRDECRYPT", \
+		"EMPTY?", "BLANK?"
 
-#define PRIMS_STRINGS_CNT 31
+#define PRIMS_STRINGS_CNT 33
