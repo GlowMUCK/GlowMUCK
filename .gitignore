@@ -1,0 +1,8 @@
+src/*.o
+src/Makefile
+src/config.status
+src/glowmuck
+src/inc/autoconf.h
+src/olddecompress
+src/resolver
+src/topwords
