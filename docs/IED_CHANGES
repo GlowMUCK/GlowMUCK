@@ -1,6 +1,5 @@
 *******************************************************************************
 IED_CHANGES
-$Revision: 1.12 $ $Date: 2012/05/04 21:05:22 $
 *******************************************************************************
 GlowMuck source code is Copyright 1996-1999 by Andrew Nelson, all rights
 reserved.  This product is supplied 'AS IS' with absolutely no warranties,
@@ -21,6 +20,8 @@ Any changes in this file was written by Iain E. Davis. Pakrat's changes to the
 code are stored in the PAK_FIXES files. Original Fuzzball changes are stored
 in the CHANGESfb5 file.
 *******************************************************************************
+******************************** 3.2.1 Release ********************************
+2012-May-09: Added blank? and empty? primitives
 2012-Apr-29: Added a tune to control whether MUF division/modulus by zero
              returns an error.
 2012-Apr-27: Added a tune to make the 'home' command string configurable.
