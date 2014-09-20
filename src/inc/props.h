@@ -140,7 +140,7 @@ extern dbref get_property_dbref(dbref player, const char *propertyClass);
 extern struct boolexp *get_property_lock(dbref player, const char *type);
 extern int genderof(dbref player);
 extern struct plist *copy_prop(dbref old);
-extern void copy_proplist(dbref obj, PropPtr *new, PropPtr old);
+extern void copy_proplist(dbref obj, PropPtr *newProperty, PropPtr old);
 extern PropPtr first_prop(dbref player, const char *dir, PropPtr *list, char *name);
 extern PropPtr first_prop_nofetch(dbref player, const char *dir, PropPtr *list, char *name);
 extern PropPtr next_prop(PropPtr list, PropPtr prop, char *name);
