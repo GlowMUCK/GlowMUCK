@@ -6,3 +6,17 @@ src/inc/autoconf.h
 src/olddecompress
 src/resolver
 src/topwords
+*.obj
+*.pdb
+*.idb
+.idea
+*.iml
+src/nbproject
+BuildLog.htm
+GlowMuck.exe
+GlowMuck.exe.intermediate.manifest
+GlowMuck.map
+GlowMuck.ncb
+GlowMuck.suo
+*.vcproj*
+mt.dep
