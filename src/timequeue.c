@@ -165,11 +165,9 @@ free_timenode(timequeue ptr)
 int
 control_process(dbref player, int count)
 {
-    timequeue tmp, ptr = tqhead;
+    timequeue ptr = tqhead;
 
-    tmp = ptr;
     while ((ptr) && (count != ptr->eventnum)) {
-	tmp = ptr;
 	ptr = ptr->next;
     }
 
@@ -434,7 +432,6 @@ handle_read_event(dbref player, const char *command)
 void
 next_timequeue_event()
 {
-    dbref   tmpcp;
     int     tmpbl, tmpfg;
     timequeue lastevent, event;
     int     maxruns = 0;
@@ -493,7 +490,6 @@ next_timequeue_event()
 	} else if (event->typ == TQ_MUF_TYP) {
 	    if (Typeof(event->called_prog) == TYPE_PROGRAM) {
 		if (event->subtyp == TQ_MUF_DELAY) {
-		    tmpcp = DBFETCH(event->uid)->sp.player.curr_prog;
 		    tmpbl = DBFETCH(event->uid)->sp.player.block;
 		    tmpfg = (event->fr->multitask != BACKGROUND);
 		    interp_loop(event->uid,event->called_prog,event->fr,0);

@@ -281,9 +281,11 @@ void enter_room(dbref player, dbref loc, dbref exit)
 void 
 send_home(dbref thing, int puppethome)
 {
+#ifdef MUD
     dbref loc;
-    
+
     loc = NOTHING;
+#endif
 
     switch (Typeof(thing)) {
 	    case TYPE_PLAYER:

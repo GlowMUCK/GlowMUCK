@@ -378,7 +378,6 @@ muf_debugger(dbref player, dbref program, const char *text, struct frame *fr)
     char buf[BUFFER_LEN];
     char *ptr, *ptr2, *arg;
     struct inst *pinst;
-    dbref ref;
     int i, j, cnt;
 
     while (isspace(*text)) text++;
@@ -643,7 +642,6 @@ muf_debugger(dbref player, dbref program, const char *text, struct frame *fr)
 	i = atoi(arg);
 	if (!i) i = STACK_SIZE;
 	ptr = "";
-	ref = program;
 	for (j = fr->argument.top; j>0 && i-->0;) {
 	    cnt = 0;
 	    do {
