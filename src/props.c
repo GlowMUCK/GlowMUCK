@@ -345,38 +345,38 @@ next_node(PropPtr ptr, char *name)
 
 /* copies properties */
 void 
-copy_proplist(dbref obj, PropPtr *new, PropPtr old)
+copy_proplist(dbref obj, PropPtr *newProperty, PropPtr oldProperty)
 {
     PropPtr p;
 
-    if (old) {
+    if (oldProperty) {
 #ifdef DISKBASE
-	propfetch(obj, old);
+	propfetch(obj, oldProperty);
 #endif
-	p = new_prop(new, PropName(old));
-	SetPFlagsRaw(p, PropFlagsRaw(old));
-	switch (PropType(old)) {
+	p = new_prop(newProperty, PropName(oldProperty));
+	SetPFlagsRaw(p, PropFlagsRaw(oldProperty));
+	switch (PropType(oldProperty)) {
 	    case PROP_STRTYP:
-		SetPDataStr(p, alloc_string(PropDataStr(old)));
+		SetPDataStr(p, alloc_string(PropDataStr(oldProperty)));
 		break;
 	    case PROP_LOKTYP:
-		if (PropFlags(old) & PROP_ISUNLOADED) {
+		if (PropFlags(oldProperty) & PROP_ISUNLOADED) {
 		    SetPDataLok(p, TRUE_BOOLEXP);
 		    SetPFlags(p, (PropFlags(p) & ~PROP_ISUNLOADED));
 		} else {
-		    SetPDataLok(p, copy_bool(PropDataLok(old)));
+		    SetPDataLok(p, copy_bool(PropDataLok(oldProperty)));
 		}
 		break;
 	    case PROP_DIRTYP:
 		SetPDataVal(p, 0);
 		break;
 	    default:
-		SetPDataVal(p, PropDataVal(old));
+		SetPDataVal(p, PropDataVal(oldProperty));
 		break;
 	}
-	copy_proplist(obj, &PropDir(p), PropDir(old));
-	copy_proplist(obj, new, AVL_LF(old));
-	copy_proplist(obj, new, AVL_RT(old));
+	copy_proplist(obj, &PropDir(p), PropDir(oldProperty));
+	copy_proplist(obj, newProperty, AVL_LF(oldProperty));
+	copy_proplist(obj, newProperty, AVL_RT(oldProperty));
     }
 }
 

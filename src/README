@@ -1,9 +1,0 @@
-src/README
-$Revision: 1.1 $ $Date: 2004/12/12 15:10:15 $
-$Log: README,v $
-Revision 1.1  2004/12/12 15:10:15  feaelin
-Initial checkin.
-
-
-All documentation for GlowMUCK is now stored the 'docs'
-directory.

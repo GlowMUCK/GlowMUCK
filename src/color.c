@@ -379,19 +379,19 @@ save_ignoring(dbref player)
 }
 
 void
-set_color(dbref player, int old, int new)
+set_color(dbref player, int oldColor, int newColor)
 {
-    if ((old<1)||(old>24)) {
+    if ((oldColor<1)||(oldColor>24)) {
 	anotify(player, CFAIL "Old color is not in range. (1-24)");
 	return;
     }
 
-    if ((new<0)||(new>24)) {
+    if ((newColor<0)||(newColor>24)) {
 	anotify(player, CFAIL "New color is not in range. (0-24, 0=default)");
 	return;
     }
 
-    if (old == new) new = 0;
+    if (oldColor == newColor) newColor = 0;
 
     if (!online(player))
 	return;
@@ -408,12 +408,12 @@ set_color(dbref player, int old, int new)
 	DBFETCH(player)->sp.player.ansi = an;
     }
 
-    DBFETCH(player)->sp.player.ansi[old-1] = new;
+    DBFETCH(player)->sp.player.ansi[oldColor-1] = newColor;
     anotify(player, CINFO "Color changed.  Don't forget to save your changes.");
 }
 
 void
-do_colorset(dbref player, const char *old, const char *new)
+do_colorset(dbref player, const char *oldColor, const char *newColor)
 {
     if (!OkObj(player)) return;
     if (Typeof(player) != TYPE_PLAYER ) return;
@@ -423,21 +423,21 @@ do_colorset(dbref player, const char *old, const char *new)
 	return;
     }
 
-    if ((!new)||(!*new)) {
-	if ((old)&&(*old)) {
-	    if (old[0]=='s'||old[0]=='S') {
+    if ((!newColor)||(!*newColor)) {
+	if ((oldColor)&&(*oldColor)) {
+	    if (oldColor[0]=='s'||oldColor[0]=='S') {
 		save_colorset(player);
 		anotify(player, CINFO "Color set saved.");
-	    } else if (old[0]=='l'||old[0]=='L') {
+	    } else if (oldColor[0]=='l'||oldColor[0]=='L') {
 		load_colorset(player);
 		anotify(player, CINFO "Color set loaded.");
-	    } else if (old[0]=='c'||old[0]=='C') {
+	    } else if (oldColor[0]=='c'||oldColor[0]=='C') {
 		free_colorset(player);
 		save_colorset(player);
 		anotify(player, CINFO "Color set reset to default values.");
 	    } else show_colorset(player);
 	} else show_colorset(player);
-    } else set_color(player, atoi(old), atoi(new));
+    } else set_color(player, atoi(oldColor), atoi(newColor));
 }
 
 const char *
@@ -486,7 +486,7 @@ color_lookup( const char *color, const char *an, const int allow_256, char *buf)
     if (allow_256) {
       if (strncasecmp("G", color+6, 1) == 0) {
 	strcpy(buf, color);
-	tmp = strrchr(buf, ':');
+	tmp = (char *)strrchr(buf, ':');
 	if (tmp != NULL) {
 	  tmp[0] = '\0';
 	}
@@ -518,7 +518,7 @@ color_lookup( const char *color, const char *an, const int allow_256, char *buf)
       return ANSINORMAL;
     } else {
       /* Handle Alternate Color, because the user can't handle 256 colors */
-      tmp = strrchr(color, ':');
+      tmp = (char *)strrchr(color, ':');
       if (tmp == NULL || tmp+1 == NULL) {
 	return ANSINORMAL;
       } else {

@@ -974,17 +974,17 @@ db_free(void)
 struct line *
 get_new_line(void)
 {
-    struct line *new;
+    struct line *newLine;
 
-    new = (struct line *) malloc(sizeof(struct line));
-    if (!new) {
+    newLine = (struct line *) malloc(sizeof(struct line));
+    if (!newLine) {
 	fprintf(stderr, "get_new_line(): Out of memory!\n");
 	abort();
     }
-    new->this_line = NULL;
-    new->next = NULL;
-    new->prev = NULL;
-    return new;
+    newLine->this_line = NULL;
+    newLine->next = NULL;
+    newLine->prev = NULL;
+    return newLine;
 }
 
 struct line *
@@ -995,7 +995,7 @@ read_program(dbref i)
     char   buf[BUFFER_LEN];
     struct line *first;
     struct line *prev = NULL;
-    struct line *new;
+    struct line *newLine;
     FILE   *f;
 
     first = NULL;
@@ -1016,7 +1016,7 @@ read_program(dbref i)
 		c++;
 	    }
 	}
-	new = get_new_line();
+	newLine = get_new_line();
 	len = 0;
 	/* A safer newline eater, now not eating control-chars */
 	while(buf[len] && (buf[len] != '\n') &&
@@ -1027,14 +1027,14 @@ read_program(dbref i)
 	/* Just to keep line counts happy, make blank lines a single space */
 	if (!buf[0])
 	    strcpy(buf, " ");
-	new->this_line = alloc_string(buf);
+	newLine->this_line = alloc_string(buf);
 	if (!first) {
-	    prev = new;
-	    first = new;
+	    prev = newLine;
+	    first = newLine;
 	} else {
-	    prev->next = new;
-	    new->prev = prev;
-	    prev = new;
+	    prev->next = newLine;
+	    newLine->prev = prev;
+	    prev = newLine;
 	}
     }
 

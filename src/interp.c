@@ -48,8 +48,7 @@ p_null(PRIM_PROTOTYPE)
     return;
 }
 
-/* void    (*prim_func[]) (PRIM_PROTOTYPE) = */
-void    (*prim_func[])() =
+void (*prim_func[])(PRIM_PROTOTYPE) =
 {
     p_null, p_null, p_null, p_null, p_null, p_null,
     /* JMP, READ,   SLEEP,  CALL,   EXECUTE,RETURN */
@@ -301,7 +300,7 @@ reload(struct frame * fr, int atop, int stop)
 
 
 int 
-false(struct inst * p)
+muf_false(struct inst * p)
 {
     return ((p->type == PROG_STRING && (p->data.string == 0 || !(*p->data.string->data)))
 	    || (p->type == PROG_LOCK && p->data.lock == TRUE_BOOLEXP)
@@ -586,7 +585,7 @@ interp_loop(dbref player, dbref program, struct frame * fr, int rettyp)
 		if (atop < 1)
 		    abort_loop("Stack Underflow.", NULL, NULL);
 		temp1 = arg + --atop;
-		if (false(temp1))
+		if (muf_false(temp1))
 		    pc = pc->data.call;
 		else
 		    pc++;
@@ -816,7 +815,7 @@ interp_loop(dbref player, dbref program, struct frame * fr, int rettyp)
 	    copyinst(arg + atop - 1, &retval); 
 	    rv = &retval;
 	} else {
-	    if (!false(arg + atop - 1)) {
+	    if (!muf_false(arg + atop - 1)) {
 		rv = (struct inst *)1;
 	    } else {
 		rv = NULL;
