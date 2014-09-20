@@ -263,7 +263,7 @@ full_paths( const char *path, char *fullpaths )
 
     pathname = buf;
 
-    while((endpath = strchr(pathname, EXIT_DELIMITER)) != NULL) {
+    while((endpath = (char *)strchr(pathname, EXIT_DELIMITER)) != NULL) {
 	if(*fullpaths)
 	    strcat(fullpaths, ";");
 

@@ -747,7 +747,7 @@ listprops_wildcard(dbref player, dbref thing, const char *dir, const char *wild)
 		    displayprop(player, thing, buf, buf2);
 		    anotify(player, buf2);
 		} 
-		if (recurse) ptr = "**";
+		if (recurse) ptr = (char *)"**";
 		cnt += listprops_wildcard(player, thing, buf, ptr);
 	    }
 	}
@@ -782,7 +782,8 @@ void
 do_check(dbref player, const char *name)
 {
     dbref   thing;
-    char    buf[BUFFER_LEN], *why = "the force is not with you";
+    char    buf[BUFFER_LEN];
+    const char *why = "the force is not with you";
     struct match_data md;
     int     perm;
 

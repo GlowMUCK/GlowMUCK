@@ -21,13 +21,13 @@ int2str(char *buf, int val, int len, char pref)
 
 
 int 
-format_time(char *buf, int max_len, const char *fmt, struct tm * tmval)
+format_time(char *buf, unsigned int max_len, const char *fmt, struct tm * tmval)
 {
 
 #ifdef USE_STRFTIME
     return (strftime(buf, max_len, fmt, tmval));
 #else
-    int     pos, ret;
+    unsigned int pos, ret;
     char    tmp[256];
     /* struct timezone tz; */
 

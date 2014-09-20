@@ -28,17 +28,17 @@ extern char buf[BUFFER_LEN];
 
 
 void 
-copyobj(dbref player, dbref old, dbref new)
+copyobj(dbref player, dbref oldDatabaseReference, dbref newDatabaseReference)
 {
-    struct object *newp = DBFETCH(new);
+    struct object *newp = DBFETCH(newDatabaseReference);
 
-    NAME(new) = alloc_string(NAME(old));
-    newp->properties = copy_prop(old);
+    NAME(newDatabaseReference) = alloc_string(NAME(oldDatabaseReference));
+    newp->properties = copy_prop(oldDatabaseReference);
     newp->exits = NOTHING;
     newp->contents = NOTHING;
     newp->next = NOTHING;
     newp->location = NOTHING;
-    moveto(new, player);
+    moveto(newDatabaseReference, player);
 
 #ifdef DISKBASE
     newp->propsfpos = 0;
@@ -46,10 +46,10 @@ copyobj(dbref player, dbref old, dbref new)
     newp->propstime = 0;
     newp->nextold = NOTHING;
     newp->prevold = NOTHING;
-    dirtyprops(new);
+    dirtyprops(newDatabaseReference);
 #endif
 
-    DBDIRTY(new);
+    DBDIRTY(newDatabaseReference);
 }
 
 
@@ -1635,7 +1635,7 @@ prim_checkpassword(PRIM_PROTOTYPE)
        abort_interp("Player dbref expected (1)");
     if (oper2->type != PROG_STRING)
        abort_interp("Password string expected (2)");
-    ptr = oper2->data.string? oper2->data.string->data : "";
+    ptr = (char *)(oper2->data.string? oper2->data.string->data : "");
 
     /* If password is blank, anything will match it */
     if ((ref != NOTHING) && (

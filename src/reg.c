@@ -62,7 +62,7 @@
 int loginState( int, int );
 int siteState( int, int );
 int siteStatekey( int, int, const char * );
-int siteMatch( int site, int template );
+int siteMatch( int site, int match );
 const char *glow_strcasestr( const char *, const char * );
 int reg_trivial_regex_match( char *, char * );
 
@@ -74,8 +74,8 @@ void reg_check_trix( void );
 
 void
 reg_make_password( char* buf ) {
-    static char*consonant = "bcdfghjklmnprstvwxz";    
-    static char*vowel     = "aeiouy";
+    static const char* consonant = "bcdfghjklmnprstvwxz";    
+    static const char* vowel     = "aeiouy";
 
     int consonants	= strlen( consonant );
     int vowels	    = strlen( vowel     );
@@ -312,8 +312,8 @@ reg_trix( char *trix, const char *str ) {
 
 /* reg_check_a_trix -- Check one trixmatch against expected result */
 void
-reg_check_a_trix( char *trix, char *str, int expected_result ) {
-    int  actual_result  = reg_trix( trix, str );
+reg_check_a_trix(const char *trix, const char *str, int expected_result ) {
+    int  actual_result  = reg_trix((char *) trix, (char *) str );
     if (!actual_result != !expected_result) {
 	printf(
 	    "reg_trix bug: reg_trix(\"%s\",\"%s\") d=%d\n",
@@ -406,18 +406,18 @@ name_is_bad( const char *name ) {
     return FALSE;
 }
 
-/* siteMatch -- TRUE iff 'site' matches 'template' */
+/* siteMatch -- TRUE iff 'site' matches 'match' */
 
 int
-siteMatch( int site, int template ) {
+siteMatch( int site, int match ) {
     int mask = 0;
 
-    if (!(template & 0x000000FF)) mask = 0x000000FF;
-    if (!(template & 0x0000FFFF)) mask = 0x0000FFFF;
-    if (!(template & 0x00FFFFFF)) mask = 0x00FFFFFF;
-    if (!(template & 0xFFFFFFFF)) mask = 0xFFFFFFFF;
+    if (!(match & 0x000000FF)) mask = 0x000000FF;
+    if (!(match & 0x0000FFFF)) mask = 0x0000FFFF;
+    if (!(match & 0x00FFFFFF)) mask = 0x00FFFFFF;
+    if (!(match & 0xFFFFFFFF)) mask = 0xFFFFFFFF;
 
-    return (site & ~mask) == template;
+    return (site & ~mask) == match;
 }
 
 /* siteState -- Look up state of given site */

@@ -349,25 +349,25 @@ extern struct inst *interp(dbref player, dbref location, dbref program,
 			   int rettyp);
 
 /* From log.c */
-extern void log2file(char *myfilename, char *format, ...);
-extern void log2filetime(char *myfilename, char *format, ...);
-extern void log_command(char *format, ...);
-extern void log_error(char *format, ...);
-extern void log_gripe(char *format, ...);
-extern void log_muf(char *format, ...);
-extern void log_conc(char *format, ...);
-extern void log_status(char *format, ...);
-extern void log_http(char *format, ...);
-extern void log_other(char *format, ...);
-extern void notify_fmt(dbref player, char *format, ...);
-extern void anotify_fmt(dbref player, char *format, ...);
+extern void log2file(const char *myfilename, const char *format, ...);
+extern void log2filetime(const char *myfilename, const char *format, ...);
+extern void log_command(const char *format, ...);
+extern void log_error(const char *format, ...);
+extern void log_gripe(const char *format, ...);
+extern void log_muf(const char *format, ...);
+extern void log_conc(const char *format, ...);
+extern void log_status(const char *format, ...);
+extern void log_http(const char *format, ...);
+extern void log_other(const char *format, ...);
+extern void notify_fmt(dbref player, const char *format, ...);
+extern void anotify_fmt(dbref player, const char *format, ...);
 extern void log_program_text(struct line * first, dbref player, dbref i);
 
 /* From signal.c */
 extern void set_signals(void);
 
 /* From strftime.c */
-extern int format_time(char *buf, int max_len, const char *fmt, struct tm * tmval);
+extern int format_time(char *buf, unsigned int max_len, const char *fmt, struct tm * tmval);
 
 /* From timestamp.c */
 extern void ts_newobject(struct object *thing);

@@ -264,7 +264,7 @@ remove_propnode(char *key, PropPtr *root)
 
 
 static PropPtr 
-delete(char *key, PropPtr avl)
+delete_propnode(char *key, PropPtr avl)
 {
     PropPtr    save;
 
@@ -299,7 +299,7 @@ new_prop(PropPtr *list, char *name)
 PropPtr 
 delete_prop(PropPtr *list, char *name)
 {
-    *list = delete(name, *list);
+    *list = delete_propnode(name, *list);
     return(*list);
 }
 

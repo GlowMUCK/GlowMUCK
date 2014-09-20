@@ -1,17 +1,7 @@
 #!/bin/make -f
-# $Revision: 1.5 $ $Date: 2007/03/13 23:40:33 $
 # #######################################################################
-#                  Makefile for TinyMUCK 2.2fb5.x
+#                  Makefile for GlowMUCK
 # #######################################################################
-
-# $Log: Makefile.in,v $
-# Revision 1.5  2007/03/13 23:40:33  feaelin
-# Dependency compiling should oerate more cleanly now.
-#
-# Revision 1.4  2005/03/10 16:50:44  feaelin
-# Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
-# was passed, the server would crash.
-#
 
 # #######################################################################
 #			User tunable options
@@ -53,7 +43,7 @@ DEFS=@DEFS@
 LIBR=@LIBS@
 
 # #######################################################################
-#  	   Usualy don't need to change anything past here.
+#  	   Usually don't need to change anything past here.
 # #######################################################################
 
 #

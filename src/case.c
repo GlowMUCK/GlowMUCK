@@ -1,7 +1,7 @@
 #include "config.h"
 #include "local.h"
 
-static const char _lowercase[] = {
+static const int _lowercase[] = {
     -128, -127, -126, -125, -124, -123, -122, -121,
     -120, -119, -118, -117, -116, -115, -114, -113,
     -112, -111, -110, -109, -108, -107, -106, -105,
@@ -52,7 +52,7 @@ static const char _lowercase[] = {
     248, 249, 250, 251, 252, 253, 254, 255,
 };
 
-static const char _uppercase[] = {
+static const int _uppercase[] = {
     -128, -127, -126, -125, -124, -123, -122, -121,
     -120, -119, -118, -117, -116, -115, -114, -113,
     -112, -111, -110, -109, -108, -107, -106, -105,
@@ -103,5 +103,5 @@ static const char _uppercase[] = {
     248, 249, 250, 251, 252, 253, 254, 255,
 };
 
-const char *lowercase = _lowercase + 128;
-const char *uppercase = _uppercase + 128;
+const int *lowercase = _lowercase + 128;
+const int *uppercase = _uppercase + 128;

@@ -20,7 +20,7 @@ typedef void * voidptr;
   
 extern void do_abort_silent(void);
 
-extern void RCLEAR(struct inst *oper, char *file, int line);
+extern void RCLEAR(struct inst *oper, const char *file, int line);
 #define CLEAR(oper) RCLEAR(oper, __FILE__, __LINE__)
 extern void push (struct inst *stack, int *top, int type, voidptr res);
 extern int valid_object(struct inst *oper);
@@ -69,7 +69,7 @@ extern int arith_type(struct inst *op1, struct inst *op2);
 extern void do_abort_interp(dbref player, const char *msg, struct inst *pc,
      struct inst *arg, int atop, struct frame *fr,
      struct inst *oper1, struct inst *oper2, struct inst *oper3,
-     struct inst *oper4, int nargs, dbref program, char *file, int line);
+     struct inst *oper4, int nargs, dbref program, const char *file, int line);
   
 extern void purge_all_free_frames(void);
 

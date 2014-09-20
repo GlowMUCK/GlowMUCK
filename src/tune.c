@@ -393,7 +393,7 @@ int tp_division_by_zero_error = 0;
 
 struct tune_bool_entry {
     const char *name;
-    int *bool;
+    int *bool_value;
     int writemlev;
     int readmlev;
 };
@@ -630,7 +630,7 @@ tune_display_parms(dbref player, char *name)
 	    sprintf(buf, CWHITE "(bool) " CRED "%c" CGREEN "%-24s" CRED " = " CBLUE "%s",
 		(WLevel(OWNER(player)) >= tbool->writemlev) ? '*' : ' ',
 		tbool->name,
-		((*tbool->bool)? "yes" : "no")
+		((*tbool->bool_value)? "yes" : "no")
 	    );
 	    lastname = tbool->name;
 	    anotify(player, buf);
@@ -678,7 +678,7 @@ tune_save_parms_to_file(FILE *f)
     }
 
     while (tbool->name) {
-	fprintf(f, "%s=%s\n", tbool->name, (*tbool->bool)? "yes" : "no");
+	fprintf(f, "%s=%s\n", tbool->name, (*tbool->bool_value)? "yes" : "no");
 	tbool++;
     }
 }
@@ -749,7 +749,7 @@ tune_get_parmstring(const char *name, int mlev)
     while (tbool->name) {
 	if (!string_compare(name, tbool->name)) {
 	    if (tbool->readmlev > mlev) return "";
-	    sprintf(buf, "%s", ((*tbool->bool)? "yes" : "no"));
+	    sprintf(buf, "%s", ((*tbool->bool_value)? "yes" : "no"));
 	    return (buf);
 	}
 	tbool++;
@@ -902,9 +902,9 @@ tune_setparm(const dbref player, const char *parmname, const char *val)
 		return TUNESET_NOPERM;
 
 	    if (*parmval == 'y' || *parmval == 'Y') {
-		*tbool->bool = 1;
+		*tbool->bool_value = 1;
 	    } else if (*parmval == 'n' || *parmval == 'N') {
-		*tbool->bool = 0;
+		*tbool->bool_value = 0;
 	    } else {
 		return TUNESET_SYNTAX;
 	    }

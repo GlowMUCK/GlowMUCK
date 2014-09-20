@@ -62,7 +62,7 @@ void (*prim_func[])(PRIM_PROTOTYPE) =
 };
 
 void 
-RCLEAR(struct inst * oper, char *file, int line)
+RCLEAR(struct inst * oper, const char *file, int line)
 {
     if (oper->type == PROG_CLEARED) {
 	fprintf(stderr, "Attempt to re-CLEAR() instruction from %s:%hd "
@@ -80,7 +80,7 @@ RCLEAR(struct inst * oper, char *file, int line)
     if (oper->type == PROG_LOCK && oper->data.lock != TRUE_BOOLEXP)
 	free_boolexp(oper->data.lock);
     oper->line = line;
-    oper->data.addr = (void *)file;
+    oper->data.addr = (struct prog_addr *)file;
     oper->type = PROG_CLEARED;
 }
 
@@ -1014,7 +1014,7 @@ do_abort_interp(dbref player, const char *msg, struct inst * pc,
 		struct inst * arg, int atop, struct frame *fr,
 		struct inst * oper1, struct inst * oper2,
 		struct inst * oper3, struct inst * oper4, int nargs,
-		dbref program, char *file, int line)
+		dbref program, const char *file, int line)
 {
     fr->pc = pc;
     calc_profile_timing(program,fr);

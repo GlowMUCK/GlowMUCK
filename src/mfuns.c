@@ -27,12 +27,12 @@ mfn_func(MFUNARGS)
     char *ptr=NULL, *def;
     int i;
 
-    funcname = MesgParse(argv[0], argv[0]);
+    funcname = MesgParse(argarray[0], argarray[0]);
     CHECKRETURN(funcname,"FUNC","Name argument (1)");
 
-    def = argv[argc-1];
+    def = argarray[argc-1];
     for (i = 1; i < argc - 1; i++) {
-	ptr = MesgParse(argv[i], argv[i]);
+	ptr = MesgParse(argarray[i], argarray[i]);
 	CHECKRETURN(ptr,"FUNC","variable name argument");
 	sprintf(buf,"{with:%.*s,{:%d},%.*s}", MAX_MFUN_NAME_LEN, ptr, i,
 		(BUFFER_LEN - MAX_MFUN_NAME_LEN - 20), def);
@@ -68,9 +68,9 @@ mfn_prop(MFUNARGS)
     dbref   obj = what;
     const char   *ptr, *pname;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("PROP","Match failed");
@@ -88,9 +88,9 @@ mfn_propbang(MFUNARGS)
     dbref   obj = what;
     const char   *ptr, *pname;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("PROP","Match failed");
@@ -108,10 +108,10 @@ mfn_store(MFUNARGS)
     dbref   obj = what;
     char   *ptr, *pname;
 
-    pname = argv[1];
-    ptr = argv[0];
+    pname = argarray[1];
+    ptr = argarray[0];
     if (argc > 2) {
-	obj = mesg_dbref_strict(player, what, perms, argv[2]);
+	obj = mesg_dbref_strict(player, what, perms, argarray[2]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("STORE","Match failed");
@@ -129,9 +129,9 @@ mfn_delprop(MFUNARGS)
     dbref   obj = what;
     char   *pname;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc > 1) {
-	obj = mesg_dbref_strict(player, what, perms, argv[1]);
+	obj = mesg_dbref_strict(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("DELPROP","Match failed");
@@ -149,9 +149,9 @@ mfn_exec(MFUNARGS)
     dbref   trg, obj = what;
     const char   *ptr, *pname;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("EXEC","Match failed");
@@ -175,9 +175,9 @@ mfn_execbang(MFUNARGS)
     dbref   trg, obj = what;
     const char   *ptr, *pname;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("EXEC!","Match failed");
@@ -202,9 +202,9 @@ mfn_index(MFUNARGS)
     dbref   tmpobj;
     const char   *pname, *ptr;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("INDEX","Match failed");
@@ -229,9 +229,9 @@ mfn_indexbang(MFUNARGS)
     dbref   tmpobj;
     const char   *pname, *ptr;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("INDEX","Match failed");
@@ -255,9 +255,9 @@ mfn_propdir(MFUNARGS)
     dbref obj = what;
     const char *pname;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("PROPDIR","Match failed");
@@ -282,9 +282,9 @@ mfn_listprops(MFUNARGS)
     char	  patbuf[BUFFER_LEN];
     int	   flag;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc > 1) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("LISTPROPS","Match failed");
@@ -292,7 +292,7 @@ mfn_listprops(MFUNARGS)
 	ABORT_MPI("LISTPROPS",NOPERM_MESG);
 
     if (argc > 2) {
-	pattern = argv[2];
+	pattern = argarray[2];
     } else {
 	pattern = NULL;
     }
@@ -363,9 +363,9 @@ mfn_concat(MFUNARGS)
     char   *pname;
     const char *ptr;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == PERMDENIED)
 	ABORT_MPI("CONCAT",NOPERM_MESG);
@@ -387,16 +387,16 @@ mfn_select(MFUNARGS)
     const char *ptr;
     int i;
 
-    pname = argv[1];
+    pname = argarray[1];
     if (argc == 3) {
-	obj = mesg_dbref(player, what, perms, argv[2]);
+	obj = mesg_dbref(player, what, perms, argarray[2]);
     }
     if (obj == PERMDENIED)
 	ABORT_MPI("LIST",NOPERM_MESG);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("LIST","Match failed");
 
-    i = atoi(argv[0]);
+    i = atoi(argarray[0]);
     do {
 	ptr = get_list_item(player, obj, perms, pname, i--);
     } while (i >= 0 && ptr && !*ptr);
@@ -417,13 +417,13 @@ mfn_select(MFUNARGS)
 	char *pname;
 	const char *ptr;
 	char *out, *in;
-	int i, targval, bestval;
+	int i, targarrayal, bestval;
 	int baselen;
 	int limit;
 
-	pname = argv[1];
+	pname = argarray[1];
 	if (argc == 3) {
-		obj = mesg_dbref(player, what, perms, argv[2]);
+		obj = mesg_dbref(player, what, perms, argarray[2]);
 	}
 	if (obj == PERMDENIED)
 		ABORT_MPI("LIST", "Permission denied.");
@@ -436,7 +436,7 @@ mfn_select(MFUNARGS)
 	 */
 
 	limit = 88;
-	i = targval = atoi(argv[0]);
+	i = targarrayal = atoi(argarray[0]);
 	do {
 		ptr = get_list_item(player, obj, perms, pname, i--);
 	} while (limit-->0 && i >= 0 && ptr && !*ptr);
@@ -452,7 +452,7 @@ mfn_select(MFUNARGS)
 
 	/* First, normalize the base propname */
 	out = origprop;
-	in = argv[1];
+	in = argarray[1];
 	while (*in) {
 		*out++ = PROPDIR_DELIMITER;
 		while (*in == PROPDIR_DELIMITER) in++;
@@ -460,7 +460,7 @@ mfn_select(MFUNARGS)
 	}
 	*out++ = '\0';
 
-	i = targval;
+	i = targarrayal;
 	bestval = 0;
 	bestname[0] = '\0';
 	bestobj = NOTHING;
@@ -484,7 +484,7 @@ mfn_select(MFUNARGS)
 					ptr = pname2 + sublen;
 					if (number(ptr)) {
 						i = atoi(ptr);
-						if (bestval < i && i <= targval) {
+						if (bestval < i && i <= targarrayal) {
 							bestval = i;
 							bestobj = obj;
 							strcpy(bestname, pname2);
@@ -496,7 +496,7 @@ mfn_select(MFUNARGS)
 			ptr = pname + baselen;
 			if (number(ptr)) {
 				i = atoi(ptr);
-				if (bestval < i && i <= targval) {
+				if (bestval < i && i <= targarrayal) {
 					bestval = i;
 					bestobj = obj;
 					strcpy(bestname, pname);
@@ -525,9 +525,9 @@ mfn_list(MFUNARGS)
     char   *pname;
     const char *ptr;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == PERMDENIED)
 	ABORT_MPI("LIST",NOPERM_MESG);
@@ -546,9 +546,9 @@ mfn_lexec(MFUNARGS)
     char   *pname;
     const char *ptr;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == PERMDENIED)
 	ABORT_MPI("LEXEC",NOPERM_MESG);
@@ -574,9 +574,9 @@ mfn_rand(MFUNARGS)
     dbref   obj = what;
     const char   *pname, *ptr;
 
-    pname = argv[0];
+    pname = argarray[0];
     if (argc == 2) {
-	obj = mesg_dbref(player, what, perms, argv[1]);
+	obj = mesg_dbref(player, what, perms, argarray[1]);
     }
     if (obj == PERMDENIED)
 	ABORT_MPI("RAND",NOPERM_MESG);
@@ -599,11 +599,11 @@ mfn_timesub(MFUNARGS)
     int period;
     time_t offset;
 
-    period = atoi(argv[0]);
-    offset = atoi(argv[1]);
-    pname = argv[2];
+    period = atoi(argarray[0]);
+    offset = atoi(argarray[1]);
+    pname = argarray[2];
     if (argc == 4) {
-	obj = mesg_dbref(player, what, perms, argv[3]);
+	obj = mesg_dbref(player, what, perms, argarray[3]);
     }
     if (obj == PERMDENIED)
 	ABORT_MPI("TIMESUB",NOPERM_MESG);
@@ -632,19 +632,19 @@ const char *
 mfn_lit(MFUNARGS)
 {
     int i, len, len2;
-    strcpy(buf, argv[0]);
+    strcpy(buf, argarray[0]);
     len = strlen(buf);
     for (i = 1; i < argc; i++) {
-	len2 = strlen(argv[i]);
+	len2 = strlen(argarray[i]);
 	if (len2 + len + 3 >= BUFFER_LEN) {
 	    if (len + 3 < BUFFER_LEN) {
-		strncpy(buf+len, argv[i], (BUFFER_LEN - len - 3));
+		strncpy(buf+len, argarray[i], (BUFFER_LEN - len - 3));
 		buf[BUFFER_LEN - 3] = '\0';
 	    }
 	    break;
 	}
 	strcpy(buf + len, ",");
-	strcpy(buf + len, argv[i]);
+	strcpy(buf + len, argarray[i]);
 	len += len2;
     }
     return buf;
@@ -657,20 +657,20 @@ mfn_strip(MFUNARGS)
     int i, len, len2;
     char *ptr;
 
-    for (ptr = argv[0]; *ptr == ' '; ptr++);
+    for (ptr = argarray[0]; *ptr == ' '; ptr++);
     strcpy(buf, ptr);
     len = strlen(buf);
     for (i = 1; i < argc; i++) {
-	len2 = strlen(argv[i]);
+	len2 = strlen(argarray[i]);
 	if (len2 + len + 3 >= BUFFER_LEN) {
 	    if (len + 3 < BUFFER_LEN) {
-		strncpy(buf+len, argv[i], (BUFFER_LEN - len - 3));
+		strncpy(buf+len, argarray[i], (BUFFER_LEN - len - 3));
 		buf[BUFFER_LEN - 3] = '\0';
 	    }
 	    break;
 	}
 	strcpy(buf + len, ",");
-	strcpy(buf + len, argv[i]);
+	strcpy(buf + len, argarray[i]);
 	len += len2;
     }
     len = strlen(buf);
@@ -690,10 +690,10 @@ mfn_mklist(MFUNARGS)
     tlen = 0;
     *buf = '\0';
     for (i = 0; i < argc; i++) {
-	len = strlen(argv[i]);
+	len = strlen(argarray[i]);
 	if (tlen + len + 2 < BUFFER_LEN) {
 	    if (*buf) strcat(buf, "\r");
-	    strcat(buf, argv[i]);
+	    strcat(buf, argarray[i]);
 	    tlen += len;
 	} else {
 	    ABORT_MPI("MKLIST","Max string length exceeded");
@@ -708,20 +708,20 @@ mfn_pronouns(MFUNARGS)
 {
     dbref obj = player;
     if (argc > 1) {
-	obj = mesg_dbref_local(player, what, perms, argv[1]);
+	obj = mesg_dbref_local(player, what, perms, argarray[1]);
 	if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	    ABORT_MPI("PRONOUNS","Match failed");
 	if (obj == PERMDENIED)
 	    ABORT_MPI("PRONOUNS",NOPERM_MESG);
     }
-    return pronoun_substitute(obj, argv[0]);
+    return pronoun_substitute(obj, argarray[0]);
 }
 
 
 const char *
 mfn_ontime(MFUNARGS)
 {
-    dbref obj = mesg_dbref_raw(player, what, perms, argv[0]);
+    dbref obj = mesg_dbref_raw(player, what, perms, argarray[0]);
     int conn;
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	return "-1";
@@ -738,7 +738,7 @@ mfn_ontime(MFUNARGS)
 const char *
 mfn_idle(MFUNARGS)
 {
-    dbref obj = mesg_dbref_raw(player, what, perms, argv[0]);
+    dbref obj = mesg_dbref_raw(player, what, perms, argarray[0]);
     int conn;
     if (obj == PERMDENIED)
 	ABORT_MPI("IDLE",NOPERM_MESG);
@@ -788,10 +788,10 @@ msg_compare(const char *s1, const char *s2)
 const char *
 mfn_contains(MFUNARGS)
 {
-    dbref obj2 = mesg_dbref_raw(player, what, perms, argv[0]);
+    dbref obj2 = mesg_dbref_raw(player, what, perms, argarray[0]);
     dbref obj1 = player;
     if (argc > 1)
-	obj1 = mesg_dbref_local(player, what, perms, argv[1]);
+	obj1 = mesg_dbref_local(player, what, perms, argarray[1]);
 
     if (obj2 == UNKNOWN || obj2 == AMBIGUOUS || obj2 == NOTHING || obj2 == HOME)
 	ABORT_MPI("CONTAINS","Match failed (1)");
@@ -815,10 +815,10 @@ mfn_contains(MFUNARGS)
 const char *
 mfn_holds(MFUNARGS)
 {
-    dbref obj1 = mesg_dbref_raw(player, what, perms, argv[0]);
+    dbref obj1 = mesg_dbref_raw(player, what, perms, argarray[0]);
     dbref obj2 = player;
     if (argc > 1)
-	obj2 = mesg_dbref_local(player, what, perms, argv[1]);
+	obj2 = mesg_dbref_local(player, what, perms, argarray[1]);
 
     if (obj1 == UNKNOWN || obj1 == AMBIGUOUS || obj1 == NOTHING || obj1 == HOME)
 	ABORT_MPI("HOLDS","Match failed (1)");
@@ -841,8 +841,8 @@ mfn_holds(MFUNARGS)
 const char *
 mfn_dbeq(MFUNARGS)
 {
-    dbref obj1 = mesg_dbref_raw(player, what, perms, argv[0]);
-    dbref obj2 = mesg_dbref_raw(player, what, perms, argv[1]);
+    dbref obj1 = mesg_dbref_raw(player, what, perms, argarray[0]);
+    dbref obj2 = mesg_dbref_raw(player, what, perms, argarray[1]);
 
     if (obj1 == UNKNOWN || obj1 == PERMDENIED)
 	ABORT_MPI("DBEQ","Match failed (1)");
@@ -860,7 +860,7 @@ mfn_dbeq(MFUNARGS)
 const char *
 mfn_ne(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) == 0) {
+    if (msg_compare(argarray[0], argarray[1]) == 0) {
 	return "0";
     } else {
 	return "1";
@@ -871,7 +871,7 @@ mfn_ne(MFUNARGS)
 const char *
 mfn_eq(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) == 0) {
+    if (msg_compare(argarray[0], argarray[1]) == 0) {
 	return "1";
     } else {
 	return "0";
@@ -882,7 +882,7 @@ mfn_eq(MFUNARGS)
 const char *
 mfn_gt(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) > 0) {
+    if (msg_compare(argarray[0], argarray[1]) > 0) {
 	return "1";
     } else {
 	return "0";
@@ -893,7 +893,7 @@ mfn_gt(MFUNARGS)
 const char *
 mfn_lt(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) < 0) {
+    if (msg_compare(argarray[0], argarray[1]) < 0) {
 	return "1";
     } else {
 	return "0";
@@ -904,7 +904,7 @@ mfn_lt(MFUNARGS)
 const char *
 mfn_ge(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) >= 0) {
+    if (msg_compare(argarray[0], argarray[1]) >= 0) {
 	return "1";
     } else {
 	return "0";
@@ -915,7 +915,7 @@ mfn_ge(MFUNARGS)
 const char *
 mfn_le(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) <= 0) {
+    if (msg_compare(argarray[0], argarray[1]) <= 0) {
 	return "1";
     } else {
 	return "0";
@@ -926,10 +926,10 @@ mfn_le(MFUNARGS)
 const char *
 mfn_min(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) <= 0) {
-	return argv[0];
+    if (msg_compare(argarray[0], argarray[1]) <= 0) {
+	return argarray[0];
     } else {
-	return argv[1];
+	return argarray[1];
     }
 }
 
@@ -937,10 +937,10 @@ mfn_min(MFUNARGS)
 const char *
 mfn_max(MFUNARGS)
 {
-    if (msg_compare(argv[0], argv[1]) >= 0) {
-	return argv[0];
+    if (msg_compare(argarray[0], argarray[1]) >= 0) {
+	return argarray[0];
     } else {
-	return argv[1];
+	return argarray[1];
     }
 }
 
@@ -948,7 +948,7 @@ mfn_max(MFUNARGS)
 const char *
 mfn_isnum(MFUNARGS)
 {
-    if (*argv[0] && number(argv[0])) {
+    if (*argarray[0] && number(argarray[0])) {
 	return "1";
     } else {
 	return "0";
@@ -960,7 +960,7 @@ const char *
 mfn_isdbref(MFUNARGS)
 {
     dbref obj;
-    char *ptr = argv[0];
+    char *ptr = argarray[0];
     while (isspace(*ptr)) ptr++;
     if (*ptr++ != '#') return "0";
     if (!number(ptr)) return "0";
@@ -976,11 +976,11 @@ const char *
 mfn_inc(MFUNARGS)
 {
     int x = 1;
-    char *ptr = get_mvar(argv[0]);
+    char *ptr = get_mvar(argarray[0]);
     if (!ptr)
 	ABORT_MPI("INC","No such variable currently defined");
     if (argc > 1)
-	 x = atoi(argv[1]);
+	 x = atoi(argarray[1]);
     sprintf(buf, "%d", (atoi(ptr) + x));
     strcpy(ptr, buf);
     return (buf);
@@ -991,11 +991,11 @@ const char *
 mfn_dec(MFUNARGS)
 {
     int x = 1;
-    char *ptr = get_mvar(argv[0]);
+    char *ptr = get_mvar(argarray[0]);
     if (!ptr)
 	ABORT_MPI("DEC","No such variable currently defined");
     if (argc > 1)
-	 x = atoi(argv[1]);
+	 x = atoi(argarray[1]);
     sprintf(buf, "%d", (atoi(ptr) - x));
     strcpy(ptr, buf);
     return (buf);
@@ -1005,9 +1005,9 @@ mfn_dec(MFUNARGS)
 const char *
 mfn_add(MFUNARGS)
 {
-    int j, i = atoi(argv[0]);
+    int j, i = atoi(argarray[0]);
     for (j = 1; j < argc; j++)
-	i += atoi(argv[j]);
+	i += atoi(argarray[j]);
     sprintf(buf, "%d", i);
     return (buf);
 }
@@ -1016,9 +1016,9 @@ mfn_add(MFUNARGS)
 const char *
 mfn_subt(MFUNARGS)
 {
-    int j, i = atoi(argv[0]);
+    int j, i = atoi(argarray[0]);
     for (j = 1; j < argc; j++)
-	i -= atoi(argv[j]);
+	i -= atoi(argarray[j]);
     sprintf(buf, "%d", i);
     return (buf);
 }
@@ -1027,9 +1027,9 @@ mfn_subt(MFUNARGS)
 const char *
 mfn_mult(MFUNARGS)
 {
-    int j, i = atoi(argv[0]);
+    int j, i = atoi(argarray[0]);
     for (j = 1; j < argc; j++)
-	i *= atoi(argv[j]);
+	i *= atoi(argarray[j]);
     sprintf(buf, "%d", i);
     return (buf);
 }
@@ -1038,9 +1038,9 @@ mfn_mult(MFUNARGS)
 const char *
 mfn_div(MFUNARGS)
 {
-    int k, j, i = atoi(argv[0]);
+    int k, j, i = atoi(argarray[0]);
     for (j = 1; j < argc; j++) {
-	k = atoi(argv[j]);
+	k = atoi(argarray[j]);
 	if (!k) {
 	    i = 0;
 	} else {
@@ -1055,9 +1055,9 @@ mfn_div(MFUNARGS)
 const char *
 mfn_mod(MFUNARGS)
 {
-    int k, j, i = atoi(argv[0]);
+    int k, j, i = atoi(argarray[0]);
     for (j = 1; j < argc; j++) {
-	k = atoi(argv[j]);
+	k = atoi(argarray[j]);
 	if (!k) {
 	    i = 0;
 	} else {
@@ -1073,7 +1073,7 @@ mfn_mod(MFUNARGS)
 const char *
 mfn_abs(MFUNARGS)
 {
-    int val = atoi(argv[0]);
+    int val = atoi(argarray[0]);
     if (val == 0) {
 	return "0";
     } if (val < 0) {
@@ -1088,7 +1088,7 @@ const char *
 mfn_sign(MFUNARGS)
 {
     int val;
-    val = atoi(argv[0]);
+    val = atoi(argarray[0]);
     if (val == 0) {
 	return "0";
     } else if (val < 0) {
@@ -1107,18 +1107,18 @@ mfn_dist(MFUNARGS)
     int a2, b2, c2;
     double result;
     a2 = b2 = c = c2 = 0;
-    a = atoi(argv[0]);
-    b = atoi(argv[1]);
+    a = atoi(argarray[0]);
+    b = atoi(argarray[1]);
     if (argc == 3) {
-	c = atoi(argv[2]);
+	c = atoi(argarray[2]);
     } else if (argc == 4) {
-	a2 = atoi(argv[2]);
-	b2 = atoi(argv[3]);
+	a2 = atoi(argarray[2]);
+	b2 = atoi(argarray[3]);
     } else if (argc == 6) {
-	c = atoi(argv[2]);
-	a2 = atoi(argv[3]);
-	b2 = atoi(argv[4]);
-	c2 = atoi(argv[5]);
+	c = atoi(argarray[2]);
+	a2 = atoi(argarray[3]);
+	b2 = atoi(argarray[4]);
+	c2 = atoi(argarray[5]);
     } else if (argc != 2) {
 	ABORT_MPI("DIST","Takes 2,3,4, or 6 arguments");
     }
@@ -1133,7 +1133,7 @@ mfn_dist(MFUNARGS)
 const char *
 mfn_not(MFUNARGS)
 {
-    if (truestr(argv[0])) {
+    if (truestr(argarray[0])) {
 	return "0";
     } else {
 	return "1";
@@ -1149,7 +1149,7 @@ mfn_or(MFUNARGS)
     int i;
 
     for (i = 0; i < argc; i++) {
-	ptr = MesgParse(argv[i], buf);
+	ptr = MesgParse(argarray[i], buf);
 	sprintf(buf2, "arg %d", i+1);
 	CHECKRETURN(ptr,"OR",buf2);
 	if (truestr(ptr)) {
@@ -1163,10 +1163,10 @@ mfn_or(MFUNARGS)
 const char *
 mfn_xor(MFUNARGS)
 {
-    if (truestr(argv[0]) && !truestr(argv[1])) {
+    if (truestr(argarray[0]) && !truestr(argarray[1])) {
 	return "1";
     }
-    if (!truestr(argv[0]) && truestr(argv[1])) {
+    if (!truestr(argarray[0]) && truestr(argarray[1])) {
 	return "1";
     }
     return "0";
@@ -1181,7 +1181,7 @@ mfn_and(MFUNARGS)
     int i;
 
     for (i = 0; i < argc; i++) {
-	ptr = MesgParse(argv[i], buf);
+	ptr = MesgParse(argarray[i], buf);
 	sprintf(buf2, "arg %d", i+1);
 	CHECKRETURN(ptr,"AND",buf2);
 	if (!truestr(ptr)) {
@@ -1201,10 +1201,10 @@ mfn_dice(MFUNARGS)
     int     total = 0;
 
     if (argc >= 3)
-	offset = atoi(argv[2]);
+	offset = atoi(argarray[2]);
     if (argc >= 2)
-	num = atoi(argv[1]);
-    sides = atoi(argv[0]);
+	num = atoi(argarray[1]);
+    sides = atoi(argarray[0]);
     if (num > 8888)
 	ABORT_MPI("DICE","Too many dice!");
     if (sides == 0) return "0";
@@ -1221,13 +1221,15 @@ mfn_default(MFUNARGS)
     char *ptr;
 
     *buf = '\0';
-    ptr = MesgParse(argv[0], buf);
+    ptr = MesgParse(argarray[0], buf);
     CHECKRETURN(ptr,"IF","arg 1");
     if (ptr && truestr(buf)) {
-	if (!ptr) ptr = "";
+	if (!ptr) {
+            *ptr = '\0';
+        }
     } else {
-	ptr = MesgParse(argv[1], buf);
-	CHECKRETURN(ptr,"IF","arg 2");
+	ptr = MesgParse(argarray[1], buf);
+	CHECKRETURN(ptr, "IF","arg 2");
     }
     return ptr;
 }
@@ -1236,24 +1238,24 @@ mfn_default(MFUNARGS)
 const char *
 mfn_if(MFUNARGS)
 {
-    char   *fbr, *ptr;
+    char *fbr, *ptr;
 
     if (argc == 3) {
-	fbr = argv[2];
+	fbr = argarray[2];
     } else {
-	fbr = "";
+	fbr = (char *)"";
     }
-    ptr = MesgParse(argv[0], buf);
-    CHECKRETURN(ptr,"IF","arg 1");
+    ptr = MesgParse(argarray[0], buf);
+    CHECKRETURN(ptr, "IF", "arg 1");
     if (ptr && truestr(buf)) {
-	ptr = MesgParse(argv[1], buf);
-	CHECKRETURN(ptr,"IF","arg 2");
+	ptr = MesgParse(argarray[1], buf);
+	CHECKRETURN(ptr, "IF", "arg 2");
     } else if (*fbr) {
 	ptr = MesgParse(fbr, buf);
-	CHECKRETURN(ptr,"IF","arg 3");
+	CHECKRETURN(ptr, "IF", "arg 3");
     } else {
 	*buf = '\0';
-	ptr = "";
+	*ptr = '\0';
     }
     return ptr;
 }
@@ -1268,10 +1270,10 @@ mfn_while(MFUNARGS)
 
     *buf = '\0';
     while (1) {
-	ptr = MesgParse(argv[0], buf2);
+	ptr = MesgParse(argarray[0], buf2);
 	CHECKRETURN(ptr,"WHILE","arg 1");
 	if (!truestr(ptr)) break;
-	ptr = MesgParse(argv[1], buf);
+	ptr = MesgParse(argarray[1], buf);
 	CHECKRETURN(ptr,"WHILE","arg 2");
 	if (!(--iter_limit))
 	    ABORT_MPI("WHILE","Iteration limit exceeded");
@@ -1305,13 +1307,13 @@ mfn_time(MFUNARGS)
     lt = time((time_t *) 0);
 #ifdef FB_TIMEZONE_QUIRK
     if (argc == 1) {
-	lt += (3600 * atoi(argv[0]));
+	lt += (3600 * atoi(argarray[0]));
 	lt += get_tz_offset();
     }
     tm = localtime(&lt);
 #else
     if (argc == 1) {
-	lt += atoi(argv[0]);
+	lt += atoi(argarray[0]);
 	tm = gmtime(&lt);
     } else
 	tm = localtime(&lt);
@@ -1329,7 +1331,7 @@ mfn_date(MFUNARGS)
 
     lt = time((time_t *) 0);
     if (argc == 1) {
-	lt += (3600 * atoi(argv[0]));
+	lt += (3600 * atoi(argarray[0]));
 	lt += get_tz_offset();
     }
     tm = localtime(&lt);
@@ -1345,26 +1347,26 @@ mfn_ftime(MFUNARGS)
     struct tm *tm;
 
     if (argc == 3) {
-	lt = atol(argv[2]);
+	lt = atol(argarray[2]);
     } else {
 	time(&lt);
     }
 
 #ifdef FB_TIMEZONE_QUIRK
     if (argc == 2) {
-	lt += (3600 * atoi(argv[1]));
+	lt += (3600 * atoi(argarray[1]));
 	lt += get_tz_offset();
     }
     tm = localtime(&lt);
 #else
     if (argc >= 2) {
-	lt += atoi(argv[1]);
+	lt += atoi(argarray[1]);
 	tm = gmtime(&lt);
     } else
 	tm = localtime(&lt);
 #endif
 
-    format_time(buf, BUFFER_LEN - 1, argv[0], tm);
+    format_time(buf, BUFFER_LEN - 1, argarray[0], tm);
     return buf;
 }
 
@@ -1377,7 +1379,7 @@ mfn_convtime(MFUNARGS)
     yr = 70;
     mo = dy = 1;
     hr = mn = sc = 0;
-    if(sscanf(argv[0], "%d:%d:%d %d/%d/%d", &hr, &mn, &sc, &mo, &dy, &yr) != 6)
+    if(sscanf(argarray[0], "%d:%d:%d %d/%d/%d", &hr, &mn, &sc, &mo, &dy, &yr) != 6)
 	ABORT_MPI("CONVTIME","Needs HH:MM:SS MO/DY/YR time string format");
     if (hr < 0 || hr > 23) ABORT_MPI("CONVTIME","Bad Hour");
     if (mn < 0 || mn > 59) ABORT_MPI("CONVTIME","Bad Minute");
@@ -1403,7 +1405,7 @@ mfn_convtime(MFUNARGS)
 const char *
 mfn_ltimestr(MFUNARGS)
 {
-    int tm = atol(argv[0]);
+    int tm = atol(argarray[0]);
     int wk, dy, hr, mn;
 
     wk = dy = hr = mn = 0;
@@ -1463,7 +1465,7 @@ mfn_ltimestr(MFUNARGS)
 const char *
 mfn_timestr(MFUNARGS)
 {
-    int tm = atol(argv[0]);
+    int tm = atol(argarray[0]);
     int dy, hr, mn;
 
     dy = hr = mn = 0;
@@ -1493,7 +1495,7 @@ mfn_timestr(MFUNARGS)
 const char *
 mfn_stimestr(MFUNARGS)
 {
-    int tm = atol(argv[0]);
+    int tm = atol(argarray[0]);
     int dy, hr, mn;
 
     dy = hr = mn = 0;
@@ -1543,7 +1545,7 @@ mfn_convsecs(MFUNARGS)
 {
     int len;
     time_t  lt;
-    lt = atol(argv[0]);
+    lt = atol(argarray[0]);
     sprintf(buf, "%s", ctime(&lt));
     len = 0;
     while((buf[len] >= ' ') && (len <= 24))
@@ -1558,7 +1560,7 @@ mfn_loc(MFUNARGS)
 {
     dbref   obj;
     
-    obj = mesg_dbref_local(player, what, perms, argv[0]);
+    obj = mesg_dbref_local(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("LOC","Match failed");
     if (obj == PERMDENIED)
@@ -1573,14 +1575,14 @@ mfn_nearby(MFUNARGS)
     dbref   obj;
     dbref   obj2;
     
-    obj = mesg_dbref_raw(player, what, perms, argv[0]);
+    obj = mesg_dbref_raw(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING)
 	ABORT_MPI("NEARBY","Match failed (arg1)");
     if (obj == PERMDENIED)
 	ABORT_MPI("NEARBY","Permission denied (arg1)");
     if (obj == HOME) obj = DBFETCH(player)->sp.player.home;
     if (argc > 1) {
-	obj2 = mesg_dbref_raw(player, what, perms, argv[1]);
+	obj2 = mesg_dbref_raw(player, what, perms, argarray[1]);
 	if (obj2 == UNKNOWN || obj2 == AMBIGUOUS || obj2 == NOTHING)
 	    ABORT_MPI("NEARBY","Match failed (arg2)");
 	if (obj2 == PERMDENIED)
@@ -1605,7 +1607,7 @@ mfn_nearby(MFUNARGS)
 const char *
 mfn_money(MFUNARGS)
 {
-    dbref obj = mesg_dbref(player, what, perms, argv[0]);
+    dbref obj = mesg_dbref(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("MONEY","Match failed");
     if (obj == PERMDENIED)
@@ -1628,7 +1630,7 @@ mfn_money(MFUNARGS)
 const char *
 mfn_flags(MFUNARGS)
 {
-    dbref obj = mesg_dbref_local(player, what, perms, argv[0]);
+    dbref obj = mesg_dbref_local(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("FLAGS","Match failed");
     if (obj == PERMDENIED)
@@ -1646,7 +1648,7 @@ mfn_ansi(MFUNARGS)
     int hasname;
 
     if (argc > 1)
-	obj = mesg_dbref_local(player, what, perms, argv[1]);
+	obj = mesg_dbref_local(player, what, perms, argarray[1]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("TELL","Match failed");
     if (obj == PERMDENIED)
@@ -1657,11 +1659,11 @@ mfn_ansi(MFUNARGS)
 
     /* First get an unparsed version of the string to check if the
        name has been prefixed */
-    unparse_ansi(buf2, argv[0], 1);
+    unparse_ansi(buf2, argarray[0], 1);
     hasname = string_prefix(buf2, NAME(player)) ? 1 : 0;
 
 
-    strcpy(buf2, argv[0]);
+    strcpy(buf2, argarray[0]);
     for (ptr = buf2; *ptr; ptr = ptr2) {
 	ptr2 = index(ptr, '\r');
 	if (ptr2) {
@@ -1681,14 +1683,14 @@ mfn_ansi(MFUNARGS)
 	    sprintf(buf, "%s%.16s%s%.4078s",
 		    ((obj == OWNER(perms) || obj==player)? "" : "> "),
 		    NAME(player),
-		    ((*argv[0] == '\'' || isspace(*argv[0]))? "" : " "), ptr);
+		    ((*argarray[0] == '\'' || isspace(*argarray[0]))? "" : " "), ptr);
 	}
 	ansi_notify(obj, buf, 1);
     }
 #ifdef NULL_ANSI
 	buf[0] = '\0';
 #else
-    unparse_ansi(buf, argv[0], 1);
+    unparse_ansi(buf, argarray[0], 1);
 #endif /* NULL_ANSI */
 
     return buf;
@@ -1705,7 +1707,7 @@ mfn_oansi(MFUNARGS)
     int hasname;
 
     if (argc > 1)
-	obj = mesg_dbref_local(player, what, perms, argv[1]);
+	obj = mesg_dbref_local(player, what, perms, argarray[1]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("OANSI","Match failed");
     if (obj == PERMDENIED)
@@ -1713,14 +1715,14 @@ mfn_oansi(MFUNARGS)
     if ((mesgtyp & MPI_ISLISTENER) && (Typeof(what) != TYPE_ROOM))
 	ABORT_MPI("OANSI",NOPERM_MESG);
     if (argc > 2)
-	eobj = mesg_dbref_raw(player, what, perms, argv[2]);
+	eobj = mesg_dbref_raw(player, what, perms, argarray[2]);
 
     /* First get an unparsed version of the string to check if the
        name has been prefixed */
-    unparse_ansi(buf2, argv[0], 1);
+    unparse_ansi(buf2, argarray[0], 1);
     hasname = string_prefix(buf2, NAME(player)) ? 1 : 0;
 
-    strcpy(buf2, argv[0]);
+    strcpy(buf2, argarray[0]);
     for (ptr = buf2; *ptr; ptr = ptr2) {
 	ptr2 = index(ptr, '\r');
 	if (ptr2) {
@@ -1737,7 +1739,7 @@ mfn_oansi(MFUNARGS)
 	    strcpy(buf, ptr);
 	} else {
 	    sprintf(buf, "%.16s%s%.4078s", NAME(player),
-		    ((*argv[0] == '\'' || isspace(*argv[0]))? "" : " "), ptr);
+		    ((*argarray[0] == '\'' || isspace(*argarray[0]))? "" : " "), ptr);
 	}
 	thing = DBFETCH(obj)->contents;
 	while (thing != NOTHING) {
@@ -1749,7 +1751,7 @@ mfn_oansi(MFUNARGS)
 #ifdef NULL_OANSI
 	buf[0] = '\0';
 #else
-    unparse_ansi(buf, argv[0], 1);
+    unparse_ansi(buf, argarray[0], 1);
 #endif /* NULL_OANSI */
 
     return buf;
@@ -1762,7 +1764,7 @@ mfn_tell(MFUNARGS)
     char *ptr, *ptr2;
     dbref obj = player;
     if (argc > 1)
-	obj = mesg_dbref_local(player, what, perms, argv[1]);
+	obj = mesg_dbref_local(player, what, perms, argarray[1]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("TELL","Match failed");
     if (obj == PERMDENIED)
@@ -1770,7 +1772,7 @@ mfn_tell(MFUNARGS)
     if ((mesgtyp & MPI_ISLISTENER) && (Typeof(what) != TYPE_ROOM))
 	ABORT_MPI("TELL",NOPERM_MESG);
     *buf = '\0';
-    strcpy(buf2, argv[0]);
+    strcpy(buf2, argarray[0]);
     for (ptr = buf2; *ptr; ptr = ptr2) {
 	ptr2 = index(ptr, '\r');
 	if (ptr2) {
@@ -1784,17 +1786,17 @@ mfn_tell(MFUNARGS)
 		OWNER(what) == obj || player == obj ||
 		Mageperms(what) ||
 		(Typeof(what)==TYPE_EXIT && Typeof(getloc(what))==TYPE_ROOM) ||
-		string_prefix(argv[0], NAME(player))) {
+		string_prefix(argarray[0], NAME(player))) {
 	    sprintf(buf, "%.4093s", ptr);
 	} else {
 	    sprintf(buf, "%s%.16s%s%.4078s",
 		    ((obj == OWNER(perms) || obj==player)? "" : "> "),
 		    NAME(player),
-		    ((*argv[0] == '\'' || isspace(*argv[0]))? "" : " "), ptr);
+		    ((*argarray[0] == '\'' || isspace(*argarray[0]))? "" : " "), ptr);
 	}
 	notify_nolisten(obj, buf, 1);
     }
-    return argv[0];
+    return argarray[0];
 }
 
 const char *
@@ -1807,7 +1809,7 @@ mfn_otell(MFUNARGS)
     dbref thing;
 
     if (argc > 1)
-	obj = mesg_dbref_local(player, what, perms, argv[1]);
+	obj = mesg_dbref_local(player, what, perms, argarray[1]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("OTELL","Match failed");
     if (obj == PERMDENIED)
@@ -1815,8 +1817,8 @@ mfn_otell(MFUNARGS)
     if ((mesgtyp & MPI_ISLISTENER) && (Typeof(what) != TYPE_ROOM))
 	ABORT_MPI("OTELL",NOPERM_MESG);
     if (argc > 2)
-	eobj = mesg_dbref_raw(player, what, perms, argv[2]);
-    strcpy(buf2, argv[0]);
+	eobj = mesg_dbref_raw(player, what, perms, argarray[2]);
+    strcpy(buf2, argarray[0]);
     for (ptr = buf2; *ptr; ptr = ptr2) {
 	ptr2 = index(ptr, '\r');
 	if (ptr2) {
@@ -1829,11 +1831,11 @@ mfn_otell(MFUNARGS)
 		) ||
 		Mageperms(what) ||
 		(Typeof(what)==TYPE_EXIT && Typeof(getloc(what))==TYPE_ROOM) ||
-		string_prefix(argv[0], NAME(player))) {
+		string_prefix(argarray[0], NAME(player))) {
 	    strcpy(buf, ptr);
 	} else {
 	    sprintf(buf, "%.16s%s%.4078s", NAME(player),
-		    ((*argv[0] == '\'' || isspace(*argv[0]))? "" : " "), ptr);
+		    ((*argarray[0] == '\'' || isspace(*argarray[0]))? "" : " "), ptr);
 	}
 	thing = DBFETCH(obj)->contents;
 	while (thing != NOTHING) {
@@ -1842,7 +1844,7 @@ mfn_otell(MFUNARGS)
 	    thing = DBFETCH(thing)->next;
 	}
     }
-    return argv[0];
+    return argarray[0];
 }
 
 
@@ -1857,17 +1859,17 @@ mfn_right(MFUNARGS)
     int i, len;
     char *fillstr;
 
-    len = (argc > 1)? atoi(argv[1]) : 78;
+    len = (argc > 1)? atoi(argarray[1]) : 78;
     if (len + 1 > BUFFER_LEN)
 	ABORT_MPI("RIGHT","Fieldwidth too big");
-    fillstr = (argc > 2)? argv[2] : " ";
+    fillstr = (char *)((argc > 2)? argarray[2] : " ");
     if (!*fillstr)
 	ABORT_MPI("RIGHT","Null pad string");
-    for (ptr = buf, fptr = fillstr, i = strlen(argv[0]); i < len; i++) {
+    for (ptr = buf, fptr = fillstr, i = strlen(argarray[0]); i < len; i++) {
 	*ptr++ = *fptr++;
 	if (!*fptr) fptr = fillstr;
     }
-    strcpy(ptr, argv[0]);
+    strcpy(ptr, argarray[0]);
     return buf;
 }
 
@@ -1877,7 +1879,7 @@ mfn_created(MFUNARGS)
 {
     dbref   obj;
 
-    obj = mesg_dbref(player, what, perms, argv[0]);
+    obj = mesg_dbref(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("CREATED","Match failed");
     if (obj == PERMDENIED)
@@ -1894,7 +1896,7 @@ mfn_lastused(MFUNARGS)
 {
     dbref   obj;
 
-    obj = mesg_dbref(player, what, perms, argv[0]);
+    obj = mesg_dbref(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("LASTUSED","Match failed");
     if (obj == PERMDENIED)
@@ -1911,7 +1913,7 @@ mfn_modified(MFUNARGS)
 {
     dbref   obj;
 
-    obj = mesg_dbref(player, what, perms, argv[0]);
+    obj = mesg_dbref(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("MODIFIED","Match failed");
     if (obj == PERMDENIED)
@@ -1928,7 +1930,7 @@ mfn_usecount(MFUNARGS)
 {
     dbref   obj;
 
-    obj = mesg_dbref(player, what, perms, argv[0]);
+    obj = mesg_dbref(player, what, perms, argarray[0]);
     if (obj == UNKNOWN || obj == AMBIGUOUS || obj == NOTHING || obj == HOME)
 	ABORT_MPI("USECOUNT","Match failed");
     if (obj == PERMDENIED)
@@ -1950,14 +1952,14 @@ mfn_left(MFUNARGS)
     int i, len;
     char *fillstr;
 
-    len = (argc > 1)? atoi(argv[1]) : 78;
+    len = (argc > 1)? atoi(argarray[1]) : 78;
     if (len + 1 > BUFFER_LEN)
 	ABORT_MPI("RIGHT","Fieldwidth too big");
-    fillstr = (argc > 2)? argv[2] : " ";
+    fillstr = (char *)((argc > 2)? argarray[2] : " ");
     if (!*fillstr)
 	ABORT_MPI("RIGHT","Null pad string");
-    strcpy(buf, argv[0]);
-    for (i = strlen(argv[0]), ptr = &buf[i], fptr = fillstr; i < len; i++) {
+    strcpy(buf, argarray[0]);
+    for (i = strlen(argarray[0]), ptr = &buf[i], fptr = fillstr; i < len; i++) {
 	*ptr++ = *fptr++;
 	if (!*fptr) fptr = fillstr;
     }
@@ -1977,20 +1979,20 @@ mfn_center(MFUNARGS)
     int i, len, halflen;
     char *fillstr;
 
-    len = (argc > 1)? atoi(argv[1]) : 78;
+    len = (argc > 1)? atoi(argarray[1]) : 78;
     if (len + 1 > BUFFER_LEN)
 	ABORT_MPI("RIGHT","Fieldwidth too big");
     halflen = len / 2;
 
-    fillstr = (argc > 2)? argv[2] : " ";
+    fillstr = (char *)((argc > 2)? argarray[2] : " ");
     if (!*fillstr)
 	ABORT_MPI("RIGHT","Null pad string");
 
-    for (ptr = buf, fptr = fillstr, i = strlen(argv[0])/2; i < halflen; i++) {
+    for (ptr = buf, fptr = fillstr, i = strlen(argarray[0])/2; i < halflen; i++) {
 	*ptr++ = *fptr++;
 	if (!*fptr) fptr = fillstr;
     }
-    strcpy(ptr, argv[0]);
+    strcpy(ptr, argarray[0]);
     for (i = strlen(buf), ptr = &buf[i], fptr = fillstr; i < len; i++) {
 	*ptr++ = *fptr++;
 	if (!*fptr) fptr = fillstr;

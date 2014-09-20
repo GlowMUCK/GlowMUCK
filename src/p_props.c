@@ -745,7 +745,7 @@ prim_parsempi(PRIM_PROTOTYPE)
 #endif /* Removed code */
 
     temp = (oper1->data.string)? oper1->data.string->data : "";
-    ptr  = (oper2->data.string)? oper2->data.string->data : "";
+    ptr  = (char *)((oper2->data.string)? oper2->data.string->data : "");
     if(temp && *temp && ptr) {
 	result = oper4->data.number & (~MPI_ISLISTENER);
 	ptr = do_parse_perms(player, oper3->data.objref, ProgUID, temp,
@@ -838,7 +838,7 @@ prim_parseprop(PRIM_PROTOTYPE)
 #endif
 
     }
-    ptr = (oper2->data.string)? oper2->data.string->data : "";
+    ptr = (char *)((oper2->data.string)? oper2->data.string->data : "");
     if(temp) {
 	result = oper4->data.number & (~MPI_ISLISTENER);
 	ptr = do_parse_mesg(player, oper3->data.objref, temp,

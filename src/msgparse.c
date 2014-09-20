@@ -829,7 +829,7 @@ mesg_parse(dbref player, dbref what, dbref perms, const char *inbuf, char *outbu
 	return NULL;
     }
 
-    mem = malloc(((5 + 9) * BUFFER_LEN) + (MAX_MFUN_NAME_LEN + 1));
+    mem = (char *)malloc(((5 + 9) * BUFFER_LEN) + (MAX_MFUN_NAME_LEN + 1));
     if(!mem)
     	return NULL;
     wbuf = mem + (BUFFER_LEN * 0);

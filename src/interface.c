@@ -48,6 +48,7 @@
 #include "local.h"
 
 #include <sys/types.h>
+#include <limits.h>
 #ifdef WIN95
 # include <fcntl.h>
 # include <ctype.h>
@@ -129,7 +130,7 @@ void    help_user(struct descriptor_data * d);
 void    check_connect(struct descriptor_data * d, const char *msg);
 void    close_sockets(const char *msg);
 const char *addrout(int, unsigned short, int);
-void    dump_users(struct descriptor_data * d, char *user);
+void    dump_users(struct descriptor_data * d, const char *user);
 struct descriptor_data *new_connection(int sock, int port, int ctype);
 void    parse_connect(const char *msg, char *command, char *user, char *pass);
 void    set_userstring(char **userstring, const char *command);
@@ -262,7 +263,7 @@ main(int argc, char **argv)
 	if (!nomore_options && argv[i][0] == '@') {
 	    nomore_options = 1;
 	    listen_address = htonl( str2ip( argv[i] + 1 ) );
-	    if(listen_address == -1) {
+	    if(listen_address == ULONG_MAX) {
 		fprintf(stderr, "Invalid listen address.\n");
 		exit(3);
 	    }
@@ -474,7 +475,7 @@ main(int argc, char **argv)
 	    int socknum;
 	    int argnum = 0;
 
-	    argbuf[argnum++] = "restart";
+	    argbuf[argnum++] = (char *)"restart";
 	    for (socknum = 0; socknum < numsocks; socknum++, argnum++) {
 		if(whatport[socknum] != wwwport) {
 		    argbuf[argnum] = (char *)malloc(16);
@@ -3441,7 +3442,7 @@ do_dinfo(dbref player, const char *arg)
 {
     struct descriptor_data *d;
     int who, descr;
-    char *ctype = NULL;
+    const char *ctype = NULL;
     time_t now;
 
     if (!Mage(player)) {
@@ -3746,7 +3747,7 @@ request( dbref player, struct descriptor_data *d, const char *msg )
 		"There are unacceptable characters in your email address.\r\n"
 	    );
 	} else {
-	    jerk = reg_email_is_a_jerk(email) ? "##JERK## " : "";
+	    jerk = (char *)(reg_email_is_a_jerk(email) ? "##JERK## " : "");
 
 #ifdef SPAWN_HOST_RESOLVER
 	    resolve_hostnames(); /* See if we can get a real site name */
@@ -3821,7 +3822,7 @@ emergency_shutdown(void)
 }
 
 void 
-dump_users(struct descriptor_data * e, char *user)
+dump_users(struct descriptor_data * e, const char *user)
 {
     struct descriptor_data *d;
     int     wizard, players, showidle = 0, idlecount = 0;

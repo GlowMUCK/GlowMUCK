@@ -551,7 +551,7 @@ sanity(dbref player)
 #define SanFixed2(ref, ref2, fixed) san_fixed_log((fixed), 1, (ref), (ref2))
 #define SanFixedRef(ref, fixed) san_fixed_log((fixed), 0, (ref), -1)
 void
-san_fixed_log(char *format, int unparse, dbref ref1, dbref ref2)
+san_fixed_log(const char *format, int unparse, dbref ref1, dbref ref2)
 {
     char buf1[4096];
     char buf2[4096];

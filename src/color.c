@@ -864,7 +864,8 @@ ansi_striplen( const char *word, int parseansi )
 int
 ansi_offset(const char *from, int offset, int mode)
 {
-    int cooked, raw, count;
+    int cooked, raw;
+    unsigned int count;
     
     for(cooked = 0, raw = 0; (mode ? cooked : raw) < offset; raw++) {
 	if (!from[raw]) {
@@ -902,7 +903,7 @@ ansi_offset(const char *from, int offset, int mode)
 char *
 unparse_ansi( char *buf, const char *from, int parseansi )
 {
-    int count;
+    unsigned int count;
     char *to;
 
     if (parseansi <= 0) {

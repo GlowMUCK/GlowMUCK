@@ -144,7 +144,7 @@ unparse_sysreturn(dbref *program, struct inst *pc)
 {
     static char buf[BUFFER_LEN];
     struct inst *ptr;
-    char *fname;
+    const char *fname;
 
     buf[0] = '\0';
     for (ptr = pc-1; ptr >= DBFETCH(*program)->sp.program.code; ptr--) {
@@ -641,7 +641,7 @@ muf_debugger(dbref player, dbref program, const char *text, struct frame *fr)
 	anotify_nolisten(player, CINFO "*Argument stack top*", 1);
 	i = atoi(arg);
 	if (!i) i = STACK_SIZE;
-	ptr = "";
+	ptr = (char *)"";
 	for (j = fr->argument.top; j>0 && i-->0;) {
 	    cnt = 0;
 	    do {
@@ -665,7 +665,7 @@ muf_debugger(dbref player, dbref program, const char *text, struct frame *fr)
 	if ((ptr2 = (char *)index(arg, ','))) {
 	    *ptr2++ = '\0';
 	} else {
-	    ptr2 = "";
+	    ptr2 = (char *)"";
 	}
 	if (!*arg) {
 	    if (fr->brkpt.lastlisted) {

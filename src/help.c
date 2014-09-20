@@ -176,8 +176,9 @@ index_file(dbref player, const char *onwhat, const char *file, int look)
     char    buf[BUFFER_LEN];
     char    topic[BUFFER_LEN];
     char   *p;
-    int     arglen, found;
-    int     len;
+    unsigned int     arglen;
+    unsigned int found;
+    unsigned int     len;
 
     if(Mage(OWNER(player)) && (onwhat[0] == '!')) {
 	onwhat++;

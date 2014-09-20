@@ -274,9 +274,9 @@ do_doing(dbref player, const char *name, const char *mesg)
 void 
 do_setquota(dbref player, const char *name, const char *type)
 {
-    int     val;
-    dbref   victim;
-    char    *prop;
+    int        val;
+    dbref      victim;
+    const char *prop;
 
     if(tp_db_readonly) return;
 
@@ -1317,7 +1317,7 @@ do_set(dbref player, const char *name, const char *flag)
     if (index(flag, PROP_DELIMITER)) {
 	/* copy the string so we can muck with it */
 	char   *type = alloc_string(flag);	/* type */
-	char   *class = (char *) index(type, PROP_DELIMITER);	/* class */
+	char   *propertyClass = (char *) index(type, PROP_DELIMITER);	/* class */
 	char   *x;	/* to preserve string location so we can free it */
 	char   *temp;
 	int ival = 0;
@@ -1341,14 +1341,14 @@ do_set(dbref player, const char *name, const char *flag)
 	    return;
 	}
 	/* get rid of trailing spaces and slashes */
-	for (temp = class - 1; temp >= type && isspace(*temp); temp--);
+	for (temp = propertyClass - 1; temp >= type && isspace(*temp); temp--);
 	while (temp >= type && *temp == '/') temp--;
 	*(++temp) = '\0';
 
-	class++;		/* move to next character */
+	propertyClass++;		/* move to next character */
 	/* while (isspace(*class) && *class) class++; */
-	if (*class == '^' && number(class+1))
-	    ival = atoi(++class);
+	if (*propertyClass == '^' && number(propertyClass+1))
+	    ival = atoi(++propertyClass);
 
 	if ((QLevel(OWNER(player)) < tp_hidden_prop_mlevel) && Prop_Hidden(type)){
 	    anotify(player, CFAIL NOPERM_MESG);
@@ -1372,7 +1372,7 @@ do_set(dbref player, const char *name, const char *flag)
 	    free((void *) x);
 	    return;
 	}
-	if (!(*class)) {
+	if (!(*propertyClass)) {
 	    ts_modifyobject(thing);
 	    remove_property(thing, type);
 	    anotify(player, CSUCC "Property removed.");
@@ -1381,7 +1381,7 @@ do_set(dbref player, const char *name, const char *flag)
 	    if (ival) {
 		add_property(thing, type, NULL, ival);
 	    } else {
-		add_property(thing, type, class, 0);
+		add_property(thing, type, propertyClass, 0);
 	    }
 	    anotify(player, CSUCC "Property set.");
 	}
@@ -1392,7 +1392,7 @@ do_set(dbref player, const char *name, const char *flag)
     } else if (index(flag, '=')) {
 	/* copy the string so we can muck with it */
 	char   *type = alloc_string(flag);	/* type */
-	char   *class = (char *) index(type, '=');	/* class */
+	char   *propertyClass = (char *) index(type, '=');	/* class */
 	char   *x;	/* to preserve string location so we can free it */
 	char   *temp;
 	int ival = 0;
@@ -1409,12 +1409,12 @@ do_set(dbref player, const char *name, const char *flag)
 	    type++;
 
 	/* get rid of trailing spaces and slashes */
-	for (temp = class - 1; temp >= type && isspace(*temp); temp--);
+	for (temp = propertyClass - 1; temp >= type && isspace(*temp); temp--);
 	*(++temp) = '\0';
 
-	class++;		/* move to next character */
-	while (isspace(*class) && *class) class++;
-	ival = atoi(class);
+	propertyClass++;		/* move to next character */
+	while (isspace(*propertyClass) && *propertyClass) propertyClass++;
+	ival = atoi(propertyClass);
 
 	if (KILLER(thing)) {
 		   if (string_prefix("hitpoints", type)) {

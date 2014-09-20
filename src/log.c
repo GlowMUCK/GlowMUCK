@@ -20,7 +20,7 @@
    USE ANSI C varargs features, no? Sigh. */
 
 void 
-log2file(char *myfilename, char *format,...)
+log2file(const char *myfilename, const char *format,...)
 {
     va_list args;
     FILE   *fp;
@@ -39,7 +39,7 @@ log2file(char *myfilename, char *format,...)
 }
 
 void 
-log2filetime(char *myfilename, char *format,...)
+log2filetime(const char *myfilename, const char *format,...)
 {
     char wall[BUFFER_LEN];
     va_list args;
@@ -67,7 +67,7 @@ log2filetime(char *myfilename, char *format,...)
 }
 
 void 
-log_status(char *format,...)
+log_status(const char *format,...)
 {
     char wall[BUFFER_LEN];
     va_list args;
@@ -97,7 +97,7 @@ log_status(char *format,...)
 
 #ifdef HTTPD
 void 
-log_http(char *format,...)
+log_http(const char *format,...)
 {
     char wall[BUFFER_LEN];
     va_list args;
@@ -126,7 +126,7 @@ log_http(char *format,...)
 #endif /* HTTPD */
 
 void 
-log_conc(char *format,...)
+log_conc(const char *format,...)
 {
     va_list args;
     FILE   *conclog;
@@ -143,7 +143,7 @@ log_conc(char *format,...)
 }
 
 void 
-log_muf(char *format,...)
+log_muf(const char *format,...)
 {
     va_list args;
     FILE   *muflog;
@@ -160,7 +160,7 @@ log_muf(char *format,...)
 }
 
 void 
-log_gripe(char *format,...)
+log_gripe(const char *format,...)
 {
     va_list args;
     FILE   *fp;
@@ -185,7 +185,7 @@ log_gripe(char *format,...)
 }
 
 void 
-log_command(char *format,...)
+log_command(const char *format,...)
 {
     va_list args;
     char buf[40];
@@ -209,7 +209,7 @@ log_command(char *format,...)
 }
 
 void 
-notify_fmt(dbref player, char *format,...)
+notify_fmt(dbref player, const char *format,...)
 {
     va_list args;
     char    bufr[BUFFER_LEN];
@@ -221,7 +221,7 @@ notify_fmt(dbref player, char *format,...)
 }
 
 void 
-anotify_fmt(dbref player, char *format,...)
+anotify_fmt(dbref player, const char *format,...)
 {
     va_list args;
     char    bufr[BUFFER_LEN];
