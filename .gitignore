@@ -6,3 +6,4 @@ src/inc/autoconf.h
 src/olddecompress
 src/resolver
 src/topwords
+src/nbproject
