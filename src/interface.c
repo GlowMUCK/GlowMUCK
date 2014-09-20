@@ -1450,20 +1450,15 @@ new_connection(int sock, int port, int ctype)
 
 #ifdef SPAWN_HOST_RESOLVER
 
-void
-kill_resolver()
+void kill_resolver()
 {
     int i;
-    pid_t p;
 
     write(resolver_sock[1], "QUIT\n", 5);
-    p = wait(&i);
+    wait(&i);
 }
 
-
-
-void
-spawn_resolver()
+void spawn_resolver()
 {
     socketpair(AF_UNIX, SOCK_STREAM, 0, resolver_sock);
     make_nonblocking(resolver_sock[1]);
@@ -1572,13 +1567,13 @@ addrout(int a, unsigned short prt, int servport)
 {
     static char buf[128];
     char *host;
-    struct in_addr addr;
-    
-    addr.s_addr = a;
     prt = ntohs(prt);
     a = ntohl(a);
 	
 #ifndef SPAWN_HOST_RESOLVER
+    struct in_addr addr;
+    
+    addr.s_addr = a;
     if (tp_hostnames) {
 
 	static int secs_lost = 0;
@@ -1898,7 +1893,10 @@ int queue_ansi(struct descriptor_data *d, const char *s)
 
 const char *wrap(char *buf, dbref player, const char *s)
 {
-    int lw = 0, col = 0, i = 0, ansi = 0, li = 0, lc = 0, split = 0;
+    int lw = 0, col = 0, i = 0, ansi = 0, li = 0, lc = 0;
+#ifdef WRAP_STRIPLEAD
+    int split = 0;
+#endif
     const char *ls = NULL;
     
     if( (!buf) || (!s) || (!OkObj(player))) return s;
@@ -1921,7 +1919,10 @@ const char *wrap(char *buf, dbref player, const char *s)
 		break;
 	    case '\n':
 	    case '\r':
-		split = col = ansi = li = lc = 0;
+#ifdef WRAP_STRIPLEAD                
+		split = 0;
+#endif                
+                col = ansi = li = lc = 0;
 		ls = NULL; /* Clear last known space and end pointers */
 		break;
 	    default:
@@ -1950,12 +1951,14 @@ const char *wrap(char *buf, dbref player, const char *s)
 	    buf[i++] = '\r';
 	    buf[i++] = '\n';
 	    col = li = lc = 0;
+#ifdef WRAP_STRIPLEAD                
 	    split = 1;
+#endif             
 	    ls = NULL;
 	} else {
 	    buf[i++] = *(s++);
 
-	    /* Reenable column counting after ansi string */
+	    /* Enable column counting after ansi string */
 	    if(ansi == 2)
 		ansi = 0;
 	}

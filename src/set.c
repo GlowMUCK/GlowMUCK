@@ -277,7 +277,6 @@ do_setquota(dbref player, const char *name, const char *type)
     int     val;
     dbref   victim;
     char    *prop;
-    char    buf[BUFFER_LEN];
 
     if(tp_db_readonly) return;
 
@@ -286,10 +285,8 @@ do_setquota(dbref player, const char *name, const char *type)
 	return;
     }
 
-    buf[0] = '\0';
     val = 0;
     while(type[val] && (type[val] != '=') && (type[val] != ':')) {
-	buf[val] = type[val];
 	val++;
     }
 

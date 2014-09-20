@@ -2243,7 +2243,7 @@ do_sweep(dbref player, const char *name)
 void
 do_quota(dbref player, const char *name) {
     int maxrooms = 0, maxexits = 0, maxthings = 0, maxprograms = 0;
-    int rooms = 0, exits = 0, things = 0, programs = 0, other = 0, total = 0;
+    int rooms = 0, exits = 0, things = 0, programs = 0, other = 0;
     dbref who;
     if (*name == '\0' || !Mage(OWNER(player)))
 	who = OWNER(player);
@@ -2261,7 +2261,7 @@ do_quota(dbref player, const char *name) {
     }
 
     max_stats(who, &maxrooms, &maxexits, &maxthings, &maxprograms);
-    total = count_stats(who, &rooms, &exits, &things, &other, &programs, &other);
+    count_stats(who, &rooms, &exits, &things, &other, &programs, &other);
     anotify(player, CYELLOW "Quota     Limit  Used  Left");
     anotify_fmt(player, CBROWN "Rooms:    %5d %5d %5d",
     	maxrooms, rooms, maxrooms - rooms);
