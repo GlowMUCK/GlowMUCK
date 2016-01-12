@@ -338,7 +338,9 @@ main (int argc, char**argv)
     queue_add_node("er ", 99999999);
 
     while (!feof(stdin)) {
-	fgets(buf, 16383, stdin);
+        if (!fgets(buf, 16383, stdin)) {
+  	  fprintf(stderr, "main: fgets failed.\n");
+        }
 	p = strchr(buf, ':');
 	if (p && (atoi(p+1) == 10)) {
 	    p = strchr(p + 1, ':');

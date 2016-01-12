@@ -1,46 +1,3 @@
-/*
- *  interface.c
- *  $Revision: 1.13 $ $Date: 2012/04/14 18:20:53 $
- */
-
-/*
- *  $Log: interface.c,v $
- *  Revision 1.13  2012/04/14 18:20:53  feaelin
- *  Added port listener primitive. Reports the port that the player originally
- *  connected to.
- *
- *  Revision 1.12  2012/03/20 16:58:04  feaelin
- *  Added ability to set per-incoming-port welcome screens. '@set #0=@/welcome/0 9999:regular' will display welcome/regular.txt if someone connects via port 999.
- *
- *  Revision 1.11  2011/04/17 18:44:20  feaelin
- *  * Added rudimentary support for MSSP.
- *    See http://tintin.sourceforge.net/mssp/
- *
- *  Revision 1.10  2005/10/10 22:36:29  feaelin
- *  Fixed various issues that would cause gcc 4.x to issue warnings.
- *
- *  Revision 1.9  2005/09/25 05:01:26  feaelin
- *  Changed init message from version to glow-version.
- *
- *  Revision 1.8  2005/04/26 19:53:05  feaelin
- *  Added 256 color support.
- *  Added the debug inserver defines
- *
- *  Revision 1.7  2005/03/12 16:04:38  feaelin
- *  MUF error messages on logwall now provide more information (who and how)
- *
- *  Revision 1.6  2005/03/10 18:25:23  feaelin
- *  Failed to finish the return values for notify_descriptor. All fixed now.
- *
- *  Revision 1.5  2005/03/10 16:50:44  feaelin
- *  Fixed flaw in the notify_descriptor primitive that if a invalid descriptor
- *  was passed, the server would crash.
- *
- *  Revision 1.4  2005/03/08 18:57:36  feaelin
- *  Added the heartbeat modifications. You can add programs to the @heartbeat
- *  propdir and the programs will be executed every 15 seconds.
- *
- */
 #include "copyright.h"
 #include "config.h"
 #include "params.h"
@@ -879,27 +836,23 @@ int 	max_open_files(void)
 #endif /* !POSIX */
 }
 
-void 
-goodbye_user(struct descriptor_data * d)
-{
-    int len;
-    
-    writesocket(d->descriptor, "\r\n", 2);
-    writesocket(d->descriptor, tp_leave_mesg, len = strlen(tp_leave_mesg));
-    writesocket(d->descriptor, "\r\n\r\n", 4);
-    tp_write_bytes += (6 + len);
+void goodbye_user(struct descriptor_data* d) {
+  int length = 0;
+  
+  length += writesocket(d->descriptor, "\r\n", 2);
+  length += writesocket(d->descriptor, tp_leave_mesg, strlen(tp_leave_mesg));
+  length += writesocket(d->descriptor, "\r\n\r\n", 4);
+  tp_write_bytes += length;
 }
 
-void
-idleboot_user(struct descriptor_data * d)
-{
-    int len;
+void idleboot_user(struct descriptor_data* d) {
+  int length = 0;
 
-    writesocket(d->descriptor, "\r\n", 2);
-    writesocket(d->descriptor, tp_idle_mesg, len = strlen(tp_idle_mesg));
-    writesocket(d->descriptor, "\r\n\r\n", 4);
-    tp_write_bytes += (6 + len);
-    d->booted=1;
+  length += writesocket(d->descriptor, "\r\n", 2);
+  length += writesocket(d->descriptor, tp_idle_mesg, strlen(tp_idle_mesg));
+  length += writesocket(d->descriptor, "\r\n\r\n", 4);
+  tp_write_bytes += length;
+  d->booted=1;
 }
 
 static int con_players_max = 0;  /* one of Cynbe's good ideas. */
@@ -1450,16 +1403,18 @@ new_connection(int sock, int port, int ctype)
 
 #ifdef SPAWN_HOST_RESOLVER
 
-void kill_resolver()
-{
+void kill_resolver() {
     int i;
+    int length;
 
-    write(resolver_sock[1], "QUIT\n", 5);
+    length = write(resolver_sock[1], "QUIT\n", 5);
+    if (length < 5) {
+      fprintf(stderr, "kill_resolver: write failed to write the entire message.\n");
+    }
     wait(&i);
 }
 
-void spawn_resolver()
-{
+void spawn_resolver() {
     socketpair(AF_UNIX, SOCK_STREAM, 0, resolver_sock);
     make_nonblocking(resolver_sock[1]);
     if (!fork()) {
@@ -1469,8 +1424,14 @@ void spawn_resolver()
 #else
 	close(0);
 	close(1);
-	dup(resolver_sock[0]);
-	dup(resolver_sock[0]);
+	int fd = dup(resolver_sock[0]);
+	if (fd == -1) {
+	  fprintf(stderr, "spawn_resolver: dup failed\n");
+	}
+	fd = dup(resolver_sock[0]);
+	if (fd == -1) {
+	  fprintf(stderr, "spawn_resolver: dup failed\n");
+	}
 #endif
 	execl("./resolver", "resolver", NULL);
 	perror("resolver execlp");
@@ -1478,10 +1439,8 @@ void spawn_resolver()
     }
 }
 
-
 void
-resolve_hostnames()
-{
+resolve_hostnames() {
     char buf[BUFFER_LEN], *oldname;
     char *ptr, *ptr2, *ptr3, *hostip, *port, *hostname, *username, *tempptr;
     struct descriptor_data *d;
@@ -1638,7 +1597,10 @@ addrout(int a, unsigned short prt, int servport)
 	prt, servport
     );
     if (tp_hostnames) {
-	write(resolver_sock[1], buf, strlen(buf));
+	int length = write(resolver_sock[1], buf, strlen(buf));
+	if (length < strlen(buf)) {
+	  fprintf(stderr, "addrout: write failed to write the entire buffer.");
+	}
     }
 #endif
     if( (host = host_fetch(a)) )

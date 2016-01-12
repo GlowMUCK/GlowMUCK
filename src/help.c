@@ -123,7 +123,7 @@ remove_file_line( const char *filename, int line )
 	}
       currline++;
       if (currline != line) {
-	fprintf(nf, buf);
+	fprintf(nf, "%s", buf);
       }
     }
     fclose(nf);
@@ -132,7 +132,6 @@ remove_file_line( const char *filename, int line )
   unlink(filename);
   rename(tmpname, filename);
 }
-
 
 void 
 get_file_line( const char *filename, char *retbuf, int line )

@@ -700,7 +700,9 @@ getref(FILE * f)
     if ((peekch = do_peek(f)) == '#' || peekch == '*') {
 	return (0);
     }
-    fgets(buf, sizeof(buf), f);
+    if (!fgets(buf, sizeof(buf), f)) {
+	fprintf(stderr, "getref: fgets failed\n");      
+    }
     return (atol(buf));
 }
 
@@ -735,7 +737,9 @@ getfref(FILE * f, dbref *f2)
     if ((peekch = do_peek(f)) == '#' || peekch == '*') {
 	return (0);
     }
-    fgets(buf, sizeof(buf), f);
+    if (!fgets(buf, sizeof(buf), f)) {
+	fprintf(stderr, "getfref: fgets failed\n");      
+    }
 
     got = sscanf(buf, "%d %d", &f1, f2);
 
@@ -853,11 +857,15 @@ getproperties(FILE * f, dbref obj)
 #endif
 
     /* get rid of first line */
-    fgets(buf, sizeof(buf), f);
+    if (!fgets(buf, sizeof(buf), f)) {
+	fprintf(stderr, "getproperties: fgets failed while skipping first line\n");      
+    }
 
     if (strcmp(buf, "Props*\n")) {
 	/* initialize first line stuff */
-	fgets(buf, sizeof(buf), f);
+        if (!fgets(buf, sizeof(buf), f)) {
+          fprintf(stderr, "getproperties: fgets failed while initializing start\n");      
+        }
 	while (1) {
 	    /* fgets reads in \n too! */
 	    if (!strcmp(buf, "***Property list end ***\n") ||
@@ -881,7 +889,9 @@ getproperties(FILE * f, dbref obj)
 		    add_prop_nofetch(obj, buf, p, 0);
 		}
 	    }
-	    fgets(buf, sizeof(buf), f);
+	    if (!fgets(buf, sizeof(buf), f)) {
+              fprintf(stderr, "getref: fgets failed\n");      
+            }
 	}
     } else {
 	db_getprops(f, obj);
