@@ -40,7 +40,7 @@ OPTIM= -O2 -g -Wall
 ROOT= ..
 
 # Where the include files are
-INCLUDE= ${ROOT}/src/inc
+INCLUDE= ${ROOT}/src
 
 # Destination for binaries
 DEST=${ROOT}/game
@@ -185,7 +185,7 @@ clean:
 	${RM} ${OBJ} core version.o ${SOBJ} resolver.o dependencies
 
 cleaner: clean
-	${RM} Makefile config.status ${INCLUDE}/autoconf.h ${TARGETS}
+	${RM} Makefile config.status autoconf.h ${TARGETS}
 	cp Makefile.cfg Makefile
 
 clobber: cleaner
@@ -194,7 +194,7 @@ clobber: cleaner
 nuke:
 	${RM} ${OBJ} core version.o
 	${RM} ${TARGETS} tags *~ *.bak *.orig
-	${RM} Makefile config.status ${INCLUDE}/autoconf.h
+	${RM} Makefile config.status autoconf.h
 	cp Makefile.cfg Makefile
 	-${CLEAN} *
 

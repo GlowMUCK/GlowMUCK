@@ -1,0 +1,170 @@
+boolexp.o: boolexp.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h strings.h db.h props.h match.h tune.h \
+ interface.h externs.h
+case.o: case.c config.h copyright.h autoconf.h local.h
+cast.o: cast.c config.h copyright.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h interface.h match.h tune.h \
+ externs.h
+color.o: color.c config.h copyright.h autoconf.h params.h version.h \
+ defaults.h local.h strings.h color.h db.h interface.h tune.h props.h \
+ match.h msgparse.h mpi.h interp.h p_connects.h p_db.h p_math.h p_misc.h \
+ p_props.h p_stack.h p_strings.h reg.h externs.h
+compile.o: compile.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h interface.h inst.h tune.h \
+ match.h interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h \
+ p_stack.h p_strings.h externs.h
+compress.o: compress.c config.h copyright.h autoconf.h local.h
+create.o: create.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h tune.h interface.h match.h \
+ strings.h externs.h
+db.o: db.c copyright.h config.h autoconf.h params.h version.h defaults.h \
+ local.h db.h props.h tune.h interface.h externs.h
+debugger.o: debugger.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h interface.h inst.h tune.h \
+ match.h interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h \
+ p_stack.h p_strings.h externs.h
+disassem.o: disassem.c copyright.h config.h autoconf.h local.h db.h \
+ props.h interface.h interp.h p_connects.h p_db.h p_math.h p_misc.h \
+ p_props.h p_stack.h p_strings.h inst.h externs.h
+diskprop.o: diskprop.c copyright.h config.h autoconf.h params.h version.h \
+ local.h db.h tune.h props.h interface.h externs.h
+edit.o: edit.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h interface.h tune.h match.h \
+ strings.h externs.h
+events.o: events.c config.h copyright.h autoconf.h params.h version.h \
+ local.h db.h interface.h props.h tune.h externs.h
+game.o: game.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h tune.h interface.h match.h \
+ msgparse.h strings.h externs.h
+hashtab.o: hashtab.c config.h copyright.h autoconf.h local.h db.h props.h \
+ externs.h
+heartbeat.o: heartbeat.c copyright.h config.h autoconf.h params.h \
+ version.h defaults.h local.h color.h db.h tune.h mpi.h props.h \
+ interface.h match.h externs.h heartbeat.h
+help.o: help.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h tune.h mpi.h props.h interface.h \
+ externs.h
+inst.o: inst.c copyright.h config.h autoconf.h local.h db.h tune.h \
+ props.h inst.h interface.h strings.h interp.h p_connects.h p_db.h \
+ p_math.h p_misc.h p_props.h p_stack.h p_strings.h externs.h
+interp.o: interp.c copyright.h config.h autoconf.h params.h version.h \
+ local.h color.h db.h inst.h match.h interface.h tune.h props.h strings.h \
+ interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h \
+ p_strings.h externs.h
+log.o: log.c config.h copyright.h autoconf.h local.h strings.h \
+ interface.h db.h externs.h
+look.o: look.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h tune.h mpi.h props.h interface.h match.h \
+ externs.h
+match.o: match.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h tune.h match.h interface.h \
+ strings.h externs.h
+mfuns.o: mfuns.c config.h copyright.h autoconf.h params.h version.h \
+ local.h db.h tune.h mpi.h props.h match.h interp.h p_connects.h p_db.h \
+ p_math.h p_misc.h p_props.h p_stack.h p_strings.h interface.h msgparse.h \
+ externs.h
+mfuns2.o: mfuns2.c config.h copyright.h autoconf.h params.h version.h \
+ defaults.h local.h db.h tune.h mpi.h props.h match.h interp.h \
+ p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h p_strings.h \
+ interface.h msgparse.h externs.h
+msgparse.o: msgparse.c config.h copyright.h autoconf.h params.h version.h \
+ defaults.h local.h db.h tune.h mpi.h props.h match.h interp.h \
+ p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h p_strings.h \
+ interface.h msgparse.h mfun.h externs.h mfunlist.h
+move.o: move.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h tune.h interface.h match.h \
+ externs.h
+mud.o: mud.c config.h copyright.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h interface.h match.h tune.h \
+ externs.h
+crt_malloc.o: crt_malloc.c config.h copyright.h autoconf.h local.h \
+ interface.h db.h externs.h
+netresolve.o: netresolve.c copyright.h config.h autoconf.h defaults.h \
+ local.h color.h db.h interface.h tune.h externs.h
+oldcompress.o: oldcompress.c copyright.h config.h autoconf.h local.h
+path.o: path.c config.h copyright.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h interface.h match.h tune.h \
+ externs.h
+player.o: player.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h tune.h props.h interface.h externs.h
+predicates.o: predicates.c copyright.h config.h autoconf.h params.h \
+ version.h defaults.h local.h color.h db.h props.h interface.h tune.h \
+ reg.h externs.h
+p_connects.o: p_connects.c copyright.h config.h autoconf.h params.h \
+ version.h local.h db.h inst.h match.h interface.h tune.h strings.h \
+ interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h \
+ p_strings.h externs.h
+p_db.o: p_db.c copyright.h config.h autoconf.h params.h version.h local.h \
+ color.h db.h tune.h props.h inst.h match.h interface.h strings.h \
+ interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h \
+ p_strings.h externs.h
+p_math.o: p_math.c copyright.h config.h autoconf.h params.h version.h \
+ local.h db.h inst.h match.h interface.h tune.h strings.h interp.h \
+ p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h p_strings.h \
+ externs.h
+p_misc.o: p_misc.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h db.h inst.h match.h interface.h tune.h strings.h \
+ interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h \
+ p_strings.h externs.h props.h
+p_props.o: p_props.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h db.h mpi.h props.h inst.h match.h interface.h tune.h \
+ strings.h interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h \
+ p_stack.h p_strings.h externs.h
+p_stack.o: p_stack.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h db.h inst.h match.h interface.h tune.h strings.h \
+ interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h \
+ p_strings.h externs.h
+p_strings.o: p_strings.c copyright.h config.h autoconf.h params.h \
+ version.h local.h db.h tune.h inst.h match.h interface.h strings.h \
+ interp.h p_connects.h p_db.h p_math.h p_misc.h p_props.h p_stack.h \
+ p_strings.h externs.h
+property.o: property.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h tune.h mpi.h props.h interface.h \
+ externs.h
+propdirs.o: propdirs.c copyright.h config.h autoconf.h params.h version.h \
+ local.h db.h tune.h props.h interface.h externs.h
+props.o: props.c copyright.h config.h autoconf.h params.h version.h \
+ local.h db.h tune.h props.h externs.h
+reg.o: reg.c config.h copyright.h autoconf.h defaults.h local.h db.h \
+ tune.h props.h reg.h externs.h
+rob.o: rob.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h props.h tune.h interface.h match.h \
+ externs.h
+rwho.o: rwho.c config.h copyright.h autoconf.h local.h
+sanity.o: sanity.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h interface.h tune.h externs.h props.h
+set.o: set.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h strings.h color.h db.h tune.h props.h match.h \
+ interface.h externs.h
+signal.o: signal.c config.h copyright.h autoconf.h local.h interface.h \
+ db.h
+smatch.o: smatch.c config.h copyright.h autoconf.h local.h strings.h
+speech.o: speech.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h mpi.h interface.h match.h tune.h props.h \
+ externs.h
+strftime.o: strftime.c config.h copyright.h autoconf.h local.h
+stringutil.o: stringutil.c copyright.h config.h autoconf.h params.h \
+ version.h local.h db.h tune.h props.h interface.h externs.h strings.h
+timequeue.o: timequeue.c copyright.h config.h autoconf.h params.h \
+ version.h defaults.h local.h match.h db.h color.h tune.h mpi.h props.h \
+ interface.h externs.h
+timestamp.o: timestamp.c config.h copyright.h autoconf.h local.h db.h \
+ tune.h
+tune.o: tune.c config.h copyright.h autoconf.h params.h version.h \
+ defaults.h local.h color.h interface.h db.h tune.h externs.h
+unparse.o: unparse.c copyright.h config.h autoconf.h params.h version.h \
+ local.h color.h db.h tune.h interface.h props.h externs.h
+utils.o: utils.c copyright.h config.h autoconf.h defaults.h local.h db.h \
+ tune.h props.h interface.h externs.h
+wiz.o: wiz.c copyright.h config.h autoconf.h params.h version.h \
+ defaults.h local.h color.h db.h interface.h props.h tune.h match.h reg.h \
+ externs.h
+olddecomp.o: util/olddecomp.c ../src/copyright.h ../src/config.h \
+ ../src/copyright.h ../src/autoconf.h
+reconst.o: util/reconst.c ../src/copyright.h ../src/config.h \
+ ../src/copyright.h ../src/autoconf.h ../src/params.h ../src/version.h \
+ ../src/tune.h ../src/db.h
+interface.o: interface.c copyright.h config.h autoconf.h params.h \
+ version.h defaults.h local.h strings.h color.h db.h interface.h tune.h \
+ props.h match.h msgparse.h mpi.h interp.h p_connects.h p_db.h p_math.h \
+ p_misc.h p_props.h p_stack.h p_strings.h reg.h externs.h heartbeat.h

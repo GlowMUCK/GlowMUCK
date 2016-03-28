@@ -5,7 +5,7 @@ dnl TinyMUCK fb5.x auto-config script writen by: Peter "WhiteFire" Torkelson
 dnl
 AC_REVISION($Revision: 1.2 $)dnl
 AC_INIT(game.c)
-AC_CONFIG_HEADER(inc/autoconf.h)
+AC_CONFIG_HEADER(autoconf.h)
 echo " "
 echo "TinyMUCK fb5.x auto-configure script."
 echo " "
