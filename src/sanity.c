@@ -1428,14 +1428,15 @@ void extract_single(void)
 }
 
 
-void hack_it_up(void)
-{
+void hack_it_up(void) {
     char *ptr;
     
     do
     {
 	printf("\nCommand: (? for help)\n");
-	fgets(cbuf, sizeof(cbuf), stdin);
+	if (!fgets(cbuf, sizeof(cbuf), stdin)) {
+	  fprintf(stderr, "hack_it_up: fgets failed while reading from stdin.\n");
+	}
 
 	switch (tolower(cbuf[0]))
 	{

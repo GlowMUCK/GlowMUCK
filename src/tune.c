@@ -924,7 +924,9 @@ tune_load_parms_from_file(FILE *f, dbref player, int cnt)
     int result = 0;
 
     while (!feof(f) && (cnt<0 || cnt--)) {
-	fgets(buf, sizeof(buf), f);
+      if (!fgets(buf, sizeof(buf), f)) {
+	fprintf(stderr, "tune_load_parms_from_file: fgets failed.\n");
+      }
 	if (*buf != '#') {
 	    p = c = index(buf, '=');
 	    if (c) {
