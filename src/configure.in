@@ -7,18 +7,18 @@ AC_REVISION($Revision: 1.2 $)dnl
 AC_INIT(game.c)
 AC_CONFIG_HEADER(autoconf.h)
 echo " "
-echo "TinyMUCK fb5.x auto-configure script."
+echo "GlowMUCK 4.x auto-configure script."
 echo " "
 echo "This script will try and determine things about your system so"
-echo "that FB can compile correctly. This will create your Makefile"
+echo "that GlowMUCK can compile correctly. This will create your Makefile"
 echo "and the header file autoconf.h in the include directory."
 echo " "
 
 dnl
 dnl Find the compiler first.
 dnl
-AC_PROG_CC
-AC_PROG_CPP
+AC_PROG_CXX
+AC_PROG_CXXCPP
 
 dnl
 dnl Specific systems tests.
@@ -72,9 +72,7 @@ dnl An in the end, there was no more.
 dnl
 AC_OUTPUT(Makefile)
 echo " "
-echo "You should review the options in inc/config.h, and"
+echo "You should review the options in local.h and"
 echo "then type 'make' to build your system.  If you plan to"
 echo "modify the source code, do 'make depend' before 'make'."
-echo " "
-echo "Don't forget to copy your local.h file into the inc directory."
 echo " "

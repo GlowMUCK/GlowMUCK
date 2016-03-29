@@ -1,8 +1,8 @@
-/* autoconf.h.  Generated automatically by configure.  */
+/* autoconf.h.  Generated from autoconf.h.in by configure.  */
 /* ../include/autoconf.h.in.  Generated automatically from configure.in by autoheader.  */
 
 /* uname -a output for certain local programs. */
-#define UNAME_VALUE "Linux Lunawen 3.19.5-100.fc20.x86_64 #1 SMP Mon Apr 20 19:51:16 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux"
+#define UNAME_VALUE \"Linux Lunawen 3.19.5-100.fc20.x86_64 #1 SMP Mon Apr 20 19:51:16 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux\"
 
 /* Define to empty if the keyword does not work.  */
 /* #undef const */
@@ -30,7 +30,7 @@
 /* #undef _MINIX */
 
 /* Define if you don't have dirent.h, but have ndir.h.  */
-/* #undef NDIR */
+#define NDIR 1
 
 /* Define to `int' if <sys/types.h> doesn't define.  */
 /* #undef pid_t */
@@ -52,10 +52,10 @@
 #define STDC_HEADERS 1
 
 /* Define if you don't have dirent.h, but have sys/dir.h.  */
-/* #undef SYSDIR */
+#define SYSDIR 1
 
 /* Define if you don't have dirent.h, but have sys/ndir.h.  */
-/* #undef SYSNDIR */
+#define SYSNDIR 1
 
 /* Define if you can safely include both <sys/time.h> and <time.h>.  */
 #define TIME_WITH_SYS_TIME 1
@@ -113,7 +113,7 @@
 
 
 /* if tm_gmtoff is defined in time.h, define this */
-#define HAVE_TM_GMTOFF 1
+/* #undef HAVE_TM_GMTOFF */
 
 /* if tm_gmtoff is defined in sys/time.h, define this */
 /* #undef HAVE_SYS_TM_GMTOFF */
