@@ -61,8 +61,7 @@ int free_mfuncs(int downto);
 
 
 
-#define MFUNARGS dbref player, dbref what, dbref perms, int argc, \
-                argv_typ argv, char *buf, int mesgtyp
+#define MFUNARGS dbref player, dbref what, dbref perms, int argc, argv_typ argv, char *buf, int mesgtyp
 
 #define CHECKRETURN(vari,funam,num) if (!vari) { sprintf(buf, "%s %c%s%c (%s)", get_mvar("how"), MFUN_LEADCHAR, funam, MFUN_ARGEND, num);  notify_nolisten(player, buf, 1);  return NULL; }
 

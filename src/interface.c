@@ -3708,13 +3708,13 @@ request( dbref player, struct descriptor_data *d, const char *msg )
 		"There are unacceptable characters in your email address.\r\n"
 	    );
 	} else {
-	    jerk = reg_email_is_a_jerk(email) ? "##JERK## " : "";
+	    jerk = reg_email_is_a_jerk(email) ? (char *)"##JERK## " : (char *)"";
 
 #ifdef SPAWN_HOST_RESOLVER
 	    resolve_hostnames(); /* See if we can get a real site name */
 #endif
 
-	    log2filetime( LOG_HOPPER, "'%s' %s'%s' '%s %s' %s(%s) %s\r\n",
+	    log2filetime(LOG_HOPPER, "'%s' %s'%s' '%s %s' %s(%s) %s\r\n",
 		user, jerk, email, firstname, lastname,
 		d->hostname, d->username, host_as_hex(d->hostaddr)
 	    );

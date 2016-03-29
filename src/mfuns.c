@@ -1860,7 +1860,7 @@ mfn_right(MFUNARGS)
     len = (argc > 1)? atoi(argv[1]) : 78;
     if (len + 1 > BUFFER_LEN)
 	ABORT_MPI("RIGHT","Fieldwidth too big");
-    fillstr = (argc > 2)? argv[2] : " ";
+    fillstr = (argc > 2)? argv[2] : (char *)" ";
     if (!*fillstr)
 	ABORT_MPI("RIGHT","Null pad string");
     for (ptr = buf, fptr = fillstr, i = strlen(argv[0]); i < len; i++) {
@@ -1953,7 +1953,7 @@ mfn_left(MFUNARGS)
     len = (argc > 1)? atoi(argv[1]) : 78;
     if (len + 1 > BUFFER_LEN)
 	ABORT_MPI("RIGHT","Fieldwidth too big");
-    fillstr = (argc > 2)? argv[2] : " ";
+    fillstr = (argc > 2)? argv[2] : (char *)" ";
     if (!*fillstr)
 	ABORT_MPI("RIGHT","Null pad string");
     strcpy(buf, argv[0]);
@@ -1982,9 +1982,10 @@ mfn_center(MFUNARGS)
 	ABORT_MPI("RIGHT","Fieldwidth too big");
     halflen = len / 2;
 
-    fillstr = (argc > 2)? argv[2] : " ";
-    if (!*fillstr)
-	ABORT_MPI("RIGHT","Null pad string");
+    fillstr = (argc > 2) ? argv[2] : (char *)" ";
+    if (!*fillstr) {
+        ABORT_MPI("RIGHT", "Null pad string");
+    }
 
     for (ptr = buf, fptr = fillstr, i = strlen(argv[0])/2; i < halflen; i++) {
 	*ptr++ = *fptr++;

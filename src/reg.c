@@ -62,7 +62,7 @@
 int loginState( int, int );
 int siteState( int, int );
 int siteStatekey( int, int, const char * );
-int siteMatch( int site, int template );
+int siteMatch(int site, int siteTemplate);
 const char *glow_strcasestr( const char *, const char * );
 int reg_trivial_regex_match( char *, char * );
 
@@ -409,15 +409,15 @@ name_is_bad( const char *name ) {
 /* siteMatch -- TRUE iff 'site' matches 'template' */
 
 int
-siteMatch( int site, int template ) {
+siteMatch( int site, int siteTemplate ) {
     int mask = 0;
 
-    if (!(template & 0x000000FF)) mask = 0x000000FF;
-    if (!(template & 0x0000FFFF)) mask = 0x0000FFFF;
-    if (!(template & 0x00FFFFFF)) mask = 0x00FFFFFF;
-    if (!(template & 0xFFFFFFFF)) mask = 0xFFFFFFFF;
+    if (!(siteTemplate & 0x000000FF)) mask = 0x000000FF;
+    if (!(siteTemplate & 0x0000FFFF)) mask = 0x0000FFFF;
+    if (!(siteTemplate & 0x00FFFFFF)) mask = 0x00FFFFFF;
+    if (!(siteTemplate & 0xFFFFFFFF)) mask = 0xFFFFFFFF;
 
-    return (site & ~mask) == template;
+    return (site & ~mask) == siteTemplate;
 }
 
 /* siteState -- Look up state of given site */

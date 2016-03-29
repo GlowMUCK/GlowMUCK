@@ -982,7 +982,7 @@ process_special(const char *token)
 {
     static char buf[BUFFER_LEN];
     const char *tok;
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
 
     if (!string_compare(token, ":")) {
 	const char *proc_name;
@@ -993,11 +993,11 @@ process_special(const char *token)
 	proc_name = next_token();
 	if (!proc_name)
 	    abort_compile("Unexpected end of file within procedure.");
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_FUNCTION;
-	new->in.line = lineno;
-	new->in.data.string = alloc_prog_string(proc_name);
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_FUNCTION;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.string = alloc_prog_string(proc_name);
 	tok = next_token();
 	tmpinst = next_word(tok);
 	if (tok)
@@ -1006,33 +1006,33 @@ process_special(const char *token)
 	    sprintf(buf, "Error in definition of %s.", proc_name);
 	    abort_compile(buf);
 	}
-	new->next = tmpinst;
-	curr_proc = new;
-	add_proc(proc_name, new);
+	newInstruction->next = tmpinst;
+	curr_proc = newInstruction;
+	add_proc(proc_name, newInstruction);
 	if (proc_name)
 	    free((void *) proc_name);
-	return new;
+	return newInstruction;
     } else if (!string_compare(token, ";")) {
 	if (if_stack || loop_stack)
 	    abort_compile("Unexpected end of procedure definition.");
 	if (!curr_proc)
 	    abort_compile("Procedure end without body.");
 	curr_proc = 0;
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_PRIMITIVE;
-	new->in.line = lineno;
-	new->in.data.number = IN_RET;
-	return new;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_PRIMITIVE;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.number = IN_RET;
+	return newInstruction;
     } else if (!string_compare(token, "IF")) {
 
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_IF;
-	new->in.line = lineno;
-	new->in.data.call = 0;
-	addif(new);
-	return new;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_IF;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.call = 0;
+	addif(newInstruction);
+	return newInstruction;
     } else if (!string_compare(token, "ELSE")) {
 	struct INTERMEDIATE *eef;
 	struct INTERMEDIATE *after;
@@ -1040,20 +1040,20 @@ process_special(const char *token)
 	eef = find_if();
 	if (!eef)
 	    abort_compile("ELSE without IF.");
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_JMP;
-	new->in.line = lineno;
-	new->in.data.call = 0;
-	addelse(new);
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_JMP;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.call = 0;
+	addelse(newInstruction);
 	tok = next_token();
-	new->next = after = next_word(tok);
+	newInstruction->next = after = next_word(tok);
 	if (tok)
 	    free((void *) tok);
 	if (!after)
 	    abort_compile("Unexpected end of program.");
 	eef->in.data.number = after->no;
-	return new;
+	return newInstruction;
     } else if (!string_compare(token, "THEN")) {
 	/* can't use 'if' because it's a reserved word */
 	struct INTERMEDIATE *eef;
@@ -1062,22 +1062,22 @@ process_special(const char *token)
 	if (!eef)
 	    abort_compile("THEN without IF.");
 	tok = next_token();
-	new = next_word(tok);
+	newInstruction = next_word(tok);
 	if (tok)
 	    free((void *) tok);
-	if (!new)
+	if (!newInstruction)
 	    abort_compile("Unexpected end of program.");
-	eef->in.data.number = new->no;
-	return new;
+	eef->in.data.number = newInstruction->no;
+	return newInstruction;
     } else if (!string_compare(token, "BEGIN")) {
 	tok = next_token();
-	new = next_word(tok);
+	newInstruction = next_word(tok);
 	if (tok)
 	    free((void *) tok);
-	if (!new)
+	if (!newInstruction)
 	    abort_compile("Unexpected end of program.");
-	addbegin(new);
-	return new;
+	addbegin(newInstruction);
+	return newInstruction;
     } else if (!string_compare(token, "UNTIL")) {
 	/* can't use 'if' because it's a reserved word */
 	struct INTERMEDIATE *eef;
@@ -1090,12 +1090,12 @@ process_special(const char *token)
 	beef = locate_if();
 	if (beef && (beef->no > eef->no))
 	    abort_compile("Unexpected end of loop.");
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_IF;
-	new->in.line = lineno;
-	new->in.data.number = eef->no;
-	return new;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_IF;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.number = eef->no;
+	return newInstruction;
     } else if (!string_compare(token, "WHILE")) {
 	/* can't use 'if' because it's a reserved word */
 	struct INTERMEDIATE *eef;
@@ -1103,14 +1103,14 @@ process_special(const char *token)
 	eef = locate_begin();
 	if (!eef)
 	    abort_compile("Can't have a WHILE outside of a loop.");
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_IF;
-	new->in.line = lineno;
-	new->in.data.number = 0;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_IF;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.number = 0;
 
-	addwhile(new);
-	return new;
+	addwhile(newInstruction);
+	return newInstruction;
     } else if (!string_compare(token, "BREAK")) {
 	/* can't use 'if' because it's a reserved word */
 	struct INTERMEDIATE *eef;
@@ -1119,14 +1119,14 @@ process_special(const char *token)
 	if (!eef)
 	    abort_compile("Can't have a BREAK outside of a loop.");
 
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_JMP;
-	new->in.line = lineno;
-	new->in.data.number = 0;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_JMP;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.number = 0;
 
-	addwhile(new);
-	return new;
+	addwhile(newInstruction);
+	return newInstruction;
     } else if (!string_compare(token, "CONTINUE")) {
 	/* can't use 'if' because it's a reserved word */
 	struct INTERMEDIATE *beef;
@@ -1134,13 +1134,13 @@ process_special(const char *token)
 	beef = locate_begin();
 	if (!beef)
 	    abort_compile("Can't CONTINUE outside of a loop.");
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_JMP;
-	new->in.line = lineno;
-	new->in.data.number = beef->no;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_JMP;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.number = beef->no;
 
-	return new;
+	return newInstruction;
     } else if (!string_compare(token, "REPEAT")) {
 	/* can't use 'if' because it's a reserved word */
 	struct INTERMEDIATE *eef;
@@ -1153,21 +1153,21 @@ process_special(const char *token)
 	beef = locate_if();
 	if (beef && (beef->no > eef->no))
 	    abort_compile("Unexpected end of loop.");
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_JMP;
-	new->in.line = lineno;
-	new->in.data.number = eef->no;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_JMP;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.number = eef->no;
 
-	return new;
+	return newInstruction;
     } else if (!string_compare(token, "CALL")) {
 
-	new = new_inst();
-	new->no = nowords++;
-	new->in.type = PROG_PRIMITIVE;
-	new->in.line = lineno;
-	new->in.data.number = IN_CALL;
-	return new;
+	newInstruction = new_inst();
+	newInstruction->no = nowords++;
+	newInstruction->in.type = PROG_PRIMITIVE;
+	newInstruction->in.line = lineno;
+	newInstruction->in.data.number = IN_CALL;
+	return newInstruction;
     } else if (!string_compare(token, "PUBLIC")) {
 	struct PROC_LIST *p;
 	struct publics *pub;
@@ -1238,56 +1238,56 @@ process_special(const char *token)
 struct INTERMEDIATE *
 primitive_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_PRIMITIVE;
-    new->in.line = lineno;
-    new->in.data.number = get_primitive(token);
-    return new;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_PRIMITIVE;
+    newInstruction->in.line = lineno;
+    newInstruction->in.data.number = get_primitive(token);
+    return newInstruction;
 }
 
 /* return self pushing word (string) */
 struct INTERMEDIATE *
 string_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_STRING;
-    new->in.line = lineno;
-    new->in.data.string = alloc_prog_string(token);
-    return new;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_STRING;
+    newInstruction->in.line = lineno;
+    newInstruction->in.data.string = alloc_prog_string(token);
+    return newInstruction;
 }
 
 /* return self pushing word (number) */
 struct INTERMEDIATE *
 number_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_INTEGER;
-    new->in.line = lineno;
-    new->in.data.number = atoi(token);
-    return new;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_INTEGER;
+    newInstruction->in.line = lineno;
+    newInstruction->in.data.number = atoi(token);
+    return newInstruction;
 }
 
 /* return self pushing word (number) */
 struct INTERMEDIATE *
 float_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_FLOAT;
-    new->in.line = lineno;
-    new->in.data.float_n = atof(token);
-    return new;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_FLOAT;
+    newInstruction->in.line = lineno;
+    newInstruction->in.data.float_n = atof(token);
+    return newInstruction;
 }
 
 /* do a subroutine call --- push address onto stack, then make a primitive
@@ -1296,37 +1296,37 @@ float_word(const char *token)
 struct INTERMEDIATE *
 call_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
     struct PROC_LIST *p;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_EXEC;
-    new->in.line = lineno;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_EXEC;
+    newInstruction->in.line = lineno;
     for (p = procs; p; p = p->next)
 	if (!string_compare(p->name, token))
 	    break;
 
-    new->in.data.number = p->code->no;
-    return new;
+    newInstruction->in.data.number = p->code->no;
+    return newInstruction;
 }
 
 struct INTERMEDIATE *
 quoted_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
     struct PROC_LIST *p;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_ADD;
-    new->in.line = lineno;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_ADD;
+    newInstruction->in.line = lineno;
     for (p = procs; p; p = p->next)
 	if (!string_compare(p->name, token))
 	    break;
 
-    new->in.data.number = p->code->no;
-    return new;
+    newInstruction->in.data.number = p->code->no;
+    return newInstruction;
 }
 
 /* returns number corresponding to variable number.
@@ -1334,55 +1334,55 @@ quoted_word(const char *token)
 struct INTERMEDIATE *
 var_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
     int     i, var_no;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_VAR;
-    new->in.line = lineno;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_VAR;
+    newInstruction->in.line = lineno;
     for (var_no = i = 0; i < MAX_VAR; i++) {
 	if (!variables[i]) break;
 	if (!string_compare(token, variables[i])) var_no = i;
     }
-    new->in.data.number = var_no;
+    newInstruction->in.data.number = var_no;
 
-    return new;
+    return newInstruction;
 }
 
 struct INTERMEDIATE *
 lvar_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
     int     i, var_no;
 
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_LVAR;
-    new->in.line = lineno;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_LVAR;
+    newInstruction->in.line = lineno;
     for (i = var_no = 0; i < MAX_VAR; i++) {
 	if (!localvars[i]) break;
 	if (!string_compare(token, localvars[i])) var_no = i;
     }
-    new->in.data.number = var_no;
+    newInstruction->in.data.number = var_no;
 
-    return new;
+    return newInstruction;
 }
 
 /* check if object is in database before putting it in */
 struct INTERMEDIATE *
 object_word(const char *token)
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
     int     objno;
 
     objno = atol(token + 1);
-    new = new_inst();
-    new->no = nowords++;
-    new->in.type = PROG_OBJECT;
-    new->in.line = lineno;
-    new->in.data.objref = objno;
-    return new;
+    newInstruction = new_inst();
+    newInstruction->no = nowords++;
+    newInstruction->in.type = PROG_OBJECT;
+    newInstruction->in.line = lineno;
+    newInstruction->in.data.objref = objno;
+    return newInstruction;
 }
 
 
@@ -1393,65 +1393,65 @@ object_word(const char *token)
 void
 add_proc(const char *proc_name, struct INTERMEDIATE * place)
 {
-    struct PROC_LIST *new;
+    struct PROC_LIST *newProcedureList;
 
-    new = (struct PROC_LIST *) malloc(sizeof(struct PROC_LIST));
-    new->name = alloc_string(proc_name);
-    new->code = place;
-    new->next = procs;
-    procs = new;
+    newProcedureList = (struct PROC_LIST *) malloc(sizeof(struct PROC_LIST));
+    newProcedureList->name = alloc_string(proc_name);
+    newProcedureList->code = place;
+    newProcedureList->next = procs;
+    procs = newProcedureList;
 }
 
 /* add if to if stack */
 void
 addif(struct INTERMEDIATE * place)
 {
-    struct IF_STACK *new;
+    struct IF_STACK *ifStack;
 
-    new = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
-    new->place = place;
-    new->type = CTYPE_IF;
-    new->next = if_stack;
-    if_stack = new;
+    ifStack = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
+    ifStack->place = place;
+    ifStack->type = CTYPE_IF;
+    ifStack->next = if_stack;
+    if_stack = ifStack;
 }
 
 /* add else to if stack */
 void
 addelse(struct INTERMEDIATE * place)
 {
-    struct IF_STACK *new;
+    struct IF_STACK *ifStack;
 
-    new = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
-    new->place = place;
-    new->type = CTYPE_ELSE;
-    new->next = if_stack;
-    if_stack = new;
+    ifStack = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
+    ifStack->place = place;
+    ifStack->type = CTYPE_ELSE;
+    ifStack->next = if_stack;
+    if_stack = ifStack;
 }
 
 /* add begin to if stack */
 void
 addbegin(struct INTERMEDIATE * place)
 {
-    struct IF_STACK *new;
+    struct IF_STACK *ifStack;
 
-    new = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
-    new->place = place;
-    new->type = CTYPE_BEGIN;
-    new->next = loop_stack;
-    loop_stack = new;
+    ifStack = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
+    ifStack->place = place;
+    ifStack->type = CTYPE_BEGIN;
+    ifStack->next = loop_stack;
+    loop_stack = ifStack;
 }
 
 /* add while to if stack */
 void
 addwhile(struct INTERMEDIATE * place)
 {
-    struct IF_STACK *new;
+    struct IF_STACK *ifStack;
 
-    new = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
-    new->place = place;
-    new->type = CTYPE_WHILE;
-    new->next = loop_stack;
-    loop_stack = new;
+    ifStack = (struct IF_STACK *) malloc(sizeof(struct IF_STACK));
+    ifStack->place = place;
+    ifStack->type = CTYPE_WHILE;
+    ifStack->next = loop_stack;
+    loop_stack = ifStack;
 }
 
 /* finds topmost else or if off the stack */
@@ -1843,28 +1843,28 @@ set_start(void)
 struct INTERMEDIATE *
 new_inst()
 {
-    struct INTERMEDIATE *new;
+    struct INTERMEDIATE *newInstruction;
 
-    new = (struct INTERMEDIATE *) malloc(sizeof(struct INTERMEDIATE));
-    new->next = 0;
-    new->no = 0;
-    new->in.type = 0;
-    new->in.line = 0;
-    new->in.data.number = 0;
-    return new;
+    newInstruction = (struct INTERMEDIATE *) malloc(sizeof(struct INTERMEDIATE));
+    newInstruction->next = 0;
+    newInstruction->no = 0;
+    newInstruction->in.type = 0;
+    newInstruction->in.line = 0;
+    newInstruction->in.data.number = 0;
+    return newInstruction;
 }
 
 /* allocate an address */
 struct prog_addr *
 alloc_addr(int offset, struct inst *codestart)
 {
-    struct prog_addr *new;
+    struct prog_addr *newAddress;
 
-    new = (struct prog_addr *) malloc(sizeof(struct prog_addr));
-    new->links = 1;
-    new->progref = program;
-    new->data = codestart + offset;
-    return new;
+    newAddress = (struct prog_addr *) malloc(sizeof(struct prog_addr));
+    newAddress->links = 1;
+    newAddress->progref = program;
+    newAddress->data = codestart + offset;
+    return newAddress;
 }
 
 void

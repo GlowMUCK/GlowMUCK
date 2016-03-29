@@ -25,7 +25,7 @@ extern void RCLEAR(struct inst *oper, char *file, int line);
 extern void push (struct inst *stack, int *top, int type, voidptr res);
 extern int valid_object(struct inst *oper);
   
-extern int false (struct inst *p);
+extern int falseInstruction(struct inst *p);
   
 extern void copyinst(struct inst *from, struct inst *to);
   

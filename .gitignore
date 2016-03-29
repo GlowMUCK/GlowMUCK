@@ -8,3 +8,5 @@ src/resolver
 src/topwords
 src/glowmuck~
 src/nbproject
+.idea
+CMakeLists.txt

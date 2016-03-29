@@ -23,71 +23,72 @@
 
 extern char **environ;
 extern int errno;
-char   *Name;			/* name of this program for error messages */
-char    msg[32768];
+char *Name;
+/* name of this program for error messages */
+char msg[32768];
 
 int
 main(argc, argv)
-    char   *argv[];
+        char *argv[];
 {
-    int     s, ns, foo;
+    int s, ns, foo;
     static struct sockaddr_in sin = {AF_INET};
-    char   *host, *inet_ntoa();
-    char    tmp[32768];
-    int     ct;
+    char *host, *inet_ntoa();
+    char tmp[32768];
+    int ct;
 
-    Name = argv[0];		/* save name of program for error messages  */
-    sin.sin_port = htons((u_short) PORT);	/* Assume PORT */
+    Name = argv[0];        /* save name of program for error messages  */
+    sin.sin_port = htons((u_short) PORT);    /* Assume PORT */
     argc--, argv++;
-    if (argc > 0) {		/* unless specified on command-line       */
-	sin.sin_port = atoi(*argv);
-	sin.sin_port = htons((u_short) sin.sin_port);
+    if (argc > 0) {        /* unless specified on command-line       */
+        sin.sin_port = atoi(*argv);
+        sin.sin_port = htons((u_short) sin.sin_port);
     }
     strcpy(msg, "");
     strcpy(tmp, "");
     while (1) {
-	if ((gets(tmp)) == NULL)
-	    break;
-	strcat(tmp, "\r\n");
-	strcat(msg, tmp);
+        if ((gets(tmp)) == NULL)
+            break;
+        strcat(tmp, "\r\n");
+        strcat(msg, tmp);
     }
     msg[4095] = '\0';
-    signal(SIGHUP, SIG_IGN);	/* get socket, bind port to it      */
+    signal(SIGHUP, SIG_IGN);    /* get socket, bind port to it      */
     s = socket(AF_INET, SOCK_STREAM, 0);
     if (s < 0) {
-	perror("announce: socket");
-	exit(1);
+        perror("announce: socket");
+        exit(1);
     }
     if (bind(s, &sin, sizeof sin) < 0) {
-	perror("bind");
-	exit(1);
+        perror("bind");
+        exit(1);
     }
     if ((foo = fork()) != 0) {
-	fprintf(stderr, "announce: pid %d running on port %d\n", foo,
-		ntohs((u_short) sin.sin_port));
-	_exit(0);
+        fprintf(stderr, "announce: pid %d running on port %d\n", foo,
+                ntohs((u_short) sin.sin_port));
+        _exit(0);
     } else {
-	setpriority(PRIO_PROCESS, getpid(), 10);
+        setpriority(PRIO_PROCESS, getpid(), 10);
     }
-    if (listen(s, 1) < 0) {	/* start listening on port */
-	perror("announce: listen");
-	_exit(1);
+    if (listen(s, 1) < 0) {    /* start listening on port */
+        perror("announce: listen");
+        _exit(1);
     }
     foo = sizeof sin;
-    for (;;) {			/* loop forever, accepting requests & printing
+    for (; ;) {            /* loop forever, accepting requests & printing
 				 * msg */
-	ns = accept(s, &sin, &foo);
-	if (ns < 0) {
-	    perror("announce: accept");
-	    _exit(1);
-	}
-	host = inet_ntoa(sin.sin_addr);
-	ct = time(0L);
-	fprintf(stderr, "CONNECTION made from %s at %s",
-		host, ctime(&ct));
-	write(ns, msg, strlen(msg));
-	sleep(5);
-	close(ns);
+        ns = accept(s, &sin, &foo);
+        if (ns < 0) {
+            perror("announce: accept");
+            _exit(1);
+        }
+        host = inet_ntoa(sin.sin_addr);
+        ct = time(0L);
+        fprintf(stderr, "CONNECTION made from %s at %s",
+                host, ctime(&ct));
+        write(ns, msg, strlen(msg));
+        sleep(5);
+        close(ns);
     }
-}				/* main */
+}                /* main */
 

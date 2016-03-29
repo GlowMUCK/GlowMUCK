@@ -59,7 +59,7 @@ void our_signal(int signo, void (*sighandler)());
  * Calls sigaction() to set a signal, if we are posix.
  */
 #ifdef _POSIX_VERSION
-void our_signal(int signo, void (*sighandler)())
+void our_signal(int signo, void (*sighandler)(int))
 {
     struct sigaction	act, oact;
     

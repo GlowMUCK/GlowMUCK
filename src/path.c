@@ -13,9 +13,7 @@
 #include "tune.h"
 #include "externs.h"
 
-
 #ifdef PATH
-
 
 int
 valid_path_dir(void)
@@ -252,7 +250,8 @@ full_path( const char *path )
 const char *
 full_paths( const char *path, char *fullpaths )
 {
-    char buf[BUFFER_LEN], *endpath;
+    char buf[BUFFER_LEN];
+	char *endPath = NULL;
     const char *pathname;
 
     if((!fullpaths) || (!path) || (!*path))
@@ -263,15 +262,16 @@ full_paths( const char *path, char *fullpaths )
 
     pathname = buf;
 
-    while((endpath = strchr(pathname, EXIT_DELIMITER)) != NULL) {
-	if(*fullpaths)
-	    strcat(fullpaths, ";");
+    // CLion claims the cast below is redundant -- but g++ disagrees
+    while((endPath = (char *)strchr(pathname, EXIT_DELIMITER)) != NULL) {
+		if(*fullpaths)
+			strcat(fullpaths, ";");
 
-	*endpath = '\0';
-	pathname = full_path(pathname);
-	if((strlen(pathname) + strlen(fullpaths)) < ((BUFFER_LEN / 2) - 2))
-	    strcat(fullpaths, pathname);
-	pathname = endpath + 1;
+		*endPath = '\0';
+		pathname = full_path(pathname);
+		if((strlen(pathname) + strlen(fullpaths)) < ((BUFFER_LEN / 2) - 2))
+			strcat(fullpaths, pathname);
+		pathname = endPath + 1;
     }
     if(*pathname) {
 	if(*fullpaths)
