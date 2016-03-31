@@ -864,7 +864,9 @@ ansi_striplen( const char *word, int parseansi )
 int
 ansi_offset(const char *from, int offset, int mode)
 {
-    int cooked, raw, count;
+    int cooked = 0;
+    int raw = 0;
+    unsigned int count;
     
     for(cooked = 0, raw = 0; (mode ? cooked : raw) < offset; raw++) {
 	if (!from[raw]) {
@@ -886,7 +888,7 @@ ansi_offset(const char *from, int offset, int mode)
 	    (tp_glow_ansi  && (from[raw] == '^')) ||
 	    (tp_tilde_ansi && (from[raw] == '~') && (from[raw+1] == '&'))
 	) {
-	    count = ansi_striplen(&from[raw], 1);
+	    count = (unsigned int)ansi_striplen(&from[raw], 1);
 	    if ((count > 0) && (count <= strlen(&from[raw]))) {
 		raw += count - 1;
 	    } else {
