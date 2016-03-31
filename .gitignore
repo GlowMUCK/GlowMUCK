@@ -10,3 +10,5 @@ src/glowmuck~
 src/nbproject
 .idea
 CMakeLists.txt
+config.log
+make.log
