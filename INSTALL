@@ -7,12 +7,13 @@
     When you're happy with the changes...
 
 	cd src			# Enter the src directory.
+	./configure		# Configure the files for compiling
 	make			# Ajusts GlowMuck to compile on your system
 	make install		# This compiles the programs into ../game/
 	cd ../game/data		# Directory should be $(HOME)/glow/data
 	cp minimal.db glow.db	# Copy minimal.db to active glow.db
-	cd ../..		# Go to $(HOME)/glow
-	./glow start		# This starts the server.
+	cd ../../bin		# Go to $(HOME)/glow/bin
+	./restart.sh		# This starts the server. (You may get errors. Ignore them and try connecting to the game)
 
     And you're done!  GlowMuck has it's own special minimal database.  To
     connect to it, use:
